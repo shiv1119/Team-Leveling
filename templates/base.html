@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .custom-background{
+            background-color: rgb(248, 248, 248) !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="scrollProgress"></div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand" href="/">ServiceSphere</a>
+            <div class="d-flex align-items-center ms-auto d-lg-none">
+                <i class="bi bi-moon dark-mode-toggle me-2" style="cursor:pointer;"></i>
+                {% if request.user.is_authenticated  %}
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle profile-dropdown" type="button" data-bs-toggle="dropdown">
+                            {% if request.user.user_profile and request.user.user_profile.profile_photo %}
+                                <img src="{{request.user.user_profile.profile_photo.url}}" class="profile-img" alt="Profile">
+                            {% else %}
+                                <img src="{% static 'img/profile.png' %}" class="profile-img" alt="Profile">
+                            {% endif %}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                {% if notification_count %}
+                                <a class="dropdown-item mb-2" href=""><i class="bi bi-person-circle me-2"></i> Profile</a>
+                                {% else %}
+                                <a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person-circle me-2"></i> Profile</a>
+                                {% endif %}
+                            </li>
+                            <li>
+                                {% if notification_count %}
+                                <a href="{% url 'notification' %}" class="dropdown-item notification-btn position-relative d-flex align-items-center text-decoration-none" style="cursor: pointer;">
+                                    <div class="position-relative">
+                                        <i class="bi bi-bell fs-5"></i>
+                                        
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                {{ notification_count|default:0 }}
+                                            </span>  
+                                    </div>
+                                    <span class="ms-2">Notifications</span>
+                                </a>
+                                {% else %}
+                                    <a href="{% url 'notification' %}" class="dropdown-item notification-btn position-relative d-flex align-items-center text-decoration-none" style="cursor: pointer;">
+                                        <i class="bi bi-bell fs-5"></i>
+                                        <span class="ms-2">Notifications</span>
+                                    </a>
+                                {% endif %}
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'settings' %}"><i class="bi bi-gear me-2"></i> Settings</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                        </ul>
+                        
+                    </div>  
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-decoration-none text-dark-mode ms-2">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a> 
+                {% endif %}
+                              
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-3 me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link d-flex align-items-center" href="/" role="button">
+                            <i class="bi bi-house-fill me-2"></i> Home
+                        </a>                        
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link d-flex align-items-center" href="" role="button">
+                            <i class="bi bi-passport me-2"></i> Test
+                        </a>                        
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Women</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Submenu 1</a></li>
+                            <li><a class="dropdown-item" href="#">Submenu 2</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Men</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Submenu 1</a></li>
+                            <li><a class="dropdown-item" href="#">Submenu 2</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Accessories</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Submenu 1</a></li>
+                            <li><a class="dropdown-item" href="#">Submenu 2</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="d-none d-lg-flex align-items-center">
+                <i class="bi bi-moon dark-mode-toggle me-1" style="cursor:pointer;"></i>
+                <a href="{% url 'notification' %}" class="icon-btn notification-btn position-relative" style="cursor:pointer;">
+                    <i class="bi bi-bell"></i>
+                    {% if notification_count %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ notification_count|default:0 }}
+                        </span>
+                    {% endif %}            
+                </a>
+                
+                {% if request.user.is_authenticated  %}
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle profile-dropdown" type="button" data-bs-toggle="dropdown">
+                            {% if request.user.user_profile and request.user.user_profile.profile_photo %}
+                                <img src="{{request.user.user_profile.profile_photo.url}}" class="profile-img" alt="Profile">
+                            {% else %}
+                                <img src="{% static 'img/profile.png' %}" class="profile-img" alt="Profile">
+                            {% endif %}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person-circle me-2"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'settings' %}"><i class="bi bi-gear me-2"></i> Settings</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-decoration-none text-dark-mode">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                          
+                {% endif %}
+                
+            </div>
+        </div>
+    </nav>
+
+    <div class="content my-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+
+    <button id="backToTop" class="btn btn-primary">
+        <i class="bi bi-chevron-up"></i>
+    </button>
+    
+
+    {% include 'footer.html' %}
+
+    <script>
+        const toggleDarkMode = (enabled) => {
+            document.body.classList.toggle('dark-mode', enabled);
+            localStorage.setItem('dark-mode', enabled ? 'enabled' : 'disabled');
+            updateDarkModeIcon(enabled);
+        };
+
+        const updateDarkModeIcon = (isDarkMode) => {
+            document.querySelectorAll('.dark-mode-toggle').forEach(icon => {
+                icon.classList.toggle('bi-moon', !isDarkMode);
+                icon.classList.toggle('bi-sun', isDarkMode);
+            });
+        };
+
+        const isDarkMode = localStorage.getItem('dark-mode') === 'enabled';
+        toggleDarkMode(isDarkMode);
+
+        document.querySelectorAll('.dark-mode-toggle').forEach(icon => {
+            icon.addEventListener('click', () => {
+                toggleDarkMode(!document.body.classList.contains('dark-mode'));
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let backToTopBtn = document.getElementById("backToTop");
+    
+            window.addEventListener("scroll", function () {
+                if (window.scrollY > 200) {
+                    backToTopBtn.style.display = "flex"; // Ensure it's visible
+                    backToTopBtn.classList.add("show");
+                } else {
+                    backToTopBtn.classList.remove("show");
+                    setTimeout(() => {
+                        backToTopBtn.style.display = "none"; // Hide after animation
+                    }, 300);
+                }
+            });
+    
+            backToTopBtn.addEventListener("click", function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            });
+        });
+    </script>
+    <script>
+        window.addEventListener("scroll", function() {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrollPercentage = (scrollTop / scrollHeight) * 100;
+            document.getElementById("scrollProgress").style.width = scrollPercentage + "%";
+        });
+        
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible"); 
+                    } else {
+                        entry.target.classList.remove("visible"); 
+                    }
+                });
+            }, { threshold: 0.2 });
+    
+            document.querySelectorAll(".fade-in").forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+    
+</body>
+</html>

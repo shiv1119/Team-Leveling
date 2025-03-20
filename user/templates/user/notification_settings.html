@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mt-4">
+    <h4 class="mb-4 text-center fw-bold border-bottom bg-white rounded shadow-sm dark-mode-card py-3 fade-in">
+        <i class="bi bi-bell-fill fs-5"></i> Notification Preferences
+        <span class="d-block text-muted fw-normal fs-6 mt-1 px-2 mt-3">
+            Manage how you receive important updates and alerts. Choose your preferred notification methods below. 
+            You can update your preferences at any time.
+        </span>
+    </h4>
+    <div class="card shadow-sm py-2 px-2 border-0 bg-white dark-mode-card fade-in">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="email_notifications" name="email_notifications" 
+                           {% if form.instance.email_notifications %}checked{% endif %}>
+                    <label class="form-check-label" for="email_notifications">
+                        Receive Email Notifications
+                    </label>
+                    <small class="text-muted d-block">Get important updates via email.</small>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="sms_notifications" name="sms_notifications" 
+                           {% if form.instance.sms_notifications %}checked{% endif %}>
+                    <label class="form-check-label" for="sms_notifications">
+                        Receive SMS Notifications
+                    </label>
+                    <small class="text-muted d-block">Receive critical alerts directly on your phone.</small>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="push_notifications" name="push_notifications" 
+                           {% if form.instance.push_notifications %}checked{% endif %}>
+                    <label class="form-check-label" for="push_notifications">
+                        Receive Push Notifications
+                    </label>
+                    <small class="text-muted d-block">Stay updated with real-time app notifications.</small>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="in_app_notification" name="in_app_notification" 
+                           {% if form.instance.in_app_notification %}checked{% endif %}>
+                    <label class="form-check-label" for="in_app_notification">
+                        Receive In-App Notifications
+                    </label>
+                    <small class="text-muted d-block">View notifications directly within your account.</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Save Preferences</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

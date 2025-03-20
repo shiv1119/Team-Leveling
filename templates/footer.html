@@ -1,0 +1,182 @@
+<style>
+    .footer {
+        background-color: #f8f9fa;
+        color: #333;
+        padding: 50px 0 0px 0;
+        font-size: 16px;
+        box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.1);
+        border-top: 5px solid #007bff;
+        border-radius: 15px 15px 0 0;
+        transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    }
+
+    .footer-container {
+        max-width: 80%;
+        margin: auto;
+        padding: 20px 0px;
+    }
+
+    .footer h5 {
+        font-weight: bold;
+        border-bottom: 2px solid #007bff;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+    .footer a {
+        color: #555;
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .footer a:hover {
+        color: #007bff;
+    }
+
+    .footer .social-icons a {
+        font-size: 22px;
+        margin: 0 10px;
+        color: #555;
+        transition: transform 0.3s, color 0.3s;
+    }
+
+    .footer .social-icons a:hover {
+        color: #007bff;
+        transform: scale(1.2);
+    }
+
+    .footer .line {
+        height: 2px;
+        background-color: #ccc;
+        margin: 30px 0;
+    }
+
+    .footer .copyright {
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .newsletter input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        color: #333;
+        margin-top: 10px;
+    }
+
+    .newsletter button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-top: 10px;
+    }
+
+    .newsletter button:hover {
+        background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+        .footer .col-md-3 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    }
+
+    .dark-mode .footer {
+        background-color: #222;
+        color: #ddd;
+        box-shadow: 0px -5px 15px rgba(255, 255, 255, 0.1); /* Light shadow for contrast */
+        border-top: 5px solid #1e90ff;
+    }
+
+    .dark-mode .footer a {
+        color: #bbb;
+    }
+
+    .dark-mode .footer .social-icons a {
+        color: #bbb;
+    }
+
+    .dark-mode .footer .line {
+        background-color: #333;
+    }
+
+    .dark-mode .footer .newsletter input {
+        background-color: #222;
+        color: #ddd;
+        border: 1px solid #444;
+    }
+
+    .dark-mode .footer .newsletter button {
+        background-color: #1e90ff;
+    }
+
+    .dark-mode .footer .newsletter button:hover {
+        background-color: #0f6ec2;
+    }
+    @media (max-width: 991px) {
+        .footer-container{
+            width: 100%;
+        }
+    }
+</style>
+
+<footer class="footer" style="z-index: 100;">
+    <div class="footer-container">
+        <div class="row">
+            <div class="col-md-3">
+                <h5>About Us</h5>
+                <p>We provide top-notch services to help your business grow. Stay connected for exclusive updates and offers.</p>
+            </div>
+
+            <div class="col-md-3">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="{% url 'faq' %}">FAQs</a></li>
+                    <li><a href="{% url 'privacy-policy' %}">Privacy Policy</a></li>
+                    <li><a href="{% url 'terms-and-conditions' %}">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>User Support</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="{% url 'contact-us' %}">Contact Us</a></li>
+                    <li><a href="#">Passport status Tracking</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Live Chat Support</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h5>Contact Us</h5>
+                <p><i class="fa-solid fa-envelope"></i> supportServiceSphere@gmail.com</p>
+                <p><i class="fa-solid fa-phone"></i> +91 8881087614</p>
+                <div class="social-icons mt-3">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+
+                <div class="newsletter mt-3">
+                    <h5>Subscribe to Our Newsletter</h5>
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="line"></div>
+        <p class="copyright">© 2025 ServiceSphere. All rights reserved. | <a href="#">Sitemap</a></p>
+    </div>
+</footer>

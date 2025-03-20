@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Terms and Conditions{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Terms and Conditions</h2>
+
+    <p>Welcome to the Passport Automation System. Please read these Terms and Conditions carefully before using our services.</p>
+
+    <h4>1. Acceptance of Terms</h4>
+    <p>By accessing and using the Passport Automation System, you agree to comply with these Terms and Conditions. If you do not agree, please do not use our services.</p>
+
+    <h4>2. Use of Services</h4>
+    <p>The Passport Automation System allows users to apply for, track, and manage passport applications online. By using this service, you agree that:</p>
+    <ul>
+        <li>You will provide accurate and truthful information.</li>
+        <li>You will not misuse the system for fraudulent activities.</li>
+        <li>You will comply with all applicable laws and regulations.</li>
+    </ul>
+
+    <h4>3. Eligibility</h4>
+    <p>To use this system, you must be a legal resident of the country and meet the requirements for passport application as per government regulations.</p>
+
+    <h4>4. Privacy Policy</h4>
+    <p>Your personal information is collected and processed as per our <a href="{% url 'privacy-policy' %}">Privacy Policy</a>. By using our system, you consent to the collection and use of your data for verification and passport issuance.</p>
+
+    <h4>5. User Responsibilities</h4>
+    <p>Users are responsible for:</p>
+    <ul>
+        <li>Providing accurate and up-to-date information.</li>
+        <li>Keeping login credentials secure.</li>
+        <li>Following all instructions during the verification process.</li>
+    </ul>
+
+    <h4>6. Verification Process</h4>
+    <p>All applications undergo strict verification, including background checks and address verification. Any false information may lead to application rejection or legal action.</p>
+
+    <h4>7. Payment and Fees</h4>
+    <p>Applicable fees must be paid for passport processing. Payments are non-refundable except under specific conditions outlined in our refund policy.</p>
+
+    <h4>8. System Availability</h4>
+    <p>We strive to keep the system available at all times, but we do not guarantee uninterrupted access due to maintenance, technical issues, or other unforeseen circumstances.</p>
+
+    <h4>9. Termination of Service</h4>
+    <p>We reserve the right to terminate or suspend your access if:</p>
+    <ul>
+        <li>You violate any terms of use.</li>
+        <li>You attempt fraudulent activities.</li>
+        <li>Authorities request suspension due to security concerns.</li>
+    </ul>
+
+    <h4>10. Legal Compliance</h4>
+    <p>This system operates under the legal framework of the government passport regulations. Any disputes arising shall be resolved under the jurisdiction of the respective authorities.</p>
+
+    <h4>11. Changes to Terms</h4>
+    <p>We may update these Terms and Conditions from time to time. Users will be notified of major changes.</p>
+
+    <h4>12. Contact Information</h4>
+    <p>If you have any questions about these Terms and Conditions, please contact us at <a href="{% url 'contact-us' %}">Contact Us</a>.</p>
+
+    <p class="mt-4"><strong>Last Updated:</strong> March 2025</p>
+</div>
+{% endblock %}

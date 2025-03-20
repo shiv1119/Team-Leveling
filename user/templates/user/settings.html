@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .settings-container {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .settings-header {
+        font-weight: 700;
+        font-size: 1.4rem;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .settings-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .settings-list li {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.3s ease-in-out;
+    }
+
+    .settings-list li:hover {
+        background: #f8f9fa;
+    }
+
+    .dark-mode .settings-list li:hover {
+        background:rgb(34, 34, 34);
+    }
+
+    .settings-link {
+        text-decoration: none;
+        color: #333;
+        font-size: 1rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+
+    .settings-link i {
+        font-size: 1.3rem;
+        margin-right: 10px;
+        color: #007bff;
+    }
+
+    .arrow-icon {
+        font-size: 1.2rem;
+        color: #007bff;
+    }
+</style>
+
+<div class="row mt-5">
+    <div class="settings-container dark-mode-card">
+        {% if messages %}
+            <div class="mb-3 fade-in">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <h4 class="settings-header text-primary"><i class="bi bi-gear"></i> Settings</h4>
+
+        <ul class="settings-list">
+            <li>
+                <a href="{% url 'profile' %}" class="settings-link text-dark-mode">
+                    <i class="bi bi-person-circle"></i> Profile Settings
+                </a>
+                <i class="bi bi-chevron-right arrow-icon"></i>
+            </li>
+
+            <li>
+                <a href="{% url 'login_history' %}" class="settings-link text-dark-mode">
+                    <i class="bi bi-shield-lock"></i> Security & Privacy
+                </a>
+                <i class="bi bi-chevron-right arrow-icon"></i>
+            </li>
+            <li>
+                <a href="{% url 'notification_settings' %}" class="settings-link text-dark-mode">
+                    <i class="bi bi-bell"></i> Notification Preferences
+                </a>
+                <i class="bi bi-chevron-right arrow-icon"></i>
+            </li>
+
+            <li>
+                <a href="{% url 'account_settings' %}" class="settings-link text-dark-mode">
+                    <i class="bi bi-people"></i> Account Management
+                </a>
+                <i class="bi bi-chevron-right arrow-icon"></i>
+            </li>
+
+            <li>
+                <a href="" class="settings-link text-dark-mode">
+                    <i class="bi bi-question-circle"></i> Help & Support
+                </a>
+                <i class="bi bi-chevron-right arrow-icon"></i>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

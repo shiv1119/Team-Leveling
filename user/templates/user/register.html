@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .loading-btn {
+        display: none;
+    }
+
+    .normal-btn:disabled {
+        display: none;
+    }
+
+    .normal-btn:disabled + .loading-btn {
+        display: inline-block;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+</style>
+
+<section class="py-3 py-md-5 py-xl-8 dark-mode-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 fade-in">
+                <div class="mb-5">
+                    <h2 class="display-5 fw-bold text-center text-dark-mode">Sign Up</h2>
+                    <p class="text-center m-0 text-dark-mode">
+                        Already have an account? 
+                        <a href="{% url 'login' %}" class="link-primary text-decoration-none">Sign In</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-8">
+                <div class="row gy-5 justify-content-center">
+                    <div class="col-12 col-lg-8 fade-in">
+                        {% if messages %}
+                            <div class="mb-3 fade-in">
+                                {% for message in messages %}
+                                    {% if message.tags == "error" %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {% else %}
+                                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {% endif %}
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                        <form method="post" action="{% url 'register' %}">
+                            {% csrf_token %}
+
+                            <div class="form-group mb-3">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control dark-input" name="username" placeholder="Enter username" required>
+                                {% if form.username.errors %}
+                                    <div class="error-message">
+                                        {% for error in form.username.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="email">Email address</label>
+                                <input type="email" class="form-control dark-input" name="email" placeholder="Enter email" required>
+                                <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                {% if form.email.errors %}
+                                    <div class="error-message">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="password1">Password</label>
+                                <input type="password" class="form-control dark-input" name="password1" placeholder="Password" required>
+                                {% if form.password1.errors %}
+                                    <div class="error-message">
+                                        {% for error in form.password1.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="password2">Confirm Password</label>
+                                <input type="password" class="form-control dark-input" name="password2" placeholder="Confirm Password" required>
+                                {% if form.password2.errors %}
+                                    <div class="error-message">
+                                        {% for error in form.password2.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="border-0 password-instruction mb-3">
+                                <h5>
+                                    <button class="btn w-100 text-dark-mode text-decoration-none d-flex align-items-center justify-content-between border" 
+                                            type="button" 
+                                            data-bs-toggle="collapse" 
+                                            data-bs-target="#passwordInstructions" 
+                                            aria-expanded="false">
+                                        <span class="d-flex align-items-center">
+                                            <i class="bi bi-key me-2"></i> Password Instruction
+                                        </span>
+                                        <i class="bi bi-chevron-down"></i>
+                                    </button>
+                                </h5>
+
+                                <div class="collapse mb-3" id="passwordInstructions">
+                                    <div class="text-start border p-2">
+                                        <strong>Ensure your password meets the following requirements:</strong>
+                                        <ul>
+                                            <li>At least one <strong>uppercase letter</strong> (A-Z).</li>
+                                            <li>At least one <strong>lowercase letter</strong> (a-z).</li>
+                                            <li>At least one <strong>special character</strong> (e.g., @, #, $, %).</li>
+                                            <li>At least one <strong>number</strong> (0-9).</li>
+                                            <li>Minimum <strong>6 characters</strong> in length.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-grid">
+                                    <button class="btn btn-primary btn-md normal-btn" type="submit" 
+                                        onclick="this.style.display='none'; this.nextElementSibling.style.display='inline-block'">
+                                        Sign Up
+                                    </button>
+                                    <button class="btn btn-primary btn-md loading-btn" type="button" disabled>
+                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                        Signing Up...
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

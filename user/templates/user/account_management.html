@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .account-container {
+        margin: auto;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .account-header {
+        font-weight: 700;
+        font-size: 1.5rem;
+        border-bottom: 2px solid #dc3545;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .danger-zone {
+        background: #fff3f3;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #ffcccc;
+    }
+
+    .btn-danger {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container-fluid mt-5">
+    <div class="account-container dark-mode-card">
+        <h4 class="account-header text-danger"><i class="bi bi-person-lines-fill"></i> Account Management</h4>
+
+        <p class="text-muted">Manage your account settings and personal data. If you wish to delete your account, proceed with caution.</p>
+
+        <div class="danger-zone mt-4 dark-mode-card">
+            <h5 class="text-danger"><i class="bi bi-exclamation-triangle-fill"></i> Danger Zone</h5>
+            <p>Deleting your account is permanent and cannot be undone.</p>
+            
+            <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                <i class="bi bi-trash"></i> Delete Account
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="confirmDeleteModalLabel"><i class="bi bi-exclamation-circle"></i> Confirm Account Deletion</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">Are you sure you want to delete your account? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{% url 'delete_account' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

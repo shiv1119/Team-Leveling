@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .faq-container {
+        margin: auto;
+        background: #ffffff;
+        padding: 30px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.09);
+    }
+
+    .faq-header {
+        font-weight: 600;
+        font-size: 1.4rem;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .accordion-button {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row mt-5">
+    <div class="faq-container fade-in">
+        <h2 class="faq-header text-primary"><i class="bi bi-question-circle"></i> Frequently Asked Privacy & Security Questions</h2>
+
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <i class="bi bi-lock-fill me-2"></i> How do I reset my password?
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        You can reset your password by going to the <strong>Settings → Security & Privacy</strong> section and clicking on "Change Password." Alternatively, you can use the **"Forgot Password"** option on the login page.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <i class="bi bi-shield-lock me-2"></i> How do I enable two-factor authentication (2FA)?
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To enable 2FA, go to **Settings → Security & Privacy** and enable **Two-Factor Authentication (2FA)**. You can choose between **Email, SMS, or an Authenticator App** for verification.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <i class="bi bi-trash-fill me-2"></i> How can I delete my account?
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        You can delete your account by navigating to **Settings → Account Management** and selecting **"Delete Account."** Please note that this action is permanent and cannot be undone.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq4">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer4">
+                        <i class="bi bi-gear me-2"></i> How can I change my profile details?
+                    </button>
+                </h2>
+                <div id="answer4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        You can update your profile information by going to **Settings → Profile**. There, you can edit your **name, email, phone number, and profile picture**.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq5">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer5">
+                        <i class="bi bi-bell-fill me-2"></i> How do I manage my notifications?
+                    </button>
+                </h2>
+                <div id="answer5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To customize your notifications, go to **Settings → Notification Preferences**. You can enable or disable different types of notifications, including **email, SMS, and push notifications**.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq6">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer6">
+                        <i class="bi bi-credit-card me-2"></i> What payment methods do you accept?
+                    </button>
+                </h2>
+                <div id="answer6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        We accept a variety of payment methods, including **Credit/Debit Cards, PayPal, UPI, and Net Banking**. You can manage your payment methods under **Settings → Payments**.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq7">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer7">
+                        <i class="bi bi-question-circle-fill me-2"></i> How do I contact support?
+                    </button>
+                </h2>
+                <div id="answer7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        If you need assistance, you can reach out to our **support team** via the **"Contact Us (<a href="{% url 'contact-us' %}">here</a>)"** page or email us at **supportpassportX@gmail.com**.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="faq-container fade-in">
+        <h2 class="faq-header text-primary"><i class="bi bi-question-circle"></i> Frequently Asked Passport Related Questions</h2>
+
+        <div class="accordion" id="faqAccordion">
+
+            <!-- Application Process -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq8">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer8">
+                        <i class="bi bi-passport me-2"></i> How can I apply for a passport online?
+                    </button>
+                </h2>
+                <div id="answer8" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Visit the <strong>Passport Portal</strong>, register, fill in your details, upload documents, and schedule an appointment for verification.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Required Documents -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq9">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer9">
+                        <i class="bi bi-file-earmark-text me-2"></i> What documents are required for a passport application?
+                    </button>
+                </h2>
+                <div id="answer9" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        - **Aadhaar Card or Voter ID** <br>
+                        - **Birth Certificate (for minors)** <br>
+                        - **Address Proof (Utility Bills, Rental Agreement, etc.)** <br>
+                        - **Passport-sized Photos** <br>
+                        - **Police Clearance Certificate (if required)**
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tatkal Passport -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq10">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer10">
+                        <i class="bi bi-lightning-fill me-2"></i> What is a Tatkal passport, and who is eligible?
+                    </button>
+                </h2>
+                <div id="answer10" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A **Tatkal Passport** is a fast-track service available for urgent requirements. Applicants with no adverse police records are eligible.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Passport Renewal -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq11">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer11">
+                        <i class="bi bi-arrow-clockwise me-2"></i> How do I renew my passport?
+                    </button>
+                </h2>
+                <div id="answer11" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        You can renew your passport through the **Passport Portal → Renewal Section**. Submit the form and book an appointment if necessary.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Passport Correction -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq12">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer12">
+                        <i class="bi bi-pencil-square me-2"></i> How can I correct errors in my passport?
+                    </button>
+                </h2>
+                <div id="answer12" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        For name, DOB, or other corrections, apply for **passport re-issuance** with correct supporting documents.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointment Booking -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq13">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer13">
+                        <i class="bi bi-calendar-check me-2"></i> How do I book an appointment for verification?
+                    </button>
+                </h2>
+                <div id="answer13" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        After filling out your application, go to **Appointment Booking**, select a date and time at your nearest Passport Seva Kendra (PSK), and confirm.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lost Passport -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq14">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer14">
+                        <i class="bi bi-exclamation-triangle me-2"></i> What should I do if I lose my passport?
+                    </button>
+                </h2>
+                <div id="answer14" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        File a **police report**, then apply for a **duplicate passport** online under the "Lost Passport" category.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Passport Fees -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq15">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer15">
+                        <i class="bi bi-cash-stack me-2"></i> How much does a passport cost?
+                    </button>
+                </h2>
+                <div id="answer15" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        - **Regular Passport:** ₹1,500 - ₹2,000 (varies by booklet size) <br>
+                        - **Tatkal Passport:** ₹3,500 - ₹4,000
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq16">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer16">
+                        <i class="bi bi-headset me-2"></i> How can I contact passport support?
+                    </button>
+                </h2>
+                <div id="answer16" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        If you need assistance, you can reach out via the **"Contact Us (<a href="{% url 'contact-us' %}">here</a>)"** page or email **supportpassportX@gmail.com**.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

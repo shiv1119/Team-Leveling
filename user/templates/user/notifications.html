@@ -1,0 +1,213 @@
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block content %}
+<style>
+    .dark-mode .card {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+
+    .dark-mode .list-group-item {
+        background-color: rgb(0, 0, 0);
+        color: #ffffff;
+    }
+
+    .dark-mode .list-group-item:hover {
+        background-color: rgb(19, 19, 19);
+        color: #ffffff;
+    }
+
+    .dark-mode .btn-light {
+        background-color: rgb(0, 0, 0);
+        color: #ffffff;
+        border-color: #555;
+    }
+
+    .dark-mode .btn-light:hover {
+        background-color: rgb(19, 19, 19);
+        border-color: #666;
+    }
+
+    .unread-notification {
+        background-color: var(--bs-gray-100);
+        border-left: 5px solid #007bff;
+    }
+
+    .read-notification {
+        background-color: var(--bs-gray-100);
+        border-left: 5px solid #008000;
+    }
+
+    .list-group-item {
+        transition: all 0.3s ease;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .list-group-item:hover {
+        background-color: var(--bs-gray-200);
+    }
+
+    .notification-text {
+        flex: 1;
+    }
+
+    .notification-text small {
+        display: block;
+        margin-top: 5px;
+        text-align: left;
+    }
+
+    .action-icons {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .action-icons i {
+        font-size: 1.2rem;
+    }
+
+    @media (max-width: 576px) {
+        .d-flex.justify-content-between {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .action-icons {
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .notification-text {
+            width: 100%;
+            text-align: center;
+        }
+
+        .notification-text small {
+            text-align: center;
+        }
+    }
+</style>
+<div class="container mt-4">
+    <h3 class="mb-4">Notifications</h3>
+
+    <div class="card shadow-md fade-in" data-bs-theme="dark">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="text-primary">Unread Notifications ({{ unread_notifications.count }})</h5>
+                <div>
+                    {% if unread_notifications %}
+                        <form action="{% url 'notification' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" value="mark_unread_all_read" name="edit_type">
+                            <input type="hidden" value="unread_notification" name="notification_type">
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                <i class="bi bi-check-all"></i> Mark All as Read
+                            </button>
+                        </form>
+                        <form action="{% url 'notification' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" value="clear_notification" name="edit_type">
+                            <input type="hidden" value="unread_notification" name="notification_type">
+                            <button class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i> Clear All
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            <ul class="list-group mb-3">
+                {% for notification in unread_notifications %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center unread-notification">
+                        <div class="notification-text">
+                            <strong>{{ notification.message }}</strong> 
+                            <br>
+                            <small class="text-muted">{{ notification.created_at|date:"M d, Y H:i A" }}</small>
+                        </div>
+                        <div class="action-icons">
+                            {% if notification.link %}
+                                <form action="{% url 'notification' %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="mark_read" name="edit_type">
+                                    <input type="hidden" value="redirect_true" name="notification_view">
+                                    <input type="hidden" value="{{ notification.id }}" name="notification_id">
+                                    <button type="submit" class="btn btn-sm btn-light text-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
+                            <form action="{% url 'notification' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" value="mark_read" name="edit_type">
+                                <input type="hidden" value="{{ notification.id }}" name="notification_id">
+                                <button type="submit" class="btn btn-sm btn-light">
+                                    <i class="bi bi-check-circle text-success"></i>
+                                </button>
+                            </form>
+                            <form action="{% url 'notification' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" value="delete_notification" name="edit_type">
+                                <input type="hidden" value="{{ notification.id }}" name="notification_id">
+                                <button type="submit" class="btn btn-sm btn-light">
+                                    <i class="bi bi-trash text-danger"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                    <hr class="m-1">
+                {% empty %}
+                    <li class="list-group-item text-muted">No unread notifications.</li>
+                {% endfor %}
+            </ul>
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="text-secondary">Read Notifications</h5>
+                {% if read_notifications %}
+                    <form action="{% url 'notification' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" value="clear_notification" name="edit_type">
+                        <input type="hidden" value="read_notification" name="notification_type">
+                        <button class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i> Clear All
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+
+            <ul class="list-group">
+                {% for notification in read_notifications %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center read-notification">
+                        <div class="notification-text">
+                            {{ notification.message }} 
+                            <br>
+                            <small class="text-muted">{{ notification.created_at|date:"M d, Y H:i A" }}</small>
+                        </div>
+                        <div class="action-icons">
+                            {% if notification.link %}
+                                <a href="{{ notification.link }}" class="btn btn-sm btn-light text-primary">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            {% endif %}
+                            <form action="{% url 'notification' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" value="delete_notification" name="edit_type">
+                                <input type="hidden" value="{{ notification.id }}" name="notification_id">
+                                <button type="submit" class="btn btn-sm btn-light">
+                                    <i class="bi bi-trash text-danger"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                    <hr class="m-1">
+                {% empty %}
+                    <li class="list-group-item text-muted">No read notifications.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
