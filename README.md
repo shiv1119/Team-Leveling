@@ -51,15 +51,6 @@ Blogging website to create blogs, play around user reguistrations etc.
 ## :sparkles: Features ##
 
 :heavy_check_mark: 1 - User registration system with verification and account activation link to the terminal, Password reset using link send on terminal, Password validation, User Profile creation and updation function;\
-:heavy_check_mark: 2- Functions related blog post;\
-:heavy_check_mark: 3 - Comment section and total views on posts;\
-:heavy_check_mark: 4 - Adding summernote editor so that a user can write effective blogs with images, videos, styles etc.;\
-:heavy_check_mark: 5 - Search Functionality;\
-:heavy_check_mark: 6 - Tags Functionality;\
-:heavy_check_mark: 7 - Getting post based on the most viewed and desplaying on the frontend;\
-:heavy_check_mark: 8 - Getting recent posts;\
-:heavy_check_mark: 9 - Navlinks based on category so that a person can navigate through sections of the blog data;\
-:heavy_check_mark: 10 - Templates tags to make navigation easy;\
 
 ## :rocket: Technologies ##
 
