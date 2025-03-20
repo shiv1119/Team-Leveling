@@ -114,7 +114,7 @@ $ python manage.py createsuperuser
 This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
 
 
-Made with :heart: by <a href="https://github.com/shiv1119" target="_blank">Shiv Nandan Verma</a>
+Made with :heart: by <a href="https://github.com/shiv1119" target="_blank">Team Leveling</a>
 
 &#xa0;
 
