@@ -62,7 +62,15 @@
                     </p>
                     <hr class="border">
                     <div class="d-flex flex-column align-items-center text-center">
-                        <p class="text-muted mb-0"><i class="bi bi-geo-alt me-2"></i> {{ profile.address|default:"N/A" }}</p>
+                        <p class="text-muted mb-0">
+                            <i class="bi bi-geo-alt me-2"></i> 
+                            {{ profile.address|default:"N/A" }},
+                            {{ profile.city|default:"N/A" }},
+                            {{ profile.state|default:"N/A" }},
+                            {{ profile.zip_code|default:"N/A" }},
+                            {{ profile.country|default:"N/A" }}
+                        </p>
+                        
                         <p class="text-muted mb-0"><i class="bi bi-person me-2"></i> Gender: {{ profile.gender|default:"N/A" }}</p>
                         {% if profile.role %}
                             <p class="text-muted"><i class="bi bi-award me-1"></i>
@@ -79,32 +87,6 @@
                 </div>          
             </div>
         </div>
-        {% if institutions %}
-            <div class="d-flex justify-content-center">
-                <div class="col-12 col-sm-10 col-md-8 col-lg-6">
-                    <div class="mx-auto card py-4 px-3 rounded-4 dark-mode-card glass-effect fade-in">
-                        <h5 class="mb-3"><i class="bi bi-building "></i> Assigned Institutions</h5>
-                        {% if institutions %}
-                            <ul class="list-group">
-                                {% for institution in institutions %}
-                                    <li class="list-group-item d-flex justify-content-between align-items-center institution-card">
-                                        <a href="{% url 'institution_detail' institution.id %}" class="text-decoration-none">
-                                            <i class="bi bi-bank me-2"></i> {{ institution.name }} ({{ institution.get_institution_type_display }})
-                                        </a>
-                                        <a href="{% url 'institution_detail' institution.id %}" class="text-decoration-none">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p class="text-muted"><i class="bi bi-exclamation-circle"></i> No assigned institutions.</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
         <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content shadow-lg rounded-3">

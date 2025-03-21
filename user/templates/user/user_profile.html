@@ -87,7 +87,76 @@
 
     </div>
 </div>
+<style>
+    .dark-mode .table {
+        background-color: #2b2b2b;
+        color: #ffffff !important;
+    }
+    .dark-mode .table tbody tr:hover {
+        background-color: #252525;
+        color: #ffffff;
+    }
+</style>
+<div class="row mt-4">
+    <h3 class="mb-4">Offered Services</h3>
 
+    <div class="table-responsive">
+        <table class="table table-striped" style="min-width: 100%;">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Discounted Price</th>
+                    <th>Price Type</th>
+                    <th>Service Type</th>
+                    <th>Rating</th>
+                    <th>Reviews</th>
+                    <th>Availability</th>
+                    <th>Contact</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in services %}
+                <tr>
+                    <td class="text-dark-mode">{{ service.title }}</td>
+                    <td class="text-dark-mode">${{ service.price }}</td>
+                    <td class="text-dark-mode">${{ service.discounted_price }}</td>
+                    <td class="text-dark-mode">{{ service.get_price_type_display }}</td>
+                    <td class="text-dark-mode">
+                        {% for service_type in service.service_types.all %}
+                            <span class="badge bg-primary">{{ service_type.name }}</span>
+                        {% endfor %}
+                    </td>
+                    <td class="text-dark-mode">⭐ {{ service.average_rating|default:"No Ratings" }}</td>
+                    <td class="text-dark-mode">{{ service.review_count }}</td>
+                    <td class="text-dark-mode">
+                        <input type="checkbox" readonly>
+                    </td>
+                    <td class="text-dark-mode">
+                        {% if service.contact_email %}✉️ {{ service.contact_email }}<br>{% endif %}
+                        {% if service.contact_phone %}📞 {{ service.contact_phone }}{% endif %}
+                    </td>
+                    <td class="text-dark-mode">{{ service.created_at|date:"d M, Y" }}</td>
+                    <td>
+                        <a href="{% url 'service_view' service.id %}" class="text-primary d-flex align-items-center">
+                            <i class="bi bi-eye"></i> <span class="ms-1">View</span>
+                        </a>
+                        <a href="{% url 'book_service' service.id %}" class="btn btn-success d-flex align-items-center">
+                            <span class="me-1">Book</span> <i class="bi bi-calendar-check"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="11" class="text-center text-muted">No services added yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 <script>
     function previewImage(event) {
         const imagePreview = document.getElementById("imagePreview");

@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4"> 
+    <h2>Service Details</h2>
+    {% if messages %}
+        <div class="mb-3 fade-in">
+            {% for message in messages %}
+                {% if message.tags == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {% else %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {% endif %}
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- General Information Section -->
+    <div class="card mb-3 dark-mode-card">
+        <div class="card-header">
+            <span class="float-start">General Information</span>
+            {% if service.user == request.user %}
+                <a href="{% url 'service_update' service.id %}" class="btn btn-primary btn-sm float-end">
+                    <i class="bi bi-pencil"></i>
+                </a>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <p><strong>Service Title:</strong> {{ service.title }}</p>
+            <p><strong>Description:</strong> {{ service.description }}</p>
+            <p><strong>Price:</strong> {{ service.price }}</p>
+            <p><strong>Price Type:</strong> {{ service.get_price_type_display }}</p>
+            <p><strong>Discount:</strong> {{ service.discount }}%</p>
+            <p><strong>Cancellation Policy:</strong> {{ service.get_cancellation_policy_display }}</p>
+            <p><strong>Rating:</strong> {{ service.rating }} ({{ service.review_count }} reviews)</p>
+        </div>
+    </div>
+
+    <!-- Working Hours Section -->
+    <div class="card mb-3 dark-mode-card">
+        <div class="card-header">
+            <span class="float-start">Working Hours</span>
+            {% if service.user == request.user %}
+                <a href="{% url 'working_hours_create' service.id %}" class="btn btn-primary btn-sm float-end">
+                    <i class="bi bi-pencil"></i>
+                </a>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            {% if working_hours %}
+                <ul>
+                    {% for hour in working_hours %}
+                        <li>{{ hour.day }}: {{ hour.open_time }} - {{ hour.close_time }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No working hours available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Address Details Section -->
+    <div class="card mb-3 dark-mode-card">
+        <div class="card-header">
+            <span class="float-start">Address Details</span>
+            {% if service.user == request.user %}
+                {% if address_details %}
+                    <!-- If address exists, show the update button -->
+                    <a href="{% url 'address_details_update' service.id address_details.id %}" class="btn btn-primary btn-sm float-end">
+                        <i class="bi bi-pencil"></i> Update
+                    </a>
+                {% else %}
+                    <a href="{% url 'address_details_create' service.id %}" class="btn btn-success btn-sm float-end">
+                        <i class="bi bi-plus"></i> Add Address
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="card-body">
+            {% if address_details %}
+                <p><strong>Street Address:</strong> {{ address_details.street_address }}</p>
+                <p><strong>Landmark:</strong> {{ address_details.landmark }}</p>
+                <p><strong>City:</strong> {{ address_details.city }}</p>
+                <p><strong>State:</strong> {{ address_details.state }}</p>
+                <p><strong>Country:</strong> {{ address_details.country }}</p>
+                <p><strong>Postal Code:</strong> {{ address_details.postal_code }}</p>
+                <p><strong>Latitude:</strong> {{ address_details.latitude }}</p>
+                <p><strong>Longitude:</strong> {{ address_details.longitude }}</p>
+                <p><strong>Google Maps URL:</strong> <a href="{{ address_details.google_maps_url }}" target="_blank">View on Google Maps</a></p>
+            {% else %}
+                <p>No address details available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card mb-3 dark-mode-card">
+        <div class="card-header">
+            <span class="float-start">Social Media Links</span>
+            {% if service.user == request.user %}
+                <a href="{% url 'social_link_create' service.id %}" class="btn btn-primary btn-sm float-end">
+                    <i class="bi bi-pencil"></i>
+                </a>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            {% if social_links %}
+                <ul>
+                    {% for link in social_links %}
+                        <li><strong>{{ link.platform }}:</strong> <a href="{{ link.url }}" target="_blank">{{ link.url }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No social media links available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Service Images Section -->
+    <div class="card mb-3 dark-mode-card">
+        <div class="card-header">
+            <span class="float-start">Service Images</span>
+            {% if service.user == request.user %}
+                <a href="{% url 'service_image_upload' service.id %}" class="btn btn-primary btn-sm float-end">
+                    <i class="bi bi-pencil"></i>
+                </a>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            {% if service_images %}
+                <div class="row">
+                    {% for image in service_images %}
+                        <div class="col-md-4">
+                            <img src="{{ image.image.url }}" class="img-fluid" alt="Service Image">
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No images available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'home' %}" class="btn btn-primary">
+            <i class="bi bi-house-door"></i> Go to Home
+        </a>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary">
+            <i class="bi bi-columns"></i> Go to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

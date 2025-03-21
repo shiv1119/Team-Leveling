@@ -1,12 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-ROLES_CHOICES = [
-    ('customer', 'Customer'),
-    ('service_provider', 'Service Provider'),
-    ('admin', 'Admin'),
-]
-
 INDIAN_STATES_UTS = [
     ("Andhra Pradesh", "Andhra Pradesh"),
     ("Arunachal Pradesh", "Arunachal Pradesh"),
@@ -47,6 +41,13 @@ INDIAN_STATES_UTS = [
     ("Puducherry", "Puducherry"),
 ]
 
+ROLES_CHOICES = [
+    ('customer', 'Customer'),
+    ('service_provider', 'Service Provider'),
+    ('admin', 'Admin'),
+]
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
     full_name = models.CharField(max_length=255)
@@ -57,13 +58,20 @@ class UserProfile(models.Model):
         choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')]
     )
     address = models.TextField(null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    state = models.CharField(max_length=100, null=True, blank=True)
+    zip_code = models.CharField(max_length=10, null=True, blank=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
+
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
     role = models.CharField(max_length=20, choices=ROLES_CHOICES, default='customer')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.full_name} - {self.get_role_display()}"
+
 
 
 class Announcement(models.Model):
@@ -102,38 +110,30 @@ class Notification(models.Model):
         ("system", "System Notification"),
         ("payment_success", "Payment Successful"),
         ("payment_failed", "Payment Failed"),
-        
-        ("new_application", "New Passport Application Submitted"),
-        ("renewal_application", "Renewal Application Submitted"),
-        ("reissue_application", "Reissue Application Submitted"),
-        ("lost_application", "Lost/Damaged Passport Application Submitted"),
-        ("tatkal_application", "Tatkal Passport Application Submitted"),
-        ("application_under_review", "Your Passport Application is Under Review"),
-        ("application_approved", "Your Passport Application has been Approved"),
-        ("application_rejected", "Your Passport Application has been Rejected"),
-        ("application_issued", "Your Passport has been Issued"),
-        
-        ("police_verification", "Police Verification Update"),
-        ("document_verification", "Document Verification Update"),
-        ("background_check", "Background Check Update"),
-        ("final_review", "Final Review Update"),
-        ("criminal_record_check", "Criminal Record Check Update"),
-        ("address_verification", "Address Verification Update"),
-        ("identity_verification", "Identity Verification Update"),
-        ("aadhaar_verification", "Aadhaar Verification Update"),
-        ("financial_status_verification", "Financial Status Verification Update"),
-        ("visa_clearance", "Visa Clearance Update"),
-        ("blacklist_check", "Blacklist Check Update"),
-        ("immigration_check", "Immigration Check Update"),
-
-        ("police_notification", "Police Notification"),
-        ("psk_notification", "PSK Notification"),
-        ("rpo_notification", "RPO Notification"),
-        ("mea_notification", "MEA Notification"),
-        ("intelligence_notification", "Intelligence Notification"),
-        ("background_verification_notification", "Background Verification Notification"),
-        ("financial_notification", "Financial Notification"),
-        ("immigration_notification", "Immigration Notification"),
+        ("service_created", "Service Created"),
+        ("service_updated", "Service Updated"),
+        ("service_deleted", "Service Deleted"),
+        ("working_hours_updated", "Working Hours Updated"),
+        ("address_added", "Address Added"),
+        ("address_updated", "Address Updated"),
+        ("social_link_added", "Social Link Added"),
+        ("social_link_updated", "Social Link Updated"),
+        ("review_received", "New Review Received"),
+        ("review_replied", "Review Replied"),
+        ("rating_updated", "Rating Updated"),
+        ("verification_pending", "Verification Pending"),
+        ("verification_completed", "Verification Completed"),
+        ("booking_created", "New Booking Created"),
+        ("booking_confirmed", "Booking Confirmed"),
+        ("booking_completed", "Booking Completed"),
+        ("booking_canceled", "Booking Canceled"),
+        ("booking_rescheduled", "Booking Rescheduled"),
+        ("booking_payment_pending", "Booking Payment Pending"),
+        ("booking_payment_success", "Booking Payment Successful"),
+        ("booking_payment_failed", "Booking Payment Failed"),
+        ("booking_refunded", "Booking Refunded"),
+        ("booking_reminder", "Booking Reminder"),
+        ("booking_updated", "Booking Updated"),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications", null=True, blank=True)
@@ -147,7 +147,7 @@ class Notification(models.Model):
     related_model = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
-        recipient = self.user.username if self.user else self.role
+        recipient = self.user.username if self.user else "Unknown"
         return f"{recipient} - {self.get_notification_type_display()} - {self.created_at}"
 
     def mark_as_read(self):

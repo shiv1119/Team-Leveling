@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if messages %}
+        <div class="mb-3 fade-in">
+            {% for message in messages %}
+                {% if message.tags == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {% else %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {% endif %}
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <h2>Upload Images</h2>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label class="form-label">Select Image Category:</label>
+            {{ form.image_category }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select Images:</label>
+            <input type="file" id="fileInput" name="image" class="form-control dark-input" multiple accept="image/*">  
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload</button>
+        <p class="text-muted">Upload service-related images. Allowed formats: JPG, PNG, GIF.</p>
+    </form>
+
+    <h3 class="mt-4">Uploaded Images</h3>
+    <div class="row">
+        {% for image in images %}
+            <div class="col-md-4 mb-3">
+                <div class="card dark-input">
+                    <img src="{{ image.image.url }}" class="card-img-top" alt="Uploaded Image">
+                    <div class="card-body text-center">
+                        <form method="POST" action="{% url 'service_image_delete' service_id=service.id image_id=image.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="bi bi-x"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">No images uploaded yet.</p>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'service_detail' service_id=service.id %}" class="btn btn-success mt-3">Final Review</a>
+</div>
+{% endblock %}

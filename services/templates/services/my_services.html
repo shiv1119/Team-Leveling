@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .dark-mode .table {
+        background-color: #2b2b2b;
+        color: #ffffff !important;
+    }
+    .dark-mode .table tbody tr:hover {
+        background-color: #252525;
+        color: #ffffff;
+    }
+</style>
+<div class="row">
+    <h3 class="mb-4">Offered Services</h3>
+    <a href="{% url 'service_create' %}" class="btn btn-primary col-6 col-md-3 my-3">Add New Service <i class="bi bi-arrow-bar-right"></i></a>
+    <div class="table-responsive">
+        <table class="table table-striped" style="min-width: 100%;">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Discounted Price</th>
+                    <th>Price Type</th>
+                    <th>Service Type</th>
+                    <th>Rating</th>
+                    <th>Availability</th>
+                    <th>Contact</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in services %}
+                <tr>
+                    <td class="text-dark-mode">{{ service.title }}</td>
+                    <td class="text-dark-mode">${{ service.price }}</td>
+                    <td class="text-dark-mode">${{ service.discounted_price }}</td>
+                    <td class="text-dark-mode">{{ service.get_price_type_display }}</td>
+                    <td class="text-dark-mode">
+                        {% for service_type in service.service_types.all %}
+                            <span class="badge bg-primary">{{ service_type.name }}</span>
+                        {% endfor %}
+                    </td>
+                    <td class="text-dark-mode">⭐ {{ service.average_rating|default:"No Ratings" }}</td>
+                    <td class="text-dark-mode">
+                        <form method="POST" action="{% url 'toggle-availability' service.id %}">
+                            {% csrf_token %}
+                            <input type="checkbox" onchange="this.form.submit()" {% if service.is_available %}checked{% endif %}>
+                        </form>
+                    </td>
+                    <td class="text-dark-mode">
+                        {% if service.contact_email %}✉️ {{ service.contact_email }}<br>{% endif %}
+                        {% if service.contact_phone %}📞 {{ service.contact_phone }}{% endif %}
+                    </td>
+                    <td class="text-dark-mode">{{ service.created_at|date:"d M, Y" }}</td>
+                    <td>
+                        <a href="{% url 'service_view' service.id %}" class="text-primary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a href="{% url 'service_detail' service.id %}" class="text-primary">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ service.id }}">
+                            <i class="bi bi-trash"></i>
+                        </a>
+
+                        <div class="modal fade" id="deleteModal{{ service.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-primary">
+                                        <h5 class="modal-title text-light">Confirm Deletion</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete "{{ service.title }}"?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <a href="{% url 'service-delete' service.id %}" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="11" class="text-center text-muted">No services added yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <p class="text-muted">"You can mark any service Unavailable or Available by clicking on checkbox"</p>
+</div>
+{% endblock %}

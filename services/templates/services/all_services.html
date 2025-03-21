@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .card-text {
+        max-width: 100%;
+        overflow: hidden;
+        word-wrap: break-word;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; 
+        -webkit-box-orient: vertical;
+    }
+    .service-card {
+        width: 250px;
+        min-width: 250px;
+        display: inline-block;
+        flex: 0 0 auto;
+    }
+    
+    .scroll-container {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 15px;
+    }
+
+    .see-all-btn {
+        float: right;
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4"><i class="bi bi-list"></i> All Services</h2>
+    <form method="GET" class="mb-4 p-4 border rounded shadow-sm dark-mode-card">
+        <h5 class="mb-3 text-primary"><i class="fas fa-filter"></i> Filter Services</h5>
+    
+        <div class="row">
+            <!-- Price Range -->
+            <div class="col-12 col-sm-6 col-md-3 mb-3">
+                <label class="fw-bold">Price Range:</label>
+                <div class="input-group">
+                    <input type="number" name="min_price" placeholder="Min" class="form-control dark-input"
+                           value="{{ request.GET.min_price }}">
+                    <span class="input-group-text">-</span>
+                    <input type="number" name="max_price" placeholder="Max" class="form-control dark-input"
+                           value="{{ request.GET.max_price }}">
+                </div>
+            </div>
+    
+            <!-- Availability -->
+            <div class="col-12 col-sm-6 col-md-3 mb-3">
+                <label class="fw-bold">Availability:</label>
+                <select name="availability" class="form-select dark-input">
+                    <option value="">All</option>
+                    <option value="available" {% if request.GET.availability == "available" %}selected{% endif %}>Available</option>
+                    <option value="unavailable" {% if request.GET.availability == "unavailable" %}selected{% endif %}>Unavailable</option>
+                </select>
+            </div>
+    
+            <!-- City -->
+            <div class="col-12 col-sm-6 col-md-3 mb-3">
+                <label class="fw-bold">City:</label>
+                <input type="text" name="city" class="form-control dark-input" placeholder="Enter city" value="{{ request.GET.city }}">
+            </div>
+    
+            <!-- Working Day -->
+            <div class="col-12 col-sm-6 col-md-3 mb-3">
+                <label class="fw-bold">Working Day:</label>
+                <select name="working_day" class="form-select dark-input">
+                    <option value="">All</option>
+                    <option value="Monday" {% if request.GET.working_day == "Monday" %}selected{% endif %}>Monday</option>
+                    <option value="Tuesday" {% if request.GET.working_day == "Tuesday" %}selected{% endif %}>Tuesday</option>
+                    <option value="Wednesday" {% if request.GET.working_day == "Wednesday" %}selected{% endif %}>Wednesday</option>
+                    <option value="Thursday" {% if request.GET.working_day == "Thursday" %}selected{% endif %}>Thursday</option>
+                    <option value="Friday" {% if request.GET.working_day == "Friday" %}selected{% endif %}>Friday</option>
+                    <option value="Saturday" {% if request.GET.working_day == "Saturday" %}selected{% endif %}>Saturday</option>
+                    <option value="Sunday" {% if request.GET.working_day == "Sunday" %}selected{% endif %}>Sunday</option>
+                </select>
+            </div>
+        </div>
+    
+        <div class="row">
+            <!-- Start Time -->
+            <div class="col-12 col-sm-6 col-md-3 mb-3">
+                <label class="fw-bold">Start Time:</label>
+                <input type="time" name="start_time" class="form-control dark-input" value="{{ request.GET.start_time }}">
+            </div>
+    
+            <!-- End Time -->
+            <div class="col-12 col-sm-6 col-md-3 mb-3">
+                <label class="fw-bold">End Time:</label>
+                <input type="time" name="end_time" class="form-control dark-input" value="{{ request.GET.end_time }}">
+            </div>
+    
+            <!-- Ratings -->
+            <div class="col-12 col-sm-6 col-md-3 mb-3">
+                <label class="fw-bold">Ratings:</label>
+                <select name="ratings" class="form-select dark-input">
+                    <option value="">All</option>
+                    <option value="5" {% if request.GET.ratings == "5" %}selected{% endif %}>⭐⭐⭐⭐⭐ (5 Stars)</option>
+                    <option value="4" {% if request.GET.ratings == "4" %}selected{% endif %}>⭐⭐⭐⭐☆ (4 Stars & Up)</option>
+                    <option value="3" {% if request.GET.ratings == "3" %}selected{% endif %}>⭐⭐⭐☆☆ (3 Stars & Up)</option>
+                    <option value="2" {% if request.GET.ratings == "2" %}selected{% endif %}>⭐⭐☆☆☆ (2 Stars & Up)</option>
+                    <option value="1" {% if request.GET.ratings == "1" %}selected{% endif %}>⭐☆☆☆☆ (1 Star & Up)</option>
+                </select>
+            </div>
+    
+            <!-- Buttons -->
+            <div class="col-12 col-sm-6 col-md-3 d-flex align-items-end mb-3">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> Apply Filters
+                </button>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 d-flex align-items-end mb-3">
+                <a href="{% url 'all_services' %}" class="btn btn-outline-secondary w-100">
+                    <i class="fas fa-sync-alt"></i> Reset Filters
+                </a>
+            </div>
+        </div>
+    </form>
+    
+    {% for service_type, services in categorized_services.items %}
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="mt-4 mb-2"><i class="bi bi-folder-fill"></i> {{ service_type }}</h3>
+            <a href="{% if service_type.id %}{% url 'filtered_services' service_type.id %}{% else %}#{% endif %}" 
+            class="btn btn-outline-primary see-all-btn">
+                See All <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+        <div class="horizontal-scroll">
+            <div class="scroll-container">
+                {% for service in services %}
+                    <div class="card service-card dark-mode-card">
+                        <div id="carousel-{{ service.id }}" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for image in service.images.all %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ service.title }}">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ service.id }}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ service.id }}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            </button>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate" title="{{ service.title }}">{{ service.title }}</h5>
+                            <p class="card-text" title="{{ service.description }}">
+                                {{ service.description }}
+                            </p>
+                            {% if service.discount %}
+                                <p class="card-price">
+                                    <span class="text-danger"><del>₹{{ service.price }}</del></span>
+                                    <strong class="text-success">₹{{ service.discounted_price }}</strong>
+                                    <span class="badge bg-warning">{{ service.discount|floatformat:0 }}% OFF</span>
+                                </p>
+                            {% else %}
+                                <p class="card-price"><strong>₹{{ service.price }}</strong></p>
+                            {% endif %}
+                            <p>⭐ {{ service.avg_rating|floatformat:1 }} ({{ service.feedback_count }} reviews)</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'service_view' service.id %}" class="btn btn-primary">
+                                    View <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{% url 'book_service' service.id %}" class="btn btn-success">
+                                    Book <i class="bi bi-calendar-check"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No services available.</p>
+    {% endfor %}
+</div>
+
+<style>
+    .horizontal-scroll {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 15px;
+    }
+    
+    .scroll-container {
+        display: flex;
+        gap: 10px;
+    }
+
+    .service-card {
+        width: 250px;
+        display: inline-block;
+    }
+
+    .service-card img {
+        height: 150px;
+        object-fit: cover;
+    }
+
+    .card-title, .card-text {
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .card-price {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}

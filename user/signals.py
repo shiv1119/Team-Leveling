@@ -95,7 +95,6 @@ def extract_model_from_ua(user_agent_string):
 
 @receiver(user_logged_in)
 def log_login(sender, request, user, **kwargs):
-    """Log user login details, including IP, location, and device info."""
     ip = get_client_ip(request)
     user_agent_str = request.META.get("HTTP_USER_AGENT", "")
     user_agent = user_agents.parse(user_agent_str)

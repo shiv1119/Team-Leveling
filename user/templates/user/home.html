@@ -1,7 +1,536 @@
 {% extends 'base.html' %}
+{% load static %}
 
+{% block hero %}
+<style>
+    .video-container-unique {
+        position: relative;
+        width: 100%;
+        height: 90vh;
+        overflow: hidden;
+    }
+    
+    .video-container-unique video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(60%);
+    }
+    
+    .overlay-content-unique {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-family: 'Poppins', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        animation: fadeIn-unique 2s ease-in-out;
+        z-index: 2; 
+    }
+    
+    .overlay-content-unique h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        color: white;
+        padding: 10px 20px;
+        display: inline-block;
+        border-radius: 10px;
+        text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.7);
+    }
+    
+    .overlay-content-unique p {
+        font-size: 1.3rem;
+        font-weight: 500;
+        color: white;
+        padding: 5px 15px;
+        display: inline-block;
+        border-radius: 10px;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    .btn-custom-unique {
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 30px;
+        text-decoration: none;
+        border: 2px solid white;
+        color: white;
+        background: transparent;
+        transition: all 0.3s ease-in-out;
+        display: inline-block;
+        margin: 10px;
+    }
+    
+    .btn-custom-unique:hover {
+        background: white;
+        color: black;
+    }
+    @media (max-width: 992px) { 
+        .overlay-content-unique h1 {
+            font-size: 3rem;
+            padding: 8px 15px;
+        }
+    
+        .overlay-content-unique p {
+            font-size: 1.1rem;
+            padding: 4px 12px;
+        }
+    
+        .btn-custom-unique {
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 768px) { 
+        .overlay-content-unique h1 {
+            font-size: 2.5rem;
+            padding: 6px 12px;
+        }
+    
+        .overlay-content-unique p {
+            font-size: 1rem;
+            padding: 3px 10px;
+        }
+    
+        .btn-custom-unique {
+            padding: 8px 18px;
+            font-size: 0.9rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .overlay-content-unique h1 {
+            font-size: 2rem;
+            padding: 5px 10px;
+        }
+    
+        .overlay-content-unique p {
+            font-size: 0.9rem;
+            padding: 2px 8px;
+        }
+    
+        .btn-custom-unique {
+            padding: 7px 15px;
+            font-size: 0.85rem;
+        }
+    }
+    
+    @keyframes fadeIn-unique {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -55%);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+    }
+    
+</style>
+
+<div class="video-container-unique">
+    <div class="video-overlay"></div> <!-- Gradient overlay -->
+    <video autoplay loop muted>
+        <source src="{% static 'video/animation-n.mp4' %}" type="video/mp4">
+    </video>
+
+    <div class="overlay-content-unique">
+        {% if messages %}
+            <div class="mb-3 fade-in">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <h1>Find Trusted Service Providers Near You</h1>
+        <p>Discover a wide range of services, book instantly, and connect with professionals for your needs.</p>
+
+        <br>
+        <a href="{% url 'service_create' %}" class="btn btn-custom-unique">Become a Service Provider</a>
+        <a href="{% url 'all_services' %}" class="btn btn-custom-unique">Browse Services</a>
+    </div>
+</div>
+
+{% endblock %}
+{% block benefits %}
+<style>
+.service-benefits {
+    background-color: #f9fafb;
+    padding: 100px 0;
+}
+.dark-mode .service-benefits{
+    background-color:rgb(20, 20, 20);
+}
+  
+.service-benefits-heading {
+    font-size: 2.25rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+  
+.benefit-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease-in-out;
+}
+  
+.benefit-item:hover {
+    transform: translateY(-10px);
+}
+  
+.icon-circle {
+    background-color: #3498db;
+    padding: 20px; /* Adjust padding to control the size */
+    border-radius: 50%; 
+    margin-right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px; /* Set a fixed width */
+    height: 80px; /* Set a fixed height to make it round */
+}
+
+.benefit-icon {
+    font-size: 2rem; /* Increased icon size */
+    color: white;
+}
+  
+.service-benefit-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+  
+.service-benefits p {
+    color: #7f8c8d;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+  
+.text-primary {
+    color: #3498db !important;
+}
+
+@media (max-width: 767px) {
+    .service-benefits {
+        padding: 100px 0;
+    }
+    
+    .service-benefits-heading {
+        font-size: 1.75rem;
+    }
+    
+    .benefit-item {
+        display: block;
+        text-align: center;
+    }
+  
+    .icon-circle {
+        background-color: #3498db;
+        padding: 20px;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 80px; 
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+  
+    .benefit-item h5, .benefit-item p {
+        text-align: center;
+    }
+}
+  
+</style>
+<section class="service-benefits">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mb-4 mb-md-0 fade-in">
+          <h4 class="service-benefits-heading text-center mb-4">For Service Providers</h4>
+          <ul class="list-unstyled">
+            <li class="benefit-item">
+              <div class="icon-circle">
+                <i class="bi bi-megaphone-fill benefit-icon"></i>
+              </div>
+              <h5 class="service-benefit-title">Attract More Clients</h5>
+              <p>Showcase your skills and grow your client base with ease.</p>
+            </li>
+            <li class="benefit-item">
+              <div class="icon-circle">
+                <i class="bi bi-calendar-check-fill benefit-icon"></i>
+              </div>
+              <h5 class="service-benefit-title">Easy Service Management</h5>
+              <p>Manage your bookings, services, and appointments effortlessly.</p>
+            </li>
+            <li class="benefit-item">
+              <div class="icon-circle">
+                <i class="bi bi-lock-fill benefit-icon"></i>
+              </div>
+              <h5 class="service-benefit-title">Secure Payments</h5>
+              <p>Receive payments securely and on time, every time.</p>
+            </li>
+          </ul>
+        </div>
+  
+        <!-- For Customers -->
+        <div class="col-md-6 fade-in">
+          <h4 class="service-benefits-heading text-center mb-4">For Customers</h4>
+          <ul class="list-unstyled">
+            <li class="benefit-item">
+              <div class="icon-circle">
+                <i class="bi bi-star-fill benefit-icon"></i>
+              </div>
+              <h5 class="service-benefit-title">Find Top-Rated Professionals</h5>
+              <p>Choose from highly rated service providers based on reviews.</p>
+            </li>
+            <li class="benefit-item">
+              <div class="icon-circle">
+                <i class="bi bi-phone-fill benefit-icon"></i>
+              </div>
+              <h5 class="service-benefit-title">Book Services with Ease</h5>
+              <p>Book services in just a few clicks—quick, easy, and hassle-free.</p>
+            </li>
+            <li class="benefit-item">
+              <div class="icon-circle">
+                <i class="bi bi-shield-lock-fill benefit-icon"></i>
+              </div>
+              <h5 class="service-benefit-title">Safe & Secure Transactions</h5>
+              <p>Enjoy a seamless, safe, and secure payment experience.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block featured %}
+<style>
+    #featured-services .card {
+        border-radius: 15px; 
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+        overflow: hidden;
+    }
+    
+    #featured-services .card-img-top {
+        height: 250px;
+        object-fit: cover; 
+    }
+    
+    #featured-services .card-body {
+        padding: 1.5rem;
+    }
+
+</style>
+<section id="featured-services" class="container my-5">
+    <h2 class="text-center mb-5 fade-in">Featured Services and Categories</h2>
+    <div class="row mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm rounded-lg fade-in dark-mode-card">
+                <img src="{% static 'img/health-new.png' %}" class="card-img-top rounded-top" alt="Health & Wellness">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-uppercase">Health & Wellness</h5>
+                    <p class="card-text">Explore services for your health and well-being.</p>
+                    <a href="{% url 'all_services' %}" class="btn btn-primary">Browse Services</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm rounded-lg fade-in dark-mode-card">
+                <img src="{% static 'img/home-imp.jpg' %}" class="card-img-top rounded-top" alt="Home Improvement">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-uppercase">Home Improvement</h5>
+                    <p class="card-text">Find experts to enhance your living space.</p>
+                    <a href="{% url 'all_services' %}" class="btn btn-primary">Browse Services</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm rounded-lg fade-in dark-mode-card">
+                <img src="{% static 'img/beauty.jpg' %}" class="card-img-top rounded-top" alt="Beauty">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-uppercase">Beauty</h5>
+                    <p class="card-text">Book beauty services with professional providers.</p>
+                    <a href="{% url 'all_services' %}" class="btn btn-primary">Browse Services</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock featured %}
+
+
+{% block steps %}
+<div class="my-5 py-5 how-it-works px-3">
+    <h2 class="text-center mb-5">How It Works</h2>
+    
+    <div class="row justify-content-center g-4">
+        <div class="col-lg-3 col-md-6 col-sm-12 d-flex fade-in">
+            <div class="step-box text-center w-100 dark-mode-card">
+                <div class="step-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h4 class="mt-3">Search for Services</h4>
+                <p>Find the best service providers near you.</p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12 d-flex fade-in">
+            <div class="step-box text-center w-100 dark-mode-card">
+                <div class="step-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <h4 class="mt-3">Choose a Provider</h4>
+                <p>Compare and select the right expert.</p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12 d-flex fade-in">
+            <div class="step-box text-center w-100 dark-mode-card">
+                <div class="step-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h4 class="mt-3">Book & Pay</h4>
+                <p>Schedule the service and make secure payments.</p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12 d-flex fade-in">
+            <div class="step-box text-center w-100 dark-mode-card">
+                <div class="step-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h4 class="mt-3">Rate & Review</h4>
+                <p>Share your experience to help others.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .how-it-works {
+        background-color: #f9fafb;
+    }
+    .dark-mode .how-it-works{
+        background-color:rgb(20, 20, 20);
+    }
+    .how-it-works .step-box {
+        padding: 20px;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 230px;
+    }
+
+    .how-it-works .step-box:hover {
+        transform: translateY(-10px);
+    }
+
+    .how-it-works .step-icon {
+        font-size: 40px;
+        color: var(--bs-primary);
+    }
+
+    .how-it-works .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+</style>
+{% endblock steps %}
 
 {% block content %}
-    hello
+<style>
+    .testimonial-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px 0;
+    }
+    .testimonial-item {
+        max-width: 600px;
+        width: 100%;
+    }
+    .star-rating i {
+        color: gold;
+    }
+    .banner-img {
+        width: 100%;
+        height: 700px;
+        object-fit: cover;
+    }
+</style>
+
+<div>
+    <h2 class="text-center mb-4">What Our Users Say</h2>
+    <div class="testimonial-row">
+        {% for testimonial in testimonials %}
+        <div class="testimonial-item">
+            <div class="d-flex align-items-center mb-2">
+                <a href="{% url 'user-profile-detail' pk=testimonial.user.user_profile.id %}">
+                    {% if testimonial.user.user_profile.profile_photo %}
+                        <img src="{{ testimonial.user.user_profile.profile_photo.url }}" class="rounded-circle me-2" width="40">
+                    {% else %}
+                        <img src="{% static 'img/profile.png' %}" class="rounded-circle me-2" width="40">
+                    {% endif %}
+                </a>
+                <h6 class="fw-bold mb-0">{{ testimonial.user.user_profile.full_name|default:testimonial.user.username }}</h6>
+            </div>
+            <p class="text-muted">"{{ testimonial.feedback }}"</p>
+            <div class="star-rating">
+                {% for i in "12345"|make_list %}
+                    {% if forloop.counter <= testimonial.rating %}
+                        <i class="bi bi-star-fill"></i>
+                    {% else %}
+                        <i class="bi bi-star"></i>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-muted">No testimonials yet.</p>
+        {% endfor %}
+    </div>
+</div>
+<div class="mt-4">
+    <h2 class="text-center mb-4">Services Across Globe</h2>
+    <p class="text-center text-muted">
+        Our platform connects users with top-rated service providers across the globe. 
+        Whether you're looking for local professionals or international experts, we ensure seamless service delivery. 
+        From home services to business solutions, our network spans multiple countries, bringing you trusted services wherever you are.
+    </p>
+</div>
+
 {% endblock content %}
-    
+{% block banner %}
+<div>
+    <img src="{% static 'img/23322.jpg' %}" class="w-100 banner-img" alt="Profile">
+</div>
+{% endblock banner %}
+
+

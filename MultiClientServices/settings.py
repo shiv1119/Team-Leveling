@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap5',
     'user',
+    'services'
 ]
 
 MIDDLEWARE = [
@@ -74,9 +75,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MultiClientServices.wsgi.application'
 
+RAZORPAY_KEY_ID = "hue hue key id"
+RAZORPAY_KEY_SECRET = "hue hue key secret"
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+DOMAIN = "http://127.0.0.1:8000"
 
 DATABASES = {
     'default': {

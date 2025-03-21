@@ -22,5 +22,7 @@ urlpatterns = [
     path('settings/account/', AccountManagementView.as_view(), name='account_settings'),
     path('settings/account/delete/', DeleteAccountView.as_view(), name='delete_account'),
     path("faq/", FAQView.as_view(), name="faq"),
+    path("search/", GlobalSearchView.as_view(), name="global_search"),
+    path("activate/<uidb64>/<token>/", ActivateAccountView.as_view(), name="activate"),
 ]
 

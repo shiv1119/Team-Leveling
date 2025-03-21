@@ -2,8 +2,9 @@ from django import forms
 from django.forms import ModelForm
 from .models import *
 from django.contrib.auth.models import User
+import re
 
-class SignupForm(ModelForm):
+class SignupForm(forms.ModelForm):
     password1 = forms.CharField(
         label="Password", 
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter password'})
@@ -28,28 +29,45 @@ class SignupForm(ModelForm):
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
 
+        # Username check
         if User.objects.filter(username=username).exists():
             self.add_error("username", "Username is already taken.")
         
+        # Email check
         if User.objects.filter(email=email).exists():
             self.add_error("email", "Email is already registered.")
         
-        if password1 and password2 and password1 != password2:
-            self.add_error("password2", "Passwords do not match.")
+        # Password checks
+        if password1 and password2:
+            if password1 != password2:
+                self.add_error("password2", "Passwords do not match.")
+            
+            # Strong password validation using regex
+            if len(password1) < 6:
+                self.add_error("password1", "Password must be at least 6 characters long.")
+            if not re.search(r"[A-Z]", password1):
+                self.add_error("password1", "Password must contain at least one uppercase letter.")
+            if not re.search(r"\d", password1):
+                self.add_error("password1", "Password must contain at least one number.")
+            if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password1):
+                self.add_error("password1", "Password must contain at least one special character.")
 
         return cleaned_data
-
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['full_name', 'phone', 'date_of_birth', 'gender', 'address', 'profile_photo']
+        fields = ['full_name', 'phone', 'date_of_birth', 'gender', 'address', 'city', 'state', 'zip_code', 'country', 'profile_photo']
         widgets = {
             'full_name': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter full name'}),
             'phone': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter phone number'}),
             'date_of_birth': forms.DateInput(attrs={'class': 'form-control dark-input', 'type': 'date'}),
             'gender': forms.Select(attrs={'class': 'form-select dark-input'}),
             'address': forms.Textarea(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter address', 'rows': 3}),
+            'city': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter city'}),
+            'state': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter state'}),
+            'zip_code': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter zip code'}),
+            'country': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter country'}),
             'profile_photo': forms.FileInput(attrs={'class': 'form-control dark-input'}),
         }
 
@@ -57,7 +75,6 @@ class UserProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.required = True
-
 
 class ContactUsForm(forms.ModelForm):
     class Meta:
@@ -75,4 +92,5 @@ class NotificationPreferencesForm(forms.ModelForm):
     class Meta:
         model = NotificationPreferences
         fields = ['email_notifications', 'sms_notifications', 'push_notifications', 'in_app_notification']
+
 
