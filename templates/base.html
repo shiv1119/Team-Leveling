@@ -26,6 +26,11 @@
         .custom-background{
             background-color: rgb(248, 248, 248) !important;
         }
+        .dark-mode .search-button{
+            background-color: #222 !important;
+            color: #ddd;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -35,7 +40,9 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+            <button class="btn btn-light d-lg-none search-button" data-bs-toggle="collapse" data-bs-target="#mobileSearch" style="margin-left: 10px;">
+                <i class="bi bi-search"></i>
+            </button>
             <a class="navbar-brand" href="/">ServiceSphere</a>
             <div class="d-flex align-items-center ms-auto d-lg-none">
                 <i class="bi bi-moon dark-mode-toggle me-2" style="cursor:pointer;"></i>
@@ -92,36 +99,42 @@
                 <ul class="navbar-nav ms-3 me-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link d-flex align-items-center" href="/" role="button">
-                            <i class="bi bi-house-fill me-2"></i> Home
+                            Home
                         </a>                        
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link d-flex align-items-center" href="" role="button">
-                            <i class="bi bi-passport me-2"></i> Test
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="{% url 'my_booked_services' %}" role="button">
+                            Booked Services
                         </a>                        
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Women</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Submenu 1</a></li>
-                            <li><a class="dropdown-item" href="#">Submenu 2</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Men</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Submenu 1</a></li>
-                            <li><a class="dropdown-item" href="#">Submenu 2</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Accessories</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Submenu 1</a></li>
-                            <li><a class="dropdown-item" href="#">Submenu 2</a></li>
-                        </ul>
-                    </li>
+                    
+                    {% if request.user.is_authenticated and request.user.user_profile.role == "service_provider" %}
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="{% url 'my-services' %}" role="button">
+                                Offered Services
+                            </a>                        
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="{% url 'booking_list' %}" role="button">
+                                Received Bookings
+                            </a>                        
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="{% url 'dashboard' %}" role="button">
+                                Dashboard
+                            </a>                        
+                        </li>
+                    {% endif %}
                 </ul>
+                <div class="search-container d-none d-lg-flex me-3">
+                    <form method="GET" action="{% url 'global_search' %}" class="w-100 position-relative">
+                        <input class="form-control search-bar dark-input pe-5" type="search" name="q" placeholder="Search..." aria-label="Search" required>
+                        <button type="submit" class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0">
+                            <i class="bi bi-search search-icon"></i>
+                        </button>
+                    </form>
+                </div>
+                
             </div>
 
             <div class="d-none d-lg-flex align-items-center">
@@ -161,12 +174,45 @@
         </div>
     </nav>
 
+<div class="collapse" id="mobileSearch">
+    <div class="d-flex justify-content-center p-2">
+        <div class="search-container" style="width: 80%; max-width: 400px;">
+            <form method="GET" action="{% url 'global_search' %}" class="position-relative">
+                <input class="form-control search-bar dark-input pe-5" type="search" name="q" placeholder="Search..." aria-label="Search" required>
+                <button type="submit" class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0 text-dark-mode">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+    <div>
+        {% block hero %}
+        {% endblock %}
+    </div>
+
+    <div>
+        {% block benefits %}
+        {% endblock %}
+    </div>
+
+    <div>
+        {% block featured %}
+        {% endblock %}
+    </div>
+    <div>
+        {% block steps %}
+        {% endblock %}
+    </div>
+
     <div class="content my-4">
         {% block content %}
         {% endblock %}
     </div>
-
-
+    {% block banner %}
+    {% endblock banner %}
     <button id="backToTop" class="btn btn-primary">
         <i class="bi bi-chevron-up"></i>
     </button>
@@ -203,12 +249,12 @@
     
             window.addEventListener("scroll", function () {
                 if (window.scrollY > 200) {
-                    backToTopBtn.style.display = "flex"; // Ensure it's visible
+                    backToTopBtn.style.display = "flex"; 
                     backToTopBtn.classList.add("show");
                 } else {
                     backToTopBtn.classList.remove("show");
                     setTimeout(() => {
-                        backToTopBtn.style.display = "none"; // Hide after animation
+                        backToTopBtn.style.display = "none";
                     }, 300);
                 }
             });

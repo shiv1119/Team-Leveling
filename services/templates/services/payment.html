@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Payment for {{ booking.service.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if messages %}
+    <div class="mb-3 fade-in">
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {% else %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {% endif %}
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded dark-mode-card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Complete Your Payment</h4>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="mb-3">{{ booking.service.title }}</h5>
+                    <p class="text-muted">Service Provider: <strong>{{ booking.service.user.username }}</strong></p>
+                    <p>Total Amount: <strong>₹{{ booking.total_amount }}</strong></p>
+
+                    <form action="{% url 'payment_success' %}" method="POST">
+                        {% csrf_token %}
+                        <script
+                            src="https://checkout.razorpay.com/v1/checkout.js"
+                            data-key="{{ razorpay_key }}"
+                            data-amount="{{ amount }}"
+                            data-currency="INR"
+                            data-order_id="{{ booking.razorpay_order_id }}"
+                            data-buttontext="Pay Now"
+                            data-name="Service Booking"
+                            data-description="Payment for Booking"
+                            data-theme.color="#007bff">
+                        </script>
+                    </form>
+
+                    <p class="mt-3 text-muted">You will be redirected after payment completion.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

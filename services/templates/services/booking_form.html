@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if messages %}
+        <div class="mb-3 fade-in">
+            {% for message in messages %}
+                {% if message.tags == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {% else %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {% endif %}
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <h2>Book Service: {{ service.title }}</h2>
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="{{ form.selected_service_type.id_for_label }}" class="form-label">Select Service Type</label>
+            {{ form.selected_service_type }}
+        </div>
+
+        <div id="address-fields" style="display: none;">
+            <div class="mb-3">
+                <label for="{{ form.address.id_for_label }}" class="form-label">Address</label>
+                {{ form.address }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.city.id_for_label }}" class="form-label">City</label>
+                {{ form.city }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.pincode.id_for_label }}" class="form-label">Pincode</label>
+                {{ form.pincode }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.booking_date.id_for_label }}" class="form-label">Booking Date</label>
+            {{ form.booking_date }}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.start_time.id_for_label }}" class="form-label">Start Time</label>
+            {{ form.start_time }}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.end_time.id_for_label }}" class="form-label">End Time</label>
+            {{ form.end_time }}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.notes.id_for_label }}" class="form-label">Notes</label>
+            {{ form.notes }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Book Now</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const serviceTypeSelect = document.getElementById("service_type");
+        const addressFields = document.getElementById("address-fields");
+
+        function toggleAddressFields() {
+            const selectedOption = serviceTypeSelect.options[serviceTypeSelect.selectedIndex].text.toLowerCase();
+            if (selectedOption === "home") {
+                addressFields.style.display = "block";
+            } else {
+                addressFields.style.display = "none";
+            }
+        }
+
+        serviceTypeSelect.addEventListener("change", toggleAddressFields);
+        toggleAddressFields();  // Run on page load in case of form resubmission
+    });
+</script>
+{% endblock %}

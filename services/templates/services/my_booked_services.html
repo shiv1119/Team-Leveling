@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mt-4">
+    {% if messages %}
+    <div class="mb-3 fade-in">
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {% else %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {% endif %}
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+    <h2 class="mb-3">Booked Services</h2>
+
+    {% if bookings %}
+    <div class="table-responsive" style="overflow-x: auto;">
+        <table class="table table-bordered table-hover text-nowrap">
+            <thead class="thead-dark">
+                <tr>
+                    <th><i class="bi bi-briefcase-fill"></i> Service</th>
+                    <th><i class="bi bi-layers-fill"></i> Service Type</th>
+                    <th><i class="bi bi-person-fill"></i> Booked By</th>
+                    <th><i class="bi bi-calendar-check-fill"></i> Date</th>
+                    <th><i class="bi bi-clock-fill"></i> Time</th>
+                    <th><i class="bi bi-info-circle-fill"></i> Status</th>
+                    <th><i class="bi bi-currency-rupee"></i> Amount</th>
+                    <th><i class="bi bi-credit-card-fill"></i> Payment</th>
+                    <th><i class="bi bi-gear-fill"></i> Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>
+                        <strong>{{ booking.service.title }}</strong><br>
+                        <small class="text-muted">{{ booking.service.description|truncatewords:10 }}</small>
+                    </td>
+                    <td>{% for service_type in booking.service.service_types.all %}
+                        <span class="badge bg-primary">{{ service_type.name }}</span>
+                    {% endfor %}</td>
+                    <td>
+                        <strong>{{ booking.user.get_full_name|default:booking.user.username }}</strong><br>
+                        <small class="text-muted">{{ booking.user.email }}</small>
+                    </td>
+                    <td>{{ booking.booking_date }}</td>
+                    <td>{{ booking.start_time }} - {{ booking.end_time }}</td>
+                    <td>
+                        <span class="badge bg-{% if booking.status == 'confirmed' %}success
+                                                {% elif booking.status == 'pending' %}warning
+                                                {% elif booking.status == 'completed' %}primary
+                                                {% elif booking.status == 'canceled' %}danger
+                                                {% else %}secondary{% endif %} rounded-pill px-3 py-2">
+                            <i class="bi bi-info-circle-fill"></i> {{ booking.get_status_display }}
+                        </span>
+                    </td>
+                    <td>₹{{ booking.total_amount }}</td>
+                    <td>
+                        <span class="badge bg-{% if booking.payment_status == 'paid' %}success
+                                                {% elif booking.payment_status == 'pending' %}warning
+                                                {% elif booking.payment_status == 'failed' %}danger
+                                                {% elif booking.payment_status == 'refunded' %}primary
+                                                {% else %}secondary{% endif %} rounded-pill px-3 py-2">
+                            <i class="bi bi-wallet-fill"></i> {{ booking.get_payment_status_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'booking_detail' booking.id %}" class="btn btn-info btn-sm"><i class="bi bi-eye-fill"></i> View</a>
+                        {% if booking.status == 'pending' %}
+                            <form action="{% url 'cancel_booking' booking.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-x-circle-fill"></i> Cancel
+                                </button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        No bookings found. <a href="{% url 'all_services' %}" class="alert-link">Browse services</a> to book.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    {% if messages %}
+    <div class="mb-3 fade-in">
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {% else %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {% endif %}
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+    {% if service_images %}
+    <div id="serviceCarousel" class="carousel slide shadow-sm border-0 rounded mb-4" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for image in service_images %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ image.image.url }}" class="d-block w-100 rounded" alt="Service Image">
+            </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#serviceCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#serviceCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    {% endif %}
+
+    <h2 class="text-center mb-4"><i class="bi bi-gear-fill"></i> Service Details</h2>
+
+    <div class="card shadow-sm border-0 mb-4 dark-mode-card">
+        <div class="card-header bg-primary text-white">
+            <i class="bi bi-info-circle-fill"></i> General Information
+        </div>
+        <div class="card-body">
+            <p><strong><i class="bi bi-card-text"></i> Service Title:</strong> {{ service.title }}</p>
+            <p><strong><i class="bi bi-file-text-fill"></i> Description:</strong> {{ service.description }}</p>
+            <p><strong><i class="bi bi-tag-fill"></i> Price:</strong> ${{ service.price }}</p>
+            <p><strong><i class="bi bi-cash-stack"></i> Price Type:</strong> {{ service.get_price_type_display }}</p>
+            <p><strong><i class="bi bi-percent"></i> Discount:</strong> {{ service.discount }}%</p>
+            <p><strong><i class="bi bi-shield-lock"></i> Cancellation Policy:</strong> {{ service.get_cancellation_policy_display }}</p>
+            <p><strong><i class="bi bi-star-fill text-warning"></i> Rating:</strong> {{ service.rating }} ({{ service.review_count }} reviews)</p>
+        </div>
+    </div>
+
+    <!-- Working Hours Section -->
+    <div class="card shadow-sm border-0 mb-4 dark-mode-card">
+        <div class="card-header bg-success text-white">
+            <i class="bi bi-clock-fill"></i> Working Hours
+        </div>
+        <div class="card-body">
+            {% if working_hours %}
+                <ul class="list-group">
+                    {% for hour in working_hours %}
+                        <li class="list-group-item"><strong>{{ hour.day }}</strong>: {{ hour.open_time }} - {{ hour.close_time }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">No working hours available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Address Details Section -->
+    <div class="card shadow-sm border-0 mb-4 dark-mode-card">
+        <div class="card-header bg-dark text-white">
+            <i class="bi bi-geo-alt-fill"></i> Address Details
+        </div>
+        <div class="card-body">
+            {% if address_details %}
+                <p><i class="bi bi-house-door-fill"></i> <strong>Street:</strong> {{ address_details.street_address }}</p>
+                <p><i class="bi bi-signpost-split-fill"></i> <strong>Landmark:</strong> {{ address_details.landmark }}</p>
+                <p><i class="bi bi-buildings"></i> <strong>City:</strong> {{ address_details.city }}</p>
+                <p><i class="bi bi-map"></i> <strong>State:</strong> {{ address_details.state }}</p>
+                <p><i class="bi bi-globe"></i> <strong>Country:</strong> {{ address_details.country }}</p>
+                <p><i class="bi bi-envelope"></i> <strong>Postal Code:</strong> {{ address_details.postal_code }}</p>
+                <p><i class="bi bi-geo-fill"></i> <strong>Coordinates:</strong> {{ address_details.latitude }}, {{ address_details.longitude }}</p>
+                <p><i class="bi bi-map-fill"></i> <strong>Google Maps:</strong> 
+                    <a href="{{ address_details.google_maps_url }}" target="_blank" class="text-primary">
+                        <i class="bi bi-link-45deg"></i> View on Google Maps
+                    </a>
+                </p>
+            {% else %}
+                <p class="text-muted">No address details available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Social Media Links Section -->
+    <div class="card shadow-sm border-0 mb-4 dark-mode-card">
+        <div class="card-header bg-info text-white">
+            <i class="bi bi-share-fill"></i> Social Media Links
+        </div>
+        <div class="card-body">
+            {% if social_links %}
+                <ul class="list-group">
+                    {% for link in social_links %}
+                        <li class="list-group-item">
+                            <i class="bi bi-globe2"></i> <strong>{{ link.platform }}:</strong> 
+                            <a href="{{ link.url }}" target="_blank" class="text-primary">{{ link.url }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">No social media links available.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card border-0 shadow-sm rounded-3 dark-mode-card">
+        <div class="card-header text-center bg-primary text-white rounded-top">
+            <h5 class="mb-0">Share Your Feedback</h5>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Rating</label>
+                    <select name="rating" class="form-select border rounded-3 dark-input">
+                        <option value="1">⭐ 1 - Poor</option>
+                        <option value="2">⭐⭐ 2 - Fair</option>
+                        <option value="3">⭐⭐⭐ 3 - Good</option>
+                        <option value="4">⭐⭐⭐⭐ 4 - Very Good</option>
+                        <option value="5">⭐⭐⭐⭐⭐ 5 - Excellent</option>
+                    </select>
+                </div>
+    
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Title</label>
+                    <input type="text" name="title" class="form-control border rounded-3 dark-input" placeholder="Enter a title">
+                </div>
+    
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Comment</label>
+                    <textarea name="comment" class="form-control border rounded-3 dark-input" rows="4" placeholder="Write your feedback..."></textarea>
+                </div>
+    
+                <button type="submit" class="btn btn-primary w-100 fw-bold">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+    
+    
+    <div class="card shadow-sm border-0 mb-4 dark-mode-card">
+        <div class="card-header bg-warning text-white">
+            <i class="bi bi-chat-left-text-fill"></i> Customer Feedback
+        </div>
+        <div class="card-body">
+            {% if feedbacks %}
+                <ul class="list-group">
+                    {% for feedback in feedbacks %}
+                        <li class="list-group-item">
+                            <strong><i class="bi bi-person-fill"></i> {{ feedback.user.username }}</strong>
+                            <br>
+                            <span class="text-warning">
+                                {% for _ in ""|rjust:feedback.rating %}★{% endfor %}
+                            </span>
+                            <p>{{ feedback.comment }}</p>
+                            <small class="text-muted"><i class="bi bi-clock"></i> {{ feedback.created_at }}</small>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">No feedback available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'home' %}" class="btn btn-primary btn shadow">
+            <i class="bi bi-house-door-fill"></i> Home
+        </a>
+        <a href="{% url 'dashboard' %}" class="btn btn-dark btn shadow">
+            <i class="bi bi-columns-gap"></i> Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}
