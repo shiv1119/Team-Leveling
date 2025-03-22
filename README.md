@@ -1,123 +1,73 @@
+# 🌐 Service Sphere
 
-Project Video Link - https://drive.google.com/file/d/1BcdqpYm3tIkvyUZ4fCE418QETPQKPSwg/view?usp=sharing
+### 🔗 **Project Video**:  
+[![Watch Video](https://img.shields.io/badge/🎥%20Watch%20Video-Click%20Here-red)](https://drive.google.com/file/d/1BcdqpYm3tIkvyUZ4fCE418QETPQKPSwg/view?usp=sharing)
 
+---
 
-
-<div align="center" id="top"> 
-  <img src="./.github/app.gif" alt="Team-Leveling" />
+<div align="center">
+  <img src="./.github/service-sphere-banner.png" alt="Service Sphere" width="80%" />
 
   &#xa0;
 
-  <!-- <a href="https://bloggingwebsite.netlify.app">Demo</a> -->
+  <a href="https://yourwebsite.com">🔗 Live Demo</a>
 </div>
 
-<h1 align="center">Team-Leveling</h1>
+## 🚀 Introduction
 
-<p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/shiv1119/Team-Leveling?color=56BEB8">
+**Service Sphere** is a multi-client service platform that allows businesses to showcase their services efficiently. It provides an intuitive interface for service providers to list their services and for users to book them seamlessly.
 
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/shiv1119/Team-Leveling?color=56BEB8">
+## ✨ Features
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/shiv1119/Team-Leveling?color=56BEB8">
+✔ **User Registration & Authentication** (Sign up, Login, Password Reset)  
+✔ **Service Creation & Management** (Multi-step service creation process)  
+✔ **Booking System** (Real-time booking confirmations & notifications)  
+✔ **Dynamic Working Hours** (Providers can set their availability)  
+✔ **Service Reviews & Ratings**  
+✔ **Secure Payments & Refund Handling**  
+✔ **In-app & Email Notifications**  
+✔ **Dark Mode Support** 🌙  
+✔ **Mobile-Friendly & PWA Ready** 📱  
 
-  <!-- <img alt="License" src="https://img.shields.io/github/license/shiv1119/bloggingwebsite?color=56BEB8"> -->
+## 🛠️ Technologies Used
 
-  <img alt="Github issues" src="https://img.shields.io/github/issues/shiv1119/Team-Leveling?color=56BEB8" />
+- **Frontend:** HTML, CSS, Bootstrap  
+- **Backend:** Django, Django REST Framework  
+- **Database:** PostgreSQL  
+- **Authentication:** Django Auth, Social Authentication  
+- **Payments:** Stripe / Razorpay  
+- **Deployment:** Docker, Nginx, Gunicorn  
 
-  <img alt="Github forks" src="https://img.shields.io/github/forks/shiv1119/Team-Leveling?color=56BEB8" />
+## 📜 Requirements
 
-  <img alt="Github stars" src="https://img.shields.io/github/stars/shiv1119/Team-Leveling?color=56BEB8" />
-</p>
+Before you begin, ensure you have **Python 3.x** and **Git** installed.
 
-<!-- Status -->
+## 🚀 Getting Started
 
-<!-- <h4 align="center"> 
-	🚧  BloggingWebsite 🚀 Under construction...  🚧
-</h4> 
-
-<hr> -->
-
-<p align="center">
-  <a href="#dart-about">About</a> &#xa0; | &#xa0; 
-  <a href="#sparkles-features">Features</a> &#xa0; | &#xa0;
-  <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
-  <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
-  <a href="#checkered_flag-starting">Starting</a> &#xa0; | &#xa0;
-  <a href="#memo-license">License</a> &#xa0; | &#xa0;
-  <a href="https://github.com/shiv1119" target="_blank">Author</a>
-</p>
-
-<br>
-
-## :dart: About ##
-
-Blogging website to create blogs, play around user reguistrations etc.
-
-## :sparkles: Features ##
-
-:heavy_check_mark: 1 - User registration system with verification and account activation link to the terminal, Password reset using link send on terminal, Password validation, User Profile creation and updation function;\
-
-## :rocket: Technologies ##
-
-The following tools were used in this project:
-
-- [Python](https://www.python.org/)
-- [Django](https://www.djangoproject.com/)
-- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
-- [Html](https://html.com/)
-- [BootStrap](https://getbootstrap.com/)
-- [Crispy forms](https://django-crispy-forms.readthedocs.io/en/latest/)
-- [MYSQL](https://www.postgresql.org/) etc..
-
-
-
-## :white_check_mark: Requirements ##
-
-Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) and [Python](https://www.python.org/) installed.
-
-## :checkered_flag: Starting ##
+### 🛠️ Setup & Installation
 
 ```bash
-# Clone this project
-$ git clone https://github.com/shiv1119/Team-Leveling.git
+# Clone the repository
+git clone https://github.com/your-username/service-sphere.git
 
-# Access
-$ cd Team-Leveling
+# Navigate into the project
+cd service-sphere
 
-# Create or activate virtual environment
-$ source myvenv/bin/activate
+# Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
-# Download dependencies
-$ pip install -r requirements.txt
+# Install dependencies
+pip install -r requirements.txt
 
+# Set up the database (PostgreSQL recommended)
+python manage.py makemigrations
+python manage.py migrate
 
-# Install MYSQL and create data base and make connectivity with django project 
+# Create a superuser for admin access
+python manage.py createsuperuser
 
-# Run migrations
-$ python manage.py makemigrations
-$ python manage.py migrate
+# Run the server
+python manage.py runserver
 
-# Run Server
-$ python manage.py runserver
-
-# To access admin panel 
-# 1) create super user
-$ python manage.py createsuperuser 
-
-# 2) Go to local deployment and put '/admin' after http://localhost:3000 and press enter and you'll be directed to admin panel
-
-#Create accounts, posts, and play arounds witha vast functionality 
-
-# The server will initialize in the <http://localhost:3000>
-```
-
-## :memo: License ##
-
-This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
-
-
-Made with :heart: by <a href="https://github.com/shiv1119" target="_blank">Team Leveling</a>
-
-&#xa0;
-
-<a href="#top">Back to top</a>
+# Open in browser: http://127.0.0.1:8000
