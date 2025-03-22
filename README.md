@@ -65,10 +65,9 @@ The following tools were used in this project:
 - [Django](https://www.djangoproject.com/)
 - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
 - [Html](https://html.com/)
-- [Django Summernote](https://pypi.org/project/django-summernote/)
 - [BootStrap](https://getbootstrap.com/)
 - [Crispy forms](https://django-crispy-forms.readthedocs.io/en/latest/)
-- [PostgreSql](https://www.postgresql.org/) etc..
+- [MYSQL](https://www.postgresql.org/) etc..
 
 
 
