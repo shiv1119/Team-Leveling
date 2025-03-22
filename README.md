@@ -36,7 +36,7 @@ Project Video Link - https://drive.google.com/file/d/1BcdqpYm3tIkvyUZ4fCE418QETP
 <hr>
 
 <p align="center">
-  <a href="#dart-about">About</a> &#xa0; | &#xa0; 
+  <a href="#dart-about">Introduction</a> &#xa0; | &#xa0; 
   <a href="#sparkles-features">Features</a> &#xa0; | &#xa0;
   <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
@@ -47,7 +47,7 @@ Project Video Link - https://drive.google.com/file/d/1BcdqpYm3tIkvyUZ4fCE418QETP
 
 <br>
 
-## 🚀 Introduction
+## :dart: 🚀 Introduction ##
 
 **Service Sphere** is a multi-client service platform that allows businesses to showcase their services efficiently. It provides an intuitive interface for service providers to list their services and for users to book them seamlessly.
 
