@@ -76,7 +76,7 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
                                 {% if notification_count %}
-                                <a class="dropdown-item mb-2" href=""><i class="bi bi-person-circle me-2"></i> Profile</a>
+                                <a class="dropdown-item mb-2" href="{% url 'profile' %}""><i class="bi bi-person-circle me-2"></i> Profile</a>
                                 {% else %}
                                 <a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person-circle me-2"></i> Profile</a>
                                 {% endif %}
@@ -118,6 +118,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link d-flex align-items-center" href="/" role="button">
                             Home
+                        </a>                        
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="{% url 'all_services' %}" role="button">
+                            All Services
                         </a>                        
                     </li>
                     <li class="nav-item">
