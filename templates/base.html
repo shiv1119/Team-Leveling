@@ -31,6 +31,13 @@
             color: #ddd;
             border: none;
         }
+        .search-open{
+            background-color: white;
+        }
+        .dark-mode .search-open{
+            background-color: #222 !important;
+            color: white !important;
+        }
     </style>
 </head>
 <body>
@@ -174,19 +181,22 @@
         </div>
     </nav>
 
-<div class="collapse" id="mobileSearch">
-    <div class="d-flex justify-content-center p-2">
-        <div class="search-container" style="width: 80%; max-width: 400px;">
-            <form method="GET" action="{% url 'global_search' %}" class="position-relative">
-                <input class="form-control search-bar dark-input pe-5" type="search" name="q" placeholder="Search..." aria-label="Search" required>
-                <button type="submit" class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0 text-dark-mode">
-                    <i class="bi bi-search"></i>
-                </button>
-            </form>
-            
+    <div class="collapse position-fixed border-0 start-0 w-100 search-open" id="mobileSearch" style="top: 69px; z-index: 1000;">
+        <div class="d-flex justify-content-center p-2 position-relative">
+            <div class="search-container" style="width: 80%; max-width: 400px;">
+                <form method="GET" action="{% url 'global_search' %}" class="position-relative">
+                    <input class="form-control search-bar dark-input pe-5" type="search" name="q" placeholder="Search..." aria-label="Search" required>
+                    <button type="submit" class="btn position-absolute top-50 end-0 translate-middle-y me-3 p-0 border-0 text-dark-mode">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+            </div>
+
+            <button class="btn position-absolute end-0 me-3 text-dark-mode" data-bs-toggle="collapse" data-bs-target="#mobileSearch">
+                <i class="bi bi-x-lg"></i>
+            </button>
         </div>
     </div>
-</div>
 
     <div>
         {% block hero %}

@@ -92,6 +92,7 @@ body {
     .navbar-brand {
         position: absolute;
         left: 50%;
+        top: 9px;
         transform: translateX(-50%);
     }
 
