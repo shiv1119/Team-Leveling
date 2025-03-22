@@ -87,39 +87,38 @@
                 </div>          
             </div>
         </div>
-        <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content shadow-lg rounded-3">
-                    <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title">Edit Profile Image</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+</div>
+<div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content shadow-lg rounded-3">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Edit Profile Image</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'update_profile_image' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="edit_type" value="edit_profile_image">
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Select Profile Image</label>
+                        <input type="file" class="form-control dark-input" name="image" id="image" accept="image/*" onchange="previewImage(event)">
                     </div>
-                    <div class="modal-body">
-                        <form action="{% url 'profile' %}" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <input type="hidden" name="edit_type" value="edit_profile_image">
-                            <div class="mb-3">
-                                <label for="image" class="form-label">Select Profile Image</label>
-                                <input type="file" class="form-control dark-input" name="image" id="image" accept="image/*" onchange="previewImage(event)">
-                            </div>
-                        
-                            <div id="imagePreviewContainer" class="my-3 text-center" {% if not profile.profile_photo %}style="display: none;"{% endif %}>
-                                <img id="imagePreview" 
-                                    src="{% if profile.profile_photo %}{{ profile.profile_photo.url }}{% endif %}" 
-                                    alt="Profile Image Preview" 
-                                    class="img-thumbnail" 
-                                    style="max-width: 300px; max-height: 300px;">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </form>
+                
+                    <div id="imagePreviewContainer" class="my-3 text-center" {% if not profile.profile_photo %}style="display: none;"{% endif %}>
+                        <img id="imagePreview" 
+                            src="{% if profile.profile_photo %}{{ profile.profile_photo.url }}{% endif %}" 
+                            alt="Profile Image Preview" 
+                            class="img-thumbnail" 
+                            style="max-width: 300px; max-height: 300px;">
                     </div>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
-
     </div>
 </div>
 
