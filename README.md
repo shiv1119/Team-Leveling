@@ -80,10 +80,10 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) an
 
 ```bash
 # Clone this project
-$ git clone https://github.com/shiv1119/bloggingwebsite
+$ git clone https://github.com/shiv1119/Team-Leveling.git
 
 # Access
-$ cd bloggingwebsite
+$ cd Team-Leveling
 
 # Create or activate virtual environment
 $ source myvenv/bin/activate
@@ -91,10 +91,8 @@ $ source myvenv/bin/activate
 # Download dependencies
 $ pip install -r requirements.txt
 
-# Go to blango directory
-$ cd blango
 
-# Install PostgreSql and create data base and make connectivity with django project 
+# Install MYSQL and create data base and make connectivity with django project 
 
 # Run migrations
 $ python manage.py makemigrations
