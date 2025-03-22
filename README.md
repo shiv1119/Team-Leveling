@@ -29,13 +29,11 @@ Project Video Link - https://drive.google.com/file/d/1BcdqpYm3tIkvyUZ4fCE418QETP
   <img alt="Github stars" src="https://img.shields.io/github/stars/shiv1119/Team-Leveling?color=56BEB8" />
 </p>
 
-<!-- Status -->
-
-<!-- <h4 align="center"> 
-	🚧  BloggingWebsite 🚀 Under construction...  🚧
+<h4 align="center"> 
+	🚧  Service Sphere 🚀 Under construction...  🚧
 </h4> 
 
-<hr> -->
+<hr>
 
 <p align="center">
   <a href="#dart-about">About</a> &#xa0; | &#xa0; 
@@ -51,11 +49,21 @@ Project Video Link - https://drive.google.com/file/d/1BcdqpYm3tIkvyUZ4fCE418QETP
 
 ## :dart: About ##
 
-Blogging website to create blogs, play around user reguistrations etc.
+## 🚀 Introduction
+
+**Service Sphere** is a multi-client service platform that allows businesses to showcase their services efficiently. It provides an intuitive interface for service providers to list their services and for users to book them seamlessly.
 
 ## :sparkles: Features ##
 
-:heavy_check_mark: 1 - User registration system with verification and account activation link to the terminal, Password reset using link send on terminal, Password validation, User Profile creation and updation function;\
+✔ **User Registration & Authentication** (Sign up, Login, Password Reset)  
+✔ **Service Creation & Management** (Multi-step service creation process)  
+✔ **Booking System** (Real-time booking confirmations & notifications)  
+✔ **Dynamic Working Hours** (Providers can set their availability)  
+✔ **Service Reviews & Ratings**  
+✔ **Secure Payments & Refund Handling**  
+✔ **In-app & Email Notifications**  
+✔ **Dark Mode Support** 🌙  
+✔ **Mobile-Friendly & PWA Ready** 📱
 
 ## :rocket: Technologies ##
 
