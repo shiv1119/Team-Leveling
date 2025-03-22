@@ -168,9 +168,18 @@
 
                 <div class="newsletter mt-3">
                     <h5>Subscribe to Our Newsletter</h5>
-                    <input type="email" placeholder="Enter your email">
-                    <button type="submit">Subscribe</button>
+                
+                    {% if request.user.is_authenticated and subscribed %}
+                        <p class="text-success">✅ You are already subscribed to our newsletter.</p>
+                    {% else %}
+                        <form action="{% url 'subscribe_newsletter' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                            <button type="submit">Subscribe</button>
+                        </form>
+                    {% endif %}
                 </div>
+                                
             </div>
         </div>
 

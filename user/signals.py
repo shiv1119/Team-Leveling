@@ -269,3 +269,58 @@ def send_account_deletion_email(sender, instance, **kwargs):
             html_message=html_message,
             fail_silently=True
         )
+
+User = get_user_model()
+@receiver(post_save, sender=Subscriber)
+def send_subscription_notification(sender, instance, created, **kwargs):
+    if created:
+        email = instance.email
+        user = User.objects.filter(email=email).first()  
+        unsubscribe_link = f"{settings.SITE_URL}{reverse('unsubscribe', args=[instance.unsubscribe_token])}"
+
+        html_message = render_to_string("user/email/subscription_email.html", {
+            "unsubscribe_link": unsubscribe_link
+        })
+        plain_message = strip_tags(html_message)
+
+        send_mail(
+            subject="Newsletter Subscription Confirmation",
+            message=plain_message,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email],
+            html_message=html_message,
+            fail_silently=False,
+        )
+
+        if user:
+            create_notification(user, "subscription", "Thank you for subscribing to our newsletter!")
+
+            preferences = NotificationPreferences.objects.filter(user=user).first()
+            if preferences and preferences.email_notifications:
+                pass  
+
+        instance.notified = True
+        instance.save()
+
+from django.db.models.signals import post_delete
+@receiver(post_delete, sender=Subscriber)
+def send_unsubscription_notification(sender, instance, **kwargs):
+    email = instance.email
+    user = User.objects.filter(email=email).first()  
+
+    html_message = render_to_string("user/email/unsubscribe_confirmation.html", {"url_home":settings.SITE_URL})
+    plain_message = strip_tags(html_message)
+
+    send_mail(
+        subject="Unsubscription Confirmation",
+        message=plain_message,
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[email],
+        html_message=html_message,
+        fail_silently=False,
+    )
+
+    if user:
+        preferences = NotificationPreferences.objects.filter(user=user).first()
+        if preferences and preferences.email_notifications:
+            create_notification(user, "unsubscription", "You have unsubscribed from our newsletter.")
