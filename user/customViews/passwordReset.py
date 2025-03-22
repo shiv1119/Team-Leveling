@@ -24,6 +24,8 @@ class RedirectAuthenticatedUserMixin(AccessMixin):
             messages.info(request, "You have been logged out. Please reset your password.")
         return super().dispatch(request, *args, **kwargs)
 
+from django.conf import settings
+
 class CustomPasswordResetView(RedirectAuthenticatedUserMixin, PasswordResetView):
     template_name = "user/password_reset_form.html"
     email_template_name = "user/password_reset_email.html"
@@ -39,11 +41,10 @@ class CustomPasswordResetView(RedirectAuthenticatedUserMixin, PasswordResetView)
         for user in users:
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
-            domain = get_current_site(self.request).domain 
-            protocol = "https" if self.request.is_secure() else "http"
+            domain = settings.SITE_URL.rstrip("/")  # Ensuring no trailing slash
+
             context = {
                 "user": user,
-                "protocol": protocol,
                 "domain": domain,
                 "uid": uid,
                 "token": token,

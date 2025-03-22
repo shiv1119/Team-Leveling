@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-j^t%6ji1^gau1i@0eh3&1s6+a5_b^@dg!z%in)boqg5@5a$e-h'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -76,10 +79,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MultiClientServices.wsgi.application'
 
-RAZORPAY_KEY_ID = "rzp_test_nqgKu7tmBXdyXT"
-RAZORPAY_KEY_SECRET = "58N2HC5IPsgkTki5JZXYoTqG"
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
 
-DOMAIN = "http://127.0.0.1:8000"
+DOMAIN = os.getenv("DOMAIN", "http://127.0.0.1:8000")
 
 DATABASES = {
     'default': {
@@ -94,11 +97,11 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "greenarrow6499@gmail.com"
-EMAIL_HOST_PASSWORD = "rrbu uhfz ncjj uawn "
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-SITE_URL = "http://127.0.0.1:8000"
+SITE_URL = os.getenv("SITE_URL", "http://127.0.0.1:8000")
 SITE_ID = 1
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
