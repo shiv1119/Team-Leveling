@@ -73,46 +73,46 @@ class BookingForm(forms.ModelForm):
     selected_service_type = forms.ModelChoiceField(
         queryset=ServiceType.objects.none(),
         empty_label="Select a Service Type",
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={'class': 'form-control dark-input'})
     )
 
     start_time = forms.TimeField(
-        widget=forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
+        widget=forms.TimeInput(attrs={'class': 'form-control dark-input', 'type': 'time'}),
         label="Start Time"
     )
     
     end_time = forms.TimeField(
         required=False,
-        widget=forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
+        widget=forms.TimeInput(attrs={'class': 'form-control dark-input', 'type': 'time'}),
         label="End Time"
     )
 
     address = forms.CharField(
         required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your address'}),
+        widget=forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter your address'}),
         label="Address"
     )
     
     city = forms.CharField(
         required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter city'}),
+        widget=forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter city'}),
         label="City"
     )
     
     pincode = forms.CharField(
         required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter pincode'}),
+        widget=forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter pincode'}),
         label="Pincode"
     )
 
     notes = forms.CharField(
         required=False,
-        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Special instructions (optional)'}),
+        widget=forms.Textarea(attrs={'class': 'form-control dark-input', 'rows': 3, 'placeholder': 'Special instructions (optional)'}),
         label="Notes"
     )
     booking_date = forms.DateField(
         required=False,
-        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control dark-input'}),
         label="Booking Date"
     )
     class Meta:
