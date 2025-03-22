@@ -97,7 +97,7 @@ $ source myvenv/bin/activate
 $ pip install -r requirements.txt
 
 
-# Install MYSQL and create data base and make connectivity with django project 
+# Install MYSQL and create data base and make connectivity with django project or Leave it as it is.
 
 # Run migrations
 $ python manage.py makemigrations
@@ -110,11 +110,6 @@ $ python manage.py runserver
 # 1) create super user
 $ python manage.py createsuperuser 
 
-# 2) Go to local deployment and put '/admin' after http://localhost:3000 and press enter and you'll be directed to admin panel
-
-#Create accounts, posts, and play arounds witha vast functionality 
-
-# The server will initialize in the <http://localhost:3000>
 ```
 
 ## :memo: License ##
