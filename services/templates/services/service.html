@@ -52,7 +52,7 @@
         <div class="card-body">
             <p><strong><i class="bi bi-card-text"></i> Service Title:</strong> {{ service.title }}</p>
             <p><strong><i class="bi bi-file-text-fill"></i> Description:</strong> {{ service.description }}</p>
-            <p><strong><i class="bi bi-tag-fill"></i> Price:</strong> ${{ service.price }}</p>
+            <p><strong><i class="bi bi-tag-fill"></i> Price:</strong>₹{{ service.price }}</p>
             <p><strong><i class="bi bi-cash-stack"></i> Price Type:</strong> {{ service.get_price_type_display }}</p>
             <p><strong><i class="bi bi-percent"></i> Discount:</strong> {{ service.discount }}%</p>
             <p><strong><i class="bi bi-shield-lock"></i> Cancellation Policy:</strong> {{ service.get_cancellation_policy_display }}</p>
