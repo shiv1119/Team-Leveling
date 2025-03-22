@@ -1,7 +1,7 @@
 
 Project Video Link - https://drive.google.com/file/d/1BcdqpYm3tIkvyUZ4fCE418QETPQKPSwg/view?usp=sharing
 
-#There are many features that are not inlcuded in this video. To enjoy the functionality clone this repo and just play with it.
+<h4 align="center">There are many features that are not inlcuded in this video. To enjoy the functionality clone this repo and just play with it.</h4>
 
 <div align="center" id="top"> 
   <img src="./.github/app.gif" alt="Team-Leveling" />
