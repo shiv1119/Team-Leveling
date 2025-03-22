@@ -71,6 +71,27 @@ class UserProfileForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.required = True
 
+class UserProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['full_name', 'phone', 'date_of_birth', 'gender', 'address', 'city', 'state', 'zip_code', 'country', 'profile_photo']
+        widgets = {
+            'full_name': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter full name'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter phone number'}),
+            'date_of_birth': forms.DateInput(attrs={'class': 'form-control dark-input', 'type': 'date'}),
+            'gender': forms.Select(attrs={'class': 'form-select dark-input'}),
+            'address': forms.Textarea(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter address', 'rows': 3}),
+            'city': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter city'}),
+            'state': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter state'}),
+            'zip_code': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter zip code'}),
+            'country': forms.TextInput(attrs={'class': 'form-control dark-input', 'placeholder': 'Enter country'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.required = True
+
 class ContactUsForm(forms.ModelForm):
     class Meta:
         model = ContactUs
