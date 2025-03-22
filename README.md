@@ -93,7 +93,7 @@ $ cd Team-Leveling
 # Create or activate virtual environment
 $ python -m venv venv
 
-# Create or activate virtual environment
+# Activate virtual environment
 $ source venv/bin/activate
 
 # Download dependencies
