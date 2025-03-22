@@ -47,8 +47,6 @@ Project Video Link - https://drive.google.com/file/d/1BcdqpYm3tIkvyUZ4fCE418QETP
 
 <br>
 
-## :dart: About ##
-
 ## 🚀 Introduction
 
 **Service Sphere** is a multi-client service platform that allows businesses to showcase their services efficiently. It provides an intuitive interface for service providers to list their services and for users to book them seamlessly.
