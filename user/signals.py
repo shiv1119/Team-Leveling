@@ -68,7 +68,6 @@ def detect_tablet_model(user_agent, user_agent_string):
     return f"{model} (Tablet)" if model else "Unknown Tablet"
 
 def detect_pc_brand(user_agent_string):
-    """Detect PC brand based on user-agent string."""
     device_patterns = [
         (r"MSI", "MSI"), (r"Dell", "Dell"), (r"HP", "HP"),
         (r"Asus", "Asus"), (r"Lenovo", "Lenovo"), (r"Acer", "Acer"),
@@ -138,6 +137,7 @@ def log_login(sender, request, user, **kwargs):
 
 from .helpers import create_notification 
 from django.conf import settings
+
 @receiver(post_save, sender=ContactUs)
 def send_contact_email_and_notification(sender, instance, created, **kwargs):
     
@@ -180,8 +180,10 @@ from django.utils.html import strip_tags
 def login_notification(sender, instance, created, **kwargs):
     if created:
         user = instance.user
-        request = None
-
+        try:
+            preferences = user.notification_preferences
+        except NotificationPreferences.DoesNotExist:
+            return
         last_login = LoginHistory.objects.filter(user=user).exclude(id=instance.id).order_by("-timestamp").first()
 
         if last_login:
@@ -197,31 +199,32 @@ def login_notification(sender, instance, created, **kwargs):
                     message=message,
                     related_object=instance
                 )
-                password_reset_url = request.build_absolute_uri(reverse("password_reset"))
-                contact_support_url = request.build_absolute_uri(reverse("contact-us"))
+                if preferences.email_notifications:
+                    password_reset_url = f"{settings.SITE_URL}{reverse('password_reset')}"
+                    contact_support_url = f"{settings.SITE_URL}{reverse('contact-us')}"
 
-                email_context = {
-                    "user": user,
-                    "city": instance.city or "Unknown",
-                    "country": instance.country or "Unknown",
-                    "device": instance.device or "Unknown Device",
-                    "os": instance.operating_system or "Unknown OS",
-                    "timestamp": instance.timestamp,
-                    "reset_password_url": password_reset_url,
-                    "support_url": contact_support_url,
-                }
+                    email_context = {
+                        "user": user,
+                        "city": instance.city or "Unknown",
+                        "country": instance.country or "Unknown",
+                        "device": instance.device or "Unknown Device",
+                        "os": instance.operating_system or "Unknown OS",
+                        "timestamp": instance.timestamp,
+                        "reset_password_url": password_reset_url,
+                        "support_url": contact_support_url,
+                    }
 
-                html_message = render_to_string("user/email/new_login_alert.html", email_context)
-                plain_message = strip_tags(html_message)
+                    html_message = render_to_string("user/email/new_login_alert.html", email_context)
+                    plain_message = strip_tags(html_message)
 
-                send_mail(
-                    subject="New Login Alert",
-                    message=plain_message,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[user.email],
-                    html_message=html_message,
-                    fail_silently=True,
-                )
+                    send_mail(
+                        subject="New Login Alert",
+                        message=plain_message,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        recipient_list=[user.email],
+                        html_message=html_message,
+                        fail_silently=False,
+                    )
 
 
 from django.contrib.auth import get_user_model
@@ -242,22 +245,27 @@ from django.db.models.signals import pre_delete
 
 @receiver(pre_delete, sender=User)
 def send_account_deletion_email(sender, instance, **kwargs):
-    subject = "Your Account Has Been Deleted"
-    support_url = f"{settings.SITE_URL}{reverse('contact-us')}"
+    try:
+        preferences = instance.notification_preferences
+    except NotificationPreferences.DoesNotExist:
+        return
+    if preferences.email_notifications:
+        subject = "Your Account Has Been Deleted"
+        support_url = f"{settings.SITE_URL}{reverse('contact-us')}"
 
-    context = {
-        "user": instance,
-        "support_url": support_url,
-    }
-    
-    html_message = render_to_string("user/email/account_delete.html", context)
-    plain_message = strip_tags(html_message)
+        context = {
+            "user": instance,
+            "support_url": support_url,
+        }
+        
+        html_message = render_to_string("user/email/account_delete.html", context)
+        plain_message = strip_tags(html_message)
 
-    send_mail(
-        subject=subject,
-        message=plain_message,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[instance.email],
-        html_message=html_message,
-        fail_silently=True
-    )
+        send_mail(
+            subject=subject,
+            message=plain_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[instance.email],
+            html_message=html_message,
+            fail_silently=True
+        )

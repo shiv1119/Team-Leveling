@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
-from user.models import UserProfile
+from user.models import UserProfile,NotificationPreferences
 from user.helpers import create_notification
 
 @receiver(post_save, sender=Service)
@@ -31,6 +31,11 @@ def send_email_notification(user, subject, template_name, context):
 
 @receiver(post_save, sender=Service)
 def service_created_or_updated(sender, instance, created, **kwargs):
+    user = instance.user
+    try:
+        preferences = user.notification_preferences
+    except NotificationPreferences.DoesNotExist:
+        return
     if created:
         message = f"Your service '{instance.title}' has been created successfully."
         subject = "Service Created Successfully"
@@ -42,15 +47,24 @@ def service_created_or_updated(sender, instance, created, **kwargs):
         template = "services/emails/service_updated.html"
         notification_type = "service_updated"
     
-    create_notification(instance.user, notification_type, message, instance)
-    send_email_notification(instance.user, subject, template, {"service": instance, "site_url": settings.SITE_URL})
+    if preferences.in_app_notification:
+        create_notification(user, notification_type, message, instance)
+
+    if preferences.email_notifications:
+        send_email_notification(user, subject, template, {"service": instance, "site_url": settings.SITE_URL})
 
 
 @receiver(post_delete, sender=Service)
 def service_deleted(sender, instance, **kwargs):
+    user = instance.user
+    try:
+        preferences = user.notification_preferences
+    except NotificationPreferences.DoesNotExist:
+        return
     message = f"Your service '{instance.title}' has been deleted."
     create_notification(instance.user, "service_deleted", message, instance)
-    send_email_notification(instance.user, "Service Deleted", "services/emails/service_deleted.html", {"service": instance})
+    if preferences.email_notifications:
+        send_email_notification(instance.user, "Service Deleted", "services/emails/service_deleted.html", {"service": instance})
 
 @receiver(post_save, sender=Feedback)
 def feedback_notification(sender, instance, created, **kwargs):
@@ -90,6 +104,7 @@ def service_location_notification(sender, instance, created, **kwargs):
         message=message,
         related_object=instance.service 
     )
+
 @receiver(post_save, sender=ServiceImage)
 def service_image_added_notification(sender, instance, created, **kwargs):
     service_owner = instance.service.user 
@@ -156,44 +171,65 @@ def send_booking_email(user, subject, template_name, context):
         html_message=html_message,
         fail_silently=False,
     )
+
 from django.urls import reverse
 @receiver(post_save, sender=Booking)
 def send_booking_emails_and_notifications(sender, instance, created, **kwargs):
     service_booker = instance.user
     service_owner = instance.service.user
 
+    try:
+        booker_prefs = service_booker.notification_preferences
+        owner_prefs = service_owner.notification_preferences
+    except NotificationPreferences.DoesNotExist:
+        return 
+
     context = {
         "booking": instance,
         "user": service_booker,
         "service": instance.service,
         "booking_url": f"{settings.SITE_URL}/booking/{instance.id}/",
-        "support_url" : f"{settings.SITE_URL}{reverse('contact-us')}/"
+        "support_url": f"{settings.SITE_URL}{reverse('contact-us')}/"
     }
 
     if created:
-        send_booking_email(service_booker, "Booking Confirmation", "services/emails/booking_confirmation.html", context)
-        send_booking_email(service_owner, "New Booking Received", "services/emails/booking_confirmation.html", context)
+        if booker_prefs.email_notifications:
+            send_booking_email(service_booker, "Booking Confirmation", "services/emails/booking_confirmation.html", context)
+        if owner_prefs.email_notifications:
+            send_booking_email(service_owner, "New Booking Received", "services/emails/booking_confirmation.html", context)
 
-        create_notification(service_booker, "booking_created", "Your booking has been confirmed.", instance)
-        create_notification(service_owner, "booking_received", f"New booking for {instance.service.title}.", instance)
+        if booker_prefs.in_app_notification:
+            create_notification(service_booker, "booking_created", "Your booking has been confirmed.", instance)
+        if owner_prefs.in_app_notification:
+            create_notification(service_owner, "booking_received", f"New booking for {instance.service.title}.", instance)
 
     else:
-        if instance.status == "confirmed":
+        if instance.status == "confirmed" and booker_prefs.email_notifications:
             send_booking_email(service_booker, "Booking Confirmed", "services/emails/booking_status_update.html", context)
+        if instance.status == "confirmed" and booker_prefs.in_app_notification:
             create_notification(service_booker, "booking_confirmed", "Your booking has been confirmed!", instance)
-        elif instance.status == "completed":
+
+        if instance.status == "completed" and booker_prefs.email_notifications:
             send_booking_email(service_booker, "Booking Completed", "services/emails/booking_status_update.html", context)
+        if instance.status == "completed" and booker_prefs.in_app_notification:
             create_notification(service_booker, "booking_completed", "Your booking has been completed!", instance)
-        elif instance.status == "canceled":
+
+        if instance.status == "canceled" and booker_prefs.email_notifications:
             send_booking_email(service_booker, "Booking Canceled", "services/emails/booking_cancellation.html", context)
+        if instance.status == "canceled" and booker_prefs.in_app_notification:
             create_notification(service_booker, "booking_canceled", "Your booking has been canceled!", instance)
 
-        if instance.payment_status == "paid":
+        if instance.payment_status == "paid" and booker_prefs.email_notifications:
             send_booking_email(service_booker, "Payment Received", "services/emails/booking_payment_update.html", context)
+        if instance.payment_status == "paid" and booker_prefs.in_app_notification:
             create_notification(service_booker, "booking_payment_success", "Your payment has been received!", instance)
-        elif instance.payment_status == "failed":
+
+        if instance.payment_status == "failed" and booker_prefs.email_notifications:
             send_booking_email(service_booker, "Payment Failed", "services/emails/booking_payment_update.html", context)
+        if instance.payment_status == "failed" and booker_prefs.in_app_notification:
             create_notification(service_booker, "booking_payment_failed", "Your payment failed!", instance)
-        elif instance.payment_status == "refunded":
+
+        if instance.payment_status == "refunded" and booker_prefs.email_notifications:
             send_booking_email(service_booker, "Refund Issued", "services/emails/booking_payment_update.html", context)
+        if instance.payment_status == "refunded" and booker_prefs.in_app_notification:
             create_notification(service_booker, "booking_refunded", "Your refund has been processed!", instance)
