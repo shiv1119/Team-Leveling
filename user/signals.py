@@ -80,7 +80,6 @@ def detect_pc_brand(user_agent_string):
     return "PC"
 
 def extract_model_from_ua(user_agent_string):
-    """Extract mobile/tablet model from user-agent string."""
     device_patterns = [
         (r"iPhone\s([\d\w]+)", "iPhone {}"),
         (r"iPad; CPU OS ([\d_]+)", "iPad (iOS {})"),
@@ -218,7 +217,7 @@ def login_notification(sender, instance, created, **kwargs):
                 send_mail(
                     subject="New Login Alert",
                     message=plain_message,
-                    from_email="security@yourwebsite.com",
+                    from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[user.email],
                     html_message=html_message,
                     fail_silently=True,
