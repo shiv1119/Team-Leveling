@@ -106,8 +106,8 @@ $ python manage.py migrate
 # Run Server
 $ python manage.py runserver
 
-# To access admin panel
-	/admin
+# To access admin panel on local host
+http://127.0.0.1:8000//admin
 # 1) create super user
 $ python manage.py createsuperuser 
 
