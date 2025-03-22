@@ -19,19 +19,19 @@
     <h2 class="mb-3">Booking Details</h2>
 
     <div class="card shadow-sm border-0 dark-mode-card fade-in">
-        <div class="card-header bg-primary text-white">
+        <div class="d-flex justify-content-between card-header bg-primary text-white">
             <h5 class="mb-0">Booking ID: {{ booking.id }}</h5>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <h5><i class="bi bi-briefcase-fill"></i> Service Details</h5>
+                    <h5><i class="bi bi-briefcase-fill"></i> Service Details <a href="{% url 'service_view' booking.service.id %}"><i class="bi bi-eye text-primary"></i></a></h5>
                     <p><strong>Service:</strong> {{ booking.service.title }}</p>
                     <p><strong>Type:</strong> {{ booking.selected_service_type.name }}</p>
                     <p><strong>Description:</strong> {{ booking.service.description }}</p>
                 </div>
                 <div class="col-md-6">
-                    <h5><i class="bi bi-person-fill"></i> User Details</h5>
+                    <h5><i class="bi bi-person-fill"></i> User Details <a href="{% url 'user-profile-detail' booking.user.id %}"><i class="bi bi-eye text-primary"></i></a></h5>
                     <p><strong>Name:</strong> {{ booking.user.get_full_name|default:booking.user.username }}</p>
                     <p><strong>Email:</strong> {{ booking.user.email }}</p>
                 </div>

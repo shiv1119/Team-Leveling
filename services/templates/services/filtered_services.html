@@ -32,11 +32,11 @@
     </div>
 {% endif %}
 
-    <h2 class="text-center mb-4"><i class="bi bi-folder-fill"></i> {{ service_type.name }}</h2>
-    <form method="GET" class="mb-4 p-4 border rounded shadow-sm dark-mode-card">
-        <h5 class="mb-3 text-primary"><i class="fas fa-filter"></i> Filter Services</h5>
+    <h2 class="text-center mb-4 fade-in"><i class="bi bi-folder-fill"></i> {{ service_type.name }}</h2>
+    <form method="GET" class="mb-4 p-4 border rounded shadow-sm dark-mode-card fade-in">
+        <h5 class="mb-3 text-primary fade-in"><i class="fas fa-filter"></i> Filter Services</h5>
     
-        <div class="row">
+        <div class="row fade-in">
             <!-- Price Range -->
             <div class="col-12 col-sm-6 col-md-3 mb-3">
                 <label class="fw-bold">Price Range:</label>
@@ -81,20 +81,17 @@
             </div>
         </div>
     
-        <div class="row">
-            <!-- Start Time -->
+        <div class="row fade-in">
             <div class="col-12 col-sm-6 col-md-3 mb-3">
                 <label class="fw-bold">Start Time:</label>
                 <input type="time" name="start_time" class="form-control dark-input" value="{{ request.GET.start_time }}">
             </div>
-    
-            <!-- End Time -->
+
             <div class="col-12 col-sm-6 col-md-3 mb-3">
                 <label class="fw-bold">End Time:</label>
                 <input type="time" name="end_time" class="form-control dark-input" value="{{ request.GET.end_time }}">
             </div>
-    
-            <!-- Ratings -->
+
             <div class="col-12 col-sm-6 col-md-3 mb-3">
                 <label class="fw-bold">Ratings:</label>
                 <select name="ratings" class="form-select dark-input">
@@ -106,8 +103,7 @@
                     <option value="1" {% if request.GET.ratings == "1" %}selected{% endif %}>⭐☆☆☆☆ (1 Star & Up)</option>
                 </select>
             </div>
-    
-            <!-- Buttons -->
+
             <div class="col-12 col-sm-6 col-md-3 d-flex align-items-end mb-3">
                 <button type="submit" class="btn btn-primary w-100">
                     <i class="fas fa-search"></i> Apply Filters
@@ -123,7 +119,7 @@
     <div class="row">
         {% for service in services %}
             <div class="col-md-4 mb-4">
-                <div class="card h-100 dark-mode-card">
+                <div class="card h-100 dark-mode-card fade-in">
                     <div id="carousel-{{ service.id }}" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             {% for image in service.images.all %}
@@ -178,7 +174,7 @@
 
     {% if is_paginated %}
         <nav>
-            <ul class="pagination justify-content-center">
+            <ul class="pagination justify-content-center fade-in">
                 {% if page_obj.has_previous %}
                     <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
                     <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>

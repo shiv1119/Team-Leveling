@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Canceled</title>
+</head>
+<body>
+    <div class="container" style="max-width: 600px; margin: auto; font-family: Arial, sans-serif; border: 1px solid #ddd; border-radius: 10px; overflow: hidden;">
+        <div class="header" style="background: #dc3545; color: white; padding: 15px; text-align: center;">
+            <h2>Booking Canceled ❌</h2>
+        </div>
+        <div class="content" style="padding: 20px;">
+            <p>Dear <b>{{ user.first_name }}</b>,</p>
+            <p>We regret to inform you that your booking for <b>{{ service.title }}</b> has been canceled.</p>
+            <p><b>Reason:</b> {{ booking.cancellation_reason }}</p>
+            <p>If you have any questions, feel free to reach out to our support team.</p>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{{ booking_url }}" style="display: inline-block; background: #007bff; color: white; padding: 12px 20px; text-decoration: none; font-weight: bold; border-radius: 5px; margin-right: 10px;">
+                    View Booking 🔍
+                </a>
+                <a href="{{ contact_us_url }}" style="display: inline-block; background: #28a745; color: white; padding: 12px 20px; text-decoration: none; font-weight: bold; border-radius: 5px;">
+                    Contact Support 📞
+                </a>
+            </div>
+        </div>
+        <div class="footer" style="background: #f8f9fa; padding: 10px; text-align: center; font-size: 14px;">
+            <p>We hope to serve you again in the future! 💙</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+    .dark-mode .table {
+        color: #ffffff !important;
+        background-color: #1e1e1e;
+    }
+    .dark-mode .table tbody tr:hover {
+        background-color: #252525;
+        color: #ffffff;
+    }
+</style>
 <div class="mt-4">
     {% if messages %}
     <div class="mb-3 fade-in">
@@ -16,13 +26,13 @@
     </div>
 {% endif %}
 
-    <h2 class="mb-3">Booked Services</h2>
+    <h2 class="mb-3 fade-in">Booked Services</h2>
 
     {% if bookings %}
     <div class="table-responsive" style="overflow-x: auto;">
-        <table class="table table-bordered table-hover text-nowrap">
+        <table class="table table-striped table-hover text-nowrap fade-in">
             <thead class="thead-dark">
-                <tr>
+                <tr class="text-dark-mode">
                     <th><i class="bi bi-briefcase-fill"></i> Service</th>
                     <th><i class="bi bi-layers-fill"></i> Service Type</th>
                     <th><i class="bi bi-person-fill"></i> Booked By</th>
@@ -36,21 +46,21 @@
             </thead>
             <tbody>
                 {% for booking in bookings %}
-                <tr>
-                    <td>
+                <tr class="text-dark-mode">
+                    <td class="text-dark-mode">
                         <strong>{{ booking.service.title }}</strong><br>
                         <small class="text-muted">{{ booking.service.description|truncatewords:10 }}</small>
                     </td>
-                    <td>{% for service_type in booking.service.service_types.all %}
-                        <span class="badge bg-primary">{{ service_type.name }}</span>
-                    {% endfor %}</td>
-                    <td>
+                    <td class="text-dark-mode">
+                        <span class="badge bg-primary">{{ booking.selected_service_type }}</span>
+                    </td>
+                    <td class="text-dark-mode">
                         <strong>{{ booking.user.get_full_name|default:booking.user.username }}</strong><br>
                         <small class="text-muted">{{ booking.user.email }}</small>
                     </td>
-                    <td>{{ booking.booking_date }}</td>
-                    <td>{{ booking.start_time }} - {{ booking.end_time }}</td>
-                    <td>
+                    <td class="text-dark-mode">{{ booking.booking_date }}</td>
+                    <td class="text-dark-mode">{{ booking.start_time }} - {{ booking.end_time }}</td>
+                    <td class="text-dark-mode">
                         <span class="badge bg-{% if booking.status == 'confirmed' %}success
                                                 {% elif booking.status == 'pending' %}warning
                                                 {% elif booking.status == 'completed' %}primary
@@ -59,8 +69,8 @@
                             <i class="bi bi-info-circle-fill"></i> {{ booking.get_status_display }}
                         </span>
                     </td>
-                    <td>₹{{ booking.total_amount }}</td>
-                    <td>
+                    <td class="text-dark-mode">₹{{ booking.total_amount }}</td>
+                    <td class="text-dark-mode">
                         <span class="badge bg-{% if booking.payment_status == 'paid' %}success
                                                 {% elif booking.payment_status == 'pending' %}warning
                                                 {% elif booking.payment_status == 'failed' %}danger
@@ -69,7 +79,7 @@
                             <i class="bi bi-wallet-fill"></i> {{ booking.get_payment_status_display }}
                         </span>
                     </td>
-                    <td>
+                    <td class="text-dark-mode">
                         <a href="{% url 'booking_detail' booking.id %}" class="btn btn-info btn-sm"><i class="bi bi-eye-fill"></i> View</a>
                         {% if booking.status == 'pending' %}
                             <form action="{% url 'cancel_booking' booking.id %}" method="post" style="display:inline;">

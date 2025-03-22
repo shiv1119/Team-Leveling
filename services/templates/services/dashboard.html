@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Dashboard</h2>
+    <h2 class="text-center mb-4 fade-in">Dashboard</h2>
 
-    <div class="row text-center">
+    <div class="row text-center fade-in">
         <div class="col-md-4 mt-4">
             <div class="card p-3 shadow-sm dark-mode-card">
                 <h5>Total Earnings</h5>
                 <h3 class="text-success">₹{{ total_earnings }}</h3>
             </div>
         </div>
-        <div class="col-md-4 mt-4">
+        <div class="col-md-4 mt-4 fade-in">
             <div class="card p-3 shadow-sm dark-mode-card">
                 <h5>Total Refunded</h5>
                 <h3 class="text-danger">₹{{ total_refunded }}</h3>
             </div>
         </div>
-        <div class="col-md-4 mt-4">
+        <div class="col-md-4 mt-4 fade-in">
             <div class="card p-3 shadow-sm dark-mode-card">
                 <h5>Completed Bookings</h5>
                 <h3 class="text-primary">{{ total_completed_bookings }}</h3>
@@ -24,20 +24,20 @@
         </div>
     </div>
 
-    <div class="row text-center">
+    <div class="row text-center fade-in">
         <div class="col-md-4 mt-4">
             <div class="card p-3 shadow-sm dark-mode-card">
                 <h5>Canceled Bookings</h5>
                 <h3 class="text-warning">{{ total_canceled_bookings }}</h3>
             </div>
         </div>
-        <div class="col-md-4 mt-4">
+        <div class="col-md-4 mt-4 fade-in">
             <div class="card p-3 shadow-sm dark-mode-card">
                 <h5>Pending Bookings</h5>
                 <h3 class="text-secondary">{{ total_pending_bookings }}</h3>
             </div>
         </div>
-        <div class="col-md-4 mt-4">
+        <div class="col-md-4 mt-4 fade-in">
             <div class="card p-3 shadow-sm dark-mode-card">
                 <h5>Ongoing Bookings</h5>
                 <h3 class="text-info">{{ total_ongoing_bookings }}</h3>
@@ -46,33 +46,33 @@
     </div>
 
     <div class="row mt-4">
-        <div class="col-md-6 mt-4">
+        <div class="col-md-6 mt-4 fade-in">
             <div class="card shadow-sm p-3 dark-mode-card">
                 <h5>Bookings by Status</h5>
                 <canvas id="bookingStatusChart"></canvas>
             </div>
         </div>
 
-        <div class="col-md-6 mt-4">
+        <div class="col-md-6 mt-4 fade-in">
             <div class="card shadow-sm p-3 dark-mode-card">
                 <h5>Payment Status</h5>
                 <canvas id="paymentStatusChart"></canvas>
             </div>
         </div>
-        <div class="col-md-12 mt-4">
+        <div class="col-md-12 mt-4 fade-in">
             <div class="card shadow-sm p-3 dark-mode-card">
                 <h5>Average Service Ratings</h5>
                 <canvas id="ratingChart"></canvas>
             </div>
         </div>
 
-        <div class="col-md-6 mt-4">
+        <div class="col-md-6 mt-4 fade-in">
             <div class="card shadow-sm p-3 dark-mode-card">
                 <h5>Total Earnings vs. Refunded</h5>
                 <canvas id="earningsRefundedChart"></canvas>
             </div>
         </div>
-        <div class="col-md-6 mt-4">
+        <div class="col-md-6 mt-4 fade-in">
             <div class="card shadow-sm p-3 dark-mode-card">
                 <h5>Booking Status Breakdown</h5>
                 <canvas id="bookingStatusBreakdownChart"></canvas>
@@ -81,7 +81,6 @@
     </div>
 </div>
 
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {

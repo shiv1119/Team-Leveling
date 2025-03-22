@@ -1,3 +1,8 @@
+
+Project Video Link - https://drive.google.com/file/d/1BcdqpYm3tIkvyUZ4fCE418QETPQKPSwg/view?usp=sharing
+
+
+
 <div align="center" id="top"> 
   <img src="./.github/app.gif" alt="Team-Leveling" />
 
@@ -24,16 +29,14 @@
   <img alt="Github stars" src="https://img.shields.io/github/stars/shiv1119/Team-Leveling?color=56BEB8" />
 </p>
 
-<!-- Status -->
-
-<!-- <h4 align="center"> 
-	🚧  BloggingWebsite 🚀 Under construction...  🚧
+<h4 align="center"> 
+	🚧  Service Sphere 🚀 Under construction...  🚧
 </h4> 
 
-<hr> -->
+<hr>
 
 <p align="center">
-  <a href="#dart-about">About</a> &#xa0; | &#xa0; 
+  <a href="#dart-about">Introduction</a> &#xa0; | &#xa0; 
   <a href="#sparkles-features">Features</a> &#xa0; | &#xa0;
   <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
@@ -44,13 +47,21 @@
 
 <br>
 
-## :dart: About ##
+## :dart: 🚀 Introduction ##
 
-Blogging website to create blogs, play around user reguistrations etc.
+**Service Sphere** is a multi-client service platform that allows businesses to showcase their services efficiently. It provides an intuitive interface for service providers to list their services and for users to book them seamlessly.
 
 ## :sparkles: Features ##
 
-:heavy_check_mark: 1 - User registration system with verification and account activation link to the terminal, Password reset using link send on terminal, Password validation, User Profile creation and updation function;\
+✔ **User Registration & Authentication** (Sign up, Login, Password Reset)  
+✔ **Service Creation & Management** (Multi-step service creation process)  
+✔ **Booking System** (Real-time booking confirmations & notifications)  
+✔ **Dynamic Working Hours** (Providers can set their availability)  
+✔ **Service Reviews & Ratings**  
+✔ **Secure Payments & Refund Handling**  
+✔ **In-app & Email Notifications**  
+✔ **Dark Mode Support** 🌙  
+✔ **Mobile-Friendly & PWA Ready** 📱
 
 ## :rocket: Technologies ##
 
@@ -60,10 +71,9 @@ The following tools were used in this project:
 - [Django](https://www.djangoproject.com/)
 - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
 - [Html](https://html.com/)
-- [Django Summernote](https://pypi.org/project/django-summernote/)
 - [BootStrap](https://getbootstrap.com/)
 - [Crispy forms](https://django-crispy-forms.readthedocs.io/en/latest/)
-- [PostgreSql](https://www.postgresql.org/) etc..
+- [MYSQL](https://www.postgresql.org/) etc..
 
 
 
@@ -75,10 +85,10 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) an
 
 ```bash
 # Clone this project
-$ git clone https://github.com/shiv1119/bloggingwebsite
+$ git clone https://github.com/shiv1119/Team-Leveling.git
 
 # Access
-$ cd bloggingwebsite
+$ cd Team-Leveling
 
 # Create or activate virtual environment
 $ source myvenv/bin/activate
@@ -86,10 +96,8 @@ $ source myvenv/bin/activate
 # Download dependencies
 $ pip install -r requirements.txt
 
-# Go to blango directory
-$ cd blango
 
-# Install PostgreSql and create data base and make connectivity with django project 
+# Install MYSQL and create data base and make connectivity with django project or Leave it as it is.
 
 # Run migrations
 $ python manage.py makemigrations
@@ -102,11 +110,6 @@ $ python manage.py runserver
 # 1) create super user
 $ python manage.py createsuperuser 
 
-# 2) Go to local deployment and put '/admin' after http://localhost:3000 and press enter and you'll be directed to admin panel
-
-#Create accounts, posts, and play arounds witha vast functionality 
-
-# The server will initialize in the <http://localhost:3000>
 ```
 
 ## :memo: License ##
@@ -119,3 +122,7 @@ Made with :heart: by <a href="https://github.com/shiv1119" target="_blank">Team 
 &#xa0;
 
 <a href="#top">Back to top</a>
+this is read me file for service Sphere 
+make it stunning and creative add features of service sphere
+give in file so that i can copy and paste it
+can play video isde read me if yes then play video in link

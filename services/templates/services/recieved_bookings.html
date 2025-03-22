@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+    .dark-mode .table {
+        color: #ffffff !important;
+        background-color: #1e1e1e;
+    }
+    .dark-mode .table tbody tr:hover {
+        background-color: #252525;
+        color: #ffffff;
+    }
+</style>
 <div class="mt-4">
     {% if messages %}
     <div class="mb-3 fade-in">
@@ -16,11 +26,11 @@
     </div>
 {% endif %}
 
-    <h2 class="mb-3">Received Bookings</h2>
+    <h2 class="mb-3 fade-in">Received Bookings</h2>
 
     {% if bookings %}
     <div class="table-responsive" style="overflow-x: auto;">
-        <table class="table table-bordered table-hover text-nowrap">
+        <table class="table table-striped table-hover text-nowrap fade-in">
             <thead class="thead-dark text-dark-mode">
                 <tr>
                     <th><i class="bi bi-briefcase-fill"></i> Service</th>
@@ -41,9 +51,9 @@
                         <strong>{{ booking.service.title }}</strong><br>
                         <small class="text-muted">{{ booking.service.description|truncatewords:10 }}</small>
                     </td>
-                    <td class="text-dark-mode">{% for service_type in booking.service.service_types.all %}
-                        <span class="badge bg-primary">{{ service_type.name }}</span>
-                    {% endfor %}</td>
+                    <td class="text-dark-mode">
+                        <span class="badge bg-primary">{{ booking.selected_service_type }}</span>
+                    </td>
                     <td class="text-dark-mode">
                         <strong>{{ booking.user.get_full_name|default:booking.user.username }}</strong><br>
                         <small class="text-muted">{{ booking.user.email }}</small>

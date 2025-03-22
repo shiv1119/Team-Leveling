@@ -18,6 +18,12 @@
     .profile-image:hover {
         transform: scale(1.05);
     }
+    <style>
+        .custom-checkbox {
+            accent-color:rgb(5, 9, 212);
+            cursor: not-allowed;
+        }
+    </style>
 </style>
 
 <div>
@@ -89,7 +95,7 @@
 </div>
 <style>
     .dark-mode .table {
-        background-color: #2b2b2b;
+        background-color: #1e1e1e;
         color: #ffffff !important;
     }
     .dark-mode .table tbody tr:hover {
@@ -97,7 +103,7 @@
         color: #ffffff;
     }
 </style>
-<div class="row mt-4">
+<div class="row mt-4 fade-in">
     <h3 class="mb-4">Offered Services</h3>
 
     <div class="table-responsive">
@@ -121,8 +127,8 @@
                 {% for service in services %}
                 <tr>
                     <td class="text-dark-mode">{{ service.title }}</td>
-                    <td class="text-dark-mode">${{ service.price }}</td>
-                    <td class="text-dark-mode">${{ service.discounted_price }}</td>
+                    <td class="text-dark-mode">₹{{ service.price }}</td>
+                    <td class="text-dark-mode">₹{{ service.discounted_price }}</td>
                     <td class="text-dark-mode">{{ service.get_price_type_display }}</td>
                     <td class="text-dark-mode">
                         {% for service_type in service.service_types.all %}
@@ -131,9 +137,11 @@
                     </td>
                     <td class="text-dark-mode">⭐ {{ service.average_rating|default:"No Ratings" }}</td>
                     <td class="text-dark-mode">{{ service.review_count }}</td>
-                    <td class="text-dark-mode">
-                        <input type="checkbox" readonly>
+                    <td>
+                        <input type="checkbox" class="form-check-input text-primary custom-checkbox" 
+                               {% if service.is_available %}checked{% endif %} disabled>
                     </td>
+                
                     <td class="text-dark-mode">
                         {% if service.contact_email %}✉️ {{ service.contact_email }}<br>{% endif %}
                         {% if service.contact_phone %}📞 {{ service.contact_phone }}{% endif %}

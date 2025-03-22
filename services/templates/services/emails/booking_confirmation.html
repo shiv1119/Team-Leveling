@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Confirmation</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .header { background: #007bff; color: white; text-align: center; padding: 15px; border-radius: 10px 10px 0 0; }
+        .content { padding: 20px; color: #333; }
+        .button { display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+        .footer { text-align: center; font-size: 12px; color: #777; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Booking Confirmed 🎉</h2>
+        </div>
+        <div class="content">
+            <p>Dear <b>{{ user.first_name }}</b>,</p>
+            <p>Your booking for <b>{{ service.title }}</b> has been successfully confirmed.</p>
+            <p><b>Date:</b> {{ booking.booking_date }}</p>
+            <p><b>Time:</b> {{ booking.start_time }} - {{ booking.end_time }}</p>
+            <p><b>Location:</b> {{ booking.address }}, {{ booking.city }}, {{ booking.pincode }}</p>
+            <p>Click below to view your booking details:</p>
+            <a href="{{ booking_url }}" class="button">View Booking</a>
+            <p>If you have any questions, feel free to contact us.</p>
+            <a href="{{ contact_us_url }}" style="display: inline-block; background: #28a745; color: white; padding: 12px 20px; text-decoration: none; font-weight: bold; border-radius: 5px;">
+                Contact Support 📞
+            </a>
+        </div>
+        <div class="footer">
+            <p>Thank you for booking with us! 💙</p>
+        </div>
+    </div>
+</body>
+</html>

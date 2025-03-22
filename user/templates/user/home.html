@@ -133,7 +133,7 @@
 </style>
 
 <div class="video-container-unique">
-    <div class="video-overlay"></div> <!-- Gradient overlay -->
+    <div class="video-overlay"></div> 
     <video autoplay loop muted>
         <source src="{% static 'video/animation-n.mp4' %}" type="video/mp4">
     </video>
@@ -153,7 +153,11 @@
         <p>Discover a wide range of services, book instantly, and connect with professionals for your needs.</p>
 
         <br>
-        <a href="{% url 'service_create' %}" class="btn btn-custom-unique">Become a Service Provider</a>
+        {% if user.user_profile.role == "service_provider" %}
+        <a href="{% url 'service_create' %}" class="btn btn-custom-unique">Add New Services</a>
+        {% else %}
+            <a href="{% url 'service_create' %}" class="btn btn-custom-unique">Become a Service Provider</a>
+        {% endif %}
         <a href="{% url 'all_services' %}" class="btn btn-custom-unique">Browse Services</a>
     </div>
 </div>
@@ -490,7 +494,7 @@
     <h2 class="text-center mb-4">What Our Users Say</h2>
     <div class="testimonial-row">
         {% for testimonial in testimonials %}
-        <div class="testimonial-item">
+        <div class="testimonial-item fade-in">
             <div class="d-flex align-items-center mb-2">
                 <a href="{% url 'user-profile-detail' pk=testimonial.user.user_profile.id %}">
                     {% if testimonial.user.user_profile.profile_photo %}
@@ -499,7 +503,7 @@
                         <img src="{% static 'img/profile.png' %}" class="rounded-circle me-2" width="40">
                     {% endif %}
                 </a>
-                <h6 class="fw-bold mb-0">{{ testimonial.user.user_profile.full_name|default:testimonial.user.username }}</h6>
+                <a href="{% url 'user-profile-detail' pk=testimonial.user.user_profile.id %}"  style="text-decoration: none;"><h5 class="fw-bold mb-0">{{ testimonial.user.user_profile.full_name|default:testimonial.user.username }}</h5></a>
             </div>
             <p class="text-muted">"{{ testimonial.feedback }}"</p>
             <div class="star-rating">
@@ -518,8 +522,8 @@
     </div>
 </div>
 <div class="mt-4">
-    <h2 class="text-center mb-4">Services Across Globe</h2>
-    <p class="text-center text-muted">
+    <h2 class="text-center mb-4 fade-in">Services Across Globe</h2>
+    <p class="text-center text-muted fade-in">
         Our platform connects users with top-rated service providers across the globe. 
         Whether you're looking for local professionals or international experts, we ensure seamless service delivery. 
         From home services to business solutions, our network spans multiple countries, bringing you trusted services wherever you are.

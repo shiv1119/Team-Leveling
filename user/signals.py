@@ -4,12 +4,18 @@ from django.contrib.auth.models import User
 from .models import NotificationPreferences
 import requests
 import re
+from django.contrib.sites.models import Site
 import user_agents
 from django.utils.timezone import now
 from django.contrib.sessions.models import Session
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in
-from .models import LoginHistory
+from .models import *
+from django.dispatch import receiver
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.urls import reverse
 
 @receiver(post_save, sender=User)
 def create_notification_preferences(sender, instance, created, **kwargs):
@@ -129,3 +135,130 @@ def log_login(sender, request, user, **kwargs):
             latitude=location["latitude"] if location else None,
             longitude=location["longitude"] if location else None,
         )
+
+
+from .helpers import create_notification 
+from django.conf import settings
+@receiver(post_save, sender=ContactUs)
+def send_contact_email_and_notification(sender, instance, created, **kwargs):
+    
+    if created:
+        site_url = f"{settings.SITE_URL}"
+
+        admin_link = f"{site_url}{reverse('admin:user_contactus_change', args=[instance.id])}"
+
+        admin_emails = list(User.objects.filter(is_staff=True).values_list('email', flat=True))
+
+        if admin_emails:
+            email_html_content = render_to_string("user/email/contact_email.html", {
+                "name": instance.name,
+                "email": instance.email,
+                "phone": instance.phone if instance.phone else "Not provided",
+                "subject": instance.subject,
+                "message": instance.message,
+                "admin_link": admin_link
+            })
+
+            email = EmailMultiAlternatives(
+                subject=f"New Contact Us Message: {instance.subject}",
+                body="A new contact us message has been received.",
+                from_email=None, 
+                to=admin_emails
+            )
+            email.attach_alternative(email_html_content, "text/html")
+            email.send()
+        admins = User.objects.filter(is_staff=True)
+        for admin in admins:
+            create_notification(
+                user=admin,
+                notification_type="contact",
+                message=f"New Contact Us message from {instance.name}: {instance.subject}",
+                related_object=instance
+            )
+
+from django.utils.html import strip_tags
+@receiver(post_save, sender=LoginHistory)
+def login_notification(sender, instance, created, **kwargs):
+    if created:
+        user = instance.user
+        request = None
+
+        last_login = LoginHistory.objects.filter(user=user).exclude(id=instance.id).order_by("-timestamp").first()
+
+        if last_login:
+            is_new_device = instance.device != last_login.device
+            is_new_location = instance.city != last_login.city or instance.country != last_login.country
+
+            if is_new_device or is_new_location:
+                message = f"New login detected on {instance.device} ({instance.operating_system}) from {instance.city}, {instance.country}."
+
+                create_notification(
+                    user=user,
+                    notification_type="new_login",
+                    message=message,
+                    related_object=instance
+                )
+                password_reset_url = request.build_absolute_uri(reverse("password_reset"))
+                contact_support_url = request.build_absolute_uri(reverse("contact-us"))
+
+                email_context = {
+                    "user": user,
+                    "city": instance.city or "Unknown",
+                    "country": instance.country or "Unknown",
+                    "device": instance.device or "Unknown Device",
+                    "os": instance.operating_system or "Unknown OS",
+                    "timestamp": instance.timestamp,
+                    "reset_password_url": password_reset_url,
+                    "support_url": contact_support_url,
+                }
+
+                html_message = render_to_string("user/email/new_login_alert.html", email_context)
+                plain_message = strip_tags(html_message)
+
+                send_mail(
+                    subject="New Login Alert",
+                    message=plain_message,
+                    from_email="security@yourwebsite.com",
+                    recipient_list=[user.email],
+                    html_message=html_message,
+                    fail_silently=True,
+                )
+
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+@receiver(post_save, sender=UserProfile)
+def user_profile_updated(sender, instance, created, **kwargs):
+    user = instance.user
+    if created:
+        return
+    create_notification(
+        user=user,
+        notification_type="user_update",
+        message="Your profile has been updated!",
+        related_object=instance
+    )
+
+from django.db.models.signals import pre_delete
+
+@receiver(pre_delete, sender=User)
+def send_account_deletion_email(sender, instance, **kwargs):
+    subject = "Your Account Has Been Deleted"
+    support_url = f"{settings.SITE_URL}{reverse('contact-us')}"
+
+    context = {
+        "user": instance,
+        "support_url": support_url,
+    }
+    
+    html_message = render_to_string("user/email/account_delete.html", context)
+    plain_message = strip_tags(html_message)
+
+    send_mail(
+        subject=subject,
+        message=plain_message,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[instance.email],
+        html_message=html_message,
+        fail_silently=True
+    )

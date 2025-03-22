@@ -209,10 +209,6 @@ body {
     color: #333;
 }
 
-.wishlist-btn i {
-    color: #333;
-}
-
 .dropdown-menu .dropdown-item:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }

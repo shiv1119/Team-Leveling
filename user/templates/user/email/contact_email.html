@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>New Contact Us Message</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
+        .container { background: white; padding: 20px; border-radius: 5px; max-width: 600px; margin: auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
+        h2 { color: #333; }
+        p { font-size: 14px; color: #555; }
+        .btn { display: inline-block; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px; }
+        .footer { margin-top: 20px; font-size: 12px; color: #999; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>New Contact Us Message</h2>
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
+        <p><strong>Phone:</strong> {{ phone }}</p>
+        <p><strong>Subject:</strong> {{ subject }}</p>
+        <p><strong>Message:</strong></p>
+        <p>{{ message }}</p>
+
+        <a href="{{ admin_link }}" class="btn">View in Admin Panel</a>
+
+        <div class="footer">
+            <p>Thank you,</p>
+            <p>Service Sphere Team</p>
+        </div>
+    </div>
+</body>
+</html>

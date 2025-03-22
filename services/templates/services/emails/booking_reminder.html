@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Reminder</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header" style="background: #17a2b8; color: white; padding: 15px; text-align: center;">
+            <h2>Upcoming Booking Reminder ⏳</h2>
+        </div>
+        <div class="content">
+            <p>Dear <b>{{ user.first_name }}</b>,</p>
+            <p>This is a reminder for your upcoming booking:</p>
+            <p><b>Service:</b> {{ service.title }}</p>
+            <p><b>Date:</b> {{ booking.booking_date }}</p>
+            <p><b>Time:</b> {{ booking.start_time }} - {{ booking.end_time }}</p>
+            <p>We look forward to serving you soon!</p>
+        </div>
+        <div class="footer">
+            <p>Best regards, <br>Service Sphere Team</p>
+        </div>
+    </div>
+</body>
+</html>

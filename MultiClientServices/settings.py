@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -75,8 +76,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MultiClientServices.wsgi.application'
 
-RAZORPAY_KEY_ID = "hue hue key id"
-RAZORPAY_KEY_SECRET = "hue hue key secret"
+RAZORPAY_KEY_ID = "rzp_test_nqgKu7tmBXdyXT"
+RAZORPAY_KEY_SECRET = "58N2HC5IPsgkTki5JZXYoTqG"
 
 DOMAIN = "http://127.0.0.1:8000"
 
@@ -97,6 +98,8 @@ EMAIL_HOST_USER = "greenarrow6499@gmail.com"
 EMAIL_HOST_PASSWORD = "rrbu uhfz ncjj uawn "
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+SITE_URL = "http://127.0.0.1:8000"
+SITE_ID = 1
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 

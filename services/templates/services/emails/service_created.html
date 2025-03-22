@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service Created - Service Sphere</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .logo {
+            width: 150px;
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            color: #666;
+            font-size: 16px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ site_url }}/static/logo.png" alt="Service Sphere" class="logo">
+        <h2>🎉 Your Service is Live!</h2>
+        <p>Congratulations! Your service "<strong>{{ service.title }}</strong>" has been successfully created on <strong>Service Sphere</strong>.</p>
+        <p>You can now start receiving inquiries and bookings.</p>
+        <a href="{{ site_url }}/service/{{ service.id }}/" class="btn">View Your Service</a>
+        <p class="footer">Thank you for choosing Service Sphere! 🚀</p>
+    </div>
+</body>
+</html>

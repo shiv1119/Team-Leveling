@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service Updated - Service Sphere</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .container {
+            width: 90%; max-width: 600px; margin: 20px auto; background: #ffffff; 
+            padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: center;
+        }
+        .logo { width: 150px; }
+        h2 { color: #333; }
+        p { color: #666; font-size: 16px; }
+        .btn { display: inline-block; background-color: #28a745; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; margin-top: 10px; }
+        .footer { margin-top: 20px; font-size: 12px; color: #999; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ site_url }}/static/logo.png" alt="Service Sphere" class="logo">
+        <h2>✅ Your Service Has Been Updated</h2>
+        <p>Your service "<strong>{{ service.title }}</strong>" has been successfully updated on <strong>Service Sphere</strong>.</p>
+        <p>Make sure to check your listing to ensure all details are accurate.</p>
+        <a href="{{ site_url }}/service/{{ service.id }}/" class="btn">View Updated Service</a>
+        <p class="footer">Thank you for using Service Sphere! 🚀</p>
+    </div>
+</body>
+</html>

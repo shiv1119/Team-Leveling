@@ -74,7 +74,7 @@ class Service(models.Model):
     contact_phone = models.CharField(max_length=20, blank=True, null=True)
     whatsapp_number = models.CharField(max_length=20, blank=True, null=True)
     website_url = models.URLField(blank=True, null=True)
-    views_count = models.PositiveIntegerField(default=0)
+    views_count = models.BigIntegerField(default=0)
     response_time = models.CharField(max_length=50, blank=True, null=True)
 
     is_verified = models.BooleanField(default=False)

@@ -31,10 +31,10 @@
 
 <div class="container mt-4">
     <h2 class="text-center mb-4"><i class="bi bi-list"></i> All Services</h2>
-    <form method="GET" class="mb-4 p-4 border rounded shadow-sm dark-mode-card">
+    <form method="GET" class="mb-4 p-4 border rounded shadow-sm dark-mode-card fade-in">
         <h5 class="mb-3 text-primary"><i class="fas fa-filter"></i> Filter Services</h5>
     
-        <div class="row">
+        <div class="row fade-in">
             <!-- Price Range -->
             <div class="col-12 col-sm-6 col-md-3 mb-3">
                 <label class="fw-bold">Price Range:</label>
@@ -79,7 +79,7 @@
             </div>
         </div>
     
-        <div class="row">
+        <div class="row fade-in">
             <!-- Start Time -->
             <div class="col-12 col-sm-6 col-md-3 mb-3">
                 <label class="fw-bold">Start Time:</label>
@@ -120,7 +120,7 @@
     </form>
     
     {% for service_type, services in categorized_services.items %}
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center fade-in">
             <h3 class="mt-4 mb-2"><i class="bi bi-folder-fill"></i> {{ service_type }}</h3>
             <a href="{% if service_type.id %}{% url 'filtered_services' service_type.id %}{% else %}#{% endif %}" 
             class="btn btn-outline-primary see-all-btn">
@@ -128,7 +128,7 @@
             </a>
         </div>
         <div class="horizontal-scroll">
-            <div class="scroll-container">
+            <div class="scroll-container fade-in">
                 {% for service in services %}
                     <div class="card service-card dark-mode-card">
                         <div id="carousel-{{ service.id }}" class="carousel slide" data-bs-ride="carousel">
