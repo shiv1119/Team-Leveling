@@ -31,3 +31,4 @@ class ContactUsAdmin(admin.ModelAdmin):
 admin.site.register(Notification)
 admin.site.register(NotificationPreferences)
 admin.site.register(LoginHistory)
+admin.site.register(Subscriber)

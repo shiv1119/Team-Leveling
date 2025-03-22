@@ -211,3 +211,16 @@ class LoginHistory(models.Model):
     def __str__(self):
         status = "Active" if self.is_active else "Logged Out"
         return f"{self.user.username} - {self.timestamp} - {self.device} ({self.operating_system}) - {status}"
+
+import uuid
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+    notified = models.BooleanField(default=False)
+    is_subscribed = models.BooleanField(default=True)
+    unsubscribe_token = models.UUIDField(default=uuid.uuid4, unique=True) 
+
+    def __str__(self):
+        return self.email

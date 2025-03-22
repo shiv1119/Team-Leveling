@@ -1,8 +1,13 @@
-from .models import Notification
+from .models import Notification, Subscriber
 
-def notification_count(request):
+def global_context(request):
+    context = {
+        "notification_count": 0,
+        "subscribed": False
+    }
+
     if request.user.is_authenticated:
-        count = Notification.objects.filter(user=request.user, is_read=False).count()
-    else:
-        count = 0
-    return {"notification_count": count}
+        context["notification_count"] = Notification.objects.filter(user=request.user, is_read=False).count()
+        context["subscribed"] = Subscriber.objects.filter(email=request.user.email, is_subscribed=True).exists()
+
+    return context

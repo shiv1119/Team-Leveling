@@ -110,3 +110,7 @@ class NotificationPreferencesForm(forms.ModelForm):
         fields = ['email_notifications', 'sms_notifications', 'push_notifications', 'in_app_notification']
 
 
+class SubscriptionForm(forms.ModelForm):
+    class Meta:
+        model = Subscriber
+        fields = ['email']

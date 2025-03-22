@@ -533,3 +533,38 @@ class ImageUpdateView(LoginRequiredMixin, View):
             messages.error(request, "No image selected. Please choose an image.")
 
         return redirect("profile")
+
+def subscribe_newsletter(request):
+    if request.method == "POST":
+        form = SubscriptionForm(request.POST)
+        print(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            subscriber, created = Subscriber.objects.get_or_create(email=email, defaults={"is_subscribed": True})
+
+            if not created:  
+                if not subscriber.is_subscribed:
+                    subscriber.is_subscribed = True
+                    subscriber.save()
+                    messages.success(request, "You have successfully resubscribed to the newsletter!")
+                else:
+                    messages.warning(request, "You are already subscribed!")
+            else:
+                messages.success(request, "Successfully subscribed to the newsletter!")
+        else:
+            messages.error(request, "Invalid email address.")
+        return redirect("home")  
+
+    return redirect("home") 
+
+class UnsubscribeView(View):
+    def get(self, request, token):
+        subscriber = get_object_or_404(Subscriber, unsubscribe_token=token)
+
+        if subscriber.is_subscribed:
+            subscriber.delete() 
+            messages.success(request, "You have successfully unsubscribed from our newsletter.")
+        else:
+            messages.info(request, "You are already unsubscribed.")
+
+        return render(request, "unsubscribe_confirmation.html")
