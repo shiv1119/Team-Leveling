@@ -91,7 +91,10 @@ $ git clone https://github.com/shiv1119/Team-Leveling.git
 $ cd Team-Leveling
 
 # Create or activate virtual environment
-$ source myvenv/bin/activate
+$ python -m venv venv
+
+# Create or activate virtual environment
+$ source venv/bin/activate
 
 # Download dependencies
 $ pip install -r requirements.txt
