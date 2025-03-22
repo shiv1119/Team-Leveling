@@ -38,6 +38,11 @@
             background-color: #222 !important;
             color: white !important;
         }
+        @media (max-width: 991px) {
+            .custom-top {
+                top: 9px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -50,7 +55,13 @@
             <button class="btn btn-light d-lg-none search-button" data-bs-toggle="collapse" data-bs-target="#mobileSearch" style="margin-left: 10px;">
                 <i class="bi bi-search"></i>
             </button>
-            <a class="navbar-brand" href="/">ServiceSphere</a>
+            
+            {% if user.is_authenticated %}
+                <a class="navbar-brand" href="/">ServiceSphere</a>
+            {% else %}
+                <a class="navbar-brand custom-top" href="/">ServiceSphere</a>
+            {% endif %}
+                
             <div class="d-flex align-items-center ms-auto d-lg-none">
                 <i class="bi bi-moon dark-mode-toggle me-2" style="cursor:pointer;"></i>
                 {% if request.user.is_authenticated  %}
@@ -181,22 +192,41 @@
         </div>
     </nav>
 
-    <div class="collapse position-fixed border-0 start-0 w-100 search-open" id="mobileSearch" style="top: 69px; z-index: 1000;">
-        <div class="d-flex justify-content-center p-2 position-relative">
-            <div class="search-container" style="width: 80%; max-width: 400px;">
-                <form method="GET" action="{% url 'global_search' %}" class="position-relative">
-                    <input class="form-control search-bar dark-input pe-5" type="search" name="q" placeholder="Search..." aria-label="Search" required>
-                    <button type="submit" class="btn position-absolute top-50 end-0 translate-middle-y me-3 p-0 border-0 text-dark-mode">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </form>
+    
+    {% if user.is_authenticated %}
+        <div class="collapse position-fixed border-0 start-0 w-100 search-open" id="mobileSearch" style="top: 81px; z-index: 1000;">
+            <div class="d-flex justify-content-center p-2 position-relative">
+                <div class="search-container" style="width: 80%; max-width: 400px;">
+                    <form method="GET" action="{% url 'global_search' %}" class="position-relative">
+                        <input class="form-control search-bar dark-input pe-5" type="search" name="q" placeholder="Search..." aria-label="Search" required>
+                        <button type="submit" class="btn position-absolute top-50 end-0 translate-middle-y me-3 p-0 border-0 text-dark-mode">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
+                </div>
+                <button class="btn position-absolute end-0 me-3 text-dark-mode" data-bs-toggle="collapse" data-bs-target="#mobileSearch">
+                    <i class="bi bi-x-lg"></i>
+                </button>
             </div>
-
-            <button class="btn position-absolute end-0 me-3 text-dark-mode" data-bs-toggle="collapse" data-bs-target="#mobileSearch">
-                <i class="bi bi-x-lg"></i>
-            </button>
         </div>
-    </div>
+    {% else %}
+        <div class="collapse position-fixed border-0 start-0 w-100 search-open" id="mobileSearch" style="top: 69px; z-index: 1000;">
+            <div class="d-flex justify-content-center p-2 position-relative">
+                <div class="search-container" style="width: 80%; max-width: 400px;">
+                    <form method="GET" action="{% url 'global_search' %}" class="position-relative">
+                        <input class="form-control search-bar dark-input pe-5" type="search" name="q" placeholder="Search..." aria-label="Search" required>
+                        <button type="submit" class="btn position-absolute top-50 end-0 translate-middle-y me-3 p-0 border-0 text-dark-mode">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
+                </div>
+                <button class="btn position-absolute end-0 me-3 text-dark-mode" data-bs-toggle="collapse" data-bs-target="#mobileSearch">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </div>
+    {% endif %}
+        
 
     <div>
         {% block hero %}
