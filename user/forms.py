@@ -29,20 +29,15 @@ class SignupForm(forms.ModelForm):
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
 
-        # Username check
         if User.objects.filter(username=username).exists():
             self.add_error("username", "Username is already taken.")
-        
-        # Email check
+    
         if User.objects.filter(email=email).exists():
             self.add_error("email", "Email is already registered.")
-        
-        # Password checks
+
         if password1 and password2:
             if password1 != password2:
                 self.add_error("password2", "Passwords do not match.")
-            
-            # Strong password validation using regex
             if len(password1) < 6:
                 self.add_error("password1", "Password must be at least 6 characters long.")
             if not re.search(r"[A-Z]", password1):

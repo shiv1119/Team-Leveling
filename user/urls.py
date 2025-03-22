@@ -24,5 +24,6 @@ urlpatterns = [
     path("faq/", FAQView.as_view(), name="faq"),
     path("search/", GlobalSearchView.as_view(), name="global_search"),
     path("activate/<uidb64>/<token>/", ActivateAccountView.as_view(), name="activate"),
+    path("update-profile-image/", ImageUpdateView.as_view(), name="update_profile_image"),
 ]
 

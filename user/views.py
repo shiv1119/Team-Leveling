@@ -212,6 +212,10 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         try:
             form.instance.user = self.request.user
+            print(self.request.POST)
+            if "profile_photo" in self.request.FILES:
+                form.instance.profile_photo = self.request.FILES["profile_photo"]
+            form.save()
             messages.success(self.request, "Profile updated successfully")
             return super().form_valid(form)
         except Exception:
@@ -513,3 +517,15 @@ class GlobalSearchView(TemplateView):
         context["query"] = query
         return context
 
+
+class ImageUpdateView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        if "image" in request.FILES:
+            user_profile = request.user.user_profile
+            user_profile.profile_photo = request.FILES["image"]
+            user_profile.save()
+            messages.success(request, "Profile image updated successfully!")
+        else:
+            messages.error(request, "No image selected. Please choose an image.")
+
+        return redirect("profile")
