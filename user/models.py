@@ -106,8 +106,8 @@ class ContactUs(models.Model):
 class Notification(models.Model):
     NOTIFICATION_TYPES = [
         ("user_update", "User Update"),
-        ("order_update", "Order Update"),
         ("system", "System Notification"),
+        ("contact", "Contact"),
         ("payment_success", "Payment Successful"),
         ("payment_failed", "Payment Failed"),
         ("service_created", "Service Created"),
@@ -143,7 +143,7 @@ class Notification(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
 
-    related_object_id = models.PositiveIntegerField(null=True, blank=True)
+    related_object_id = models.CharField(max_length=36, null=True, blank=True)
     related_model = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):

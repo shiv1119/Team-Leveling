@@ -20,7 +20,7 @@ def create_notification(user, notification_type, message, related_object=None):
             existing_notification.created_at = now()  
             existing_notification.notification_type = notification_type
             if related_object:
-                existing_notification.related_object_id = related_object.id
+                existing_notification.related_object_id = str(related_object.id)
                 existing_notification.related_model = related_object.__class__.__name__
                 existing_notification.link = get_notification_link(notification_type, related_object)
 
@@ -34,7 +34,7 @@ def create_notification(user, notification_type, message, related_object=None):
             )
 
             if related_object:
-                notification.related_object_id = related_object.id
+                notification.related_object_id = str(related_object.id)
                 notification.related_model = related_object.__class__.__name__
                 notification.link = get_notification_link(notification_type, related_object)
 
@@ -47,53 +47,34 @@ def get_notification_link(notification_type, related_object):
         return "/user/profile/"
     elif notification_type == "account_security":
         return "/settings/security/"
+    elif notification_type == "new_login":
+        return "/login-history/"
     elif notification_type == "new_message":
         return "/messages/"
-    elif notification_type == "delivery_status":
-        return f"/orders/{related_object.id}/tracking/"
-
-    elif notification_type == "new_application":
-        return f"/applicant/{related_object.id}/details/"
-    elif notification_type == "renewal_application":
-        return f"/applications/{related_object.id}/"
-    elif notification_type == "reissue_application":
-        return f"/applications/{related_object.id}/"
-    elif notification_type == "lost_application":
-        return f"/applications/{related_object.id}/"
-    elif notification_type == "tatkal_application":
-        return f"/applications/{related_object.id}/"
-    elif notification_type == "application_under_review":
-        return f"/applications/{related_object.id}/status/"
-    elif notification_type == "application_approved":
-        return f"/applications/{related_object.id}/status/"
-    elif notification_type == "application_rejected":
-        return f"/applications/{related_object.id}/status/"
-    elif notification_type == "application_issued":
-        return f"/applications/{related_object.id}/issued/"
-
-    elif notification_type == "police_verification":
-        return f"/verifications/{related_object.id}/police/"
-    elif notification_type == "document_verification":
-        return f"/verifications/{related_object.id}/documents/"
-    elif notification_type == "background_check":
-        return f"/verifications/{related_object.id}/background/"
-    elif notification_type == "final_review":
-        return f"/verifications/{related_object.id}/final/"
-    elif notification_type == "criminal_record_check":
-        return f"/verifications/{related_object.id}/criminal/"
-    elif notification_type == "address_verification":
-        return f"/verifications/{related_object.id}/address/"
-    elif notification_type == "identity_verification":
-        return f"/verifications/{related_object.id}/identity/"
-    elif notification_type == "aadhaar_verification":
-        return f"/verifications/{related_object.id}/aadhaar/"
-    elif notification_type == "financial_status_verification":
-        return f"/verifications/{related_object.id}/financial/"
-    elif notification_type == "visa_clearance":
-        return f"/verifications/{related_object.id}/visa/"
-    elif notification_type == "blacklist_check":
-        return f"/verifications/{related_object.id}/blacklist/"
-    elif notification_type == "immigration_check":
-        return f"/verifications/{related_object.id}/immigration/"
-
-    return None
+    elif notification_type == "contact" and related_object.__class__.__name__ == "ContactUs":
+        return f"/admin/user/contactus/{related_object.id}/change/"
+    elif notification_type == "review_received" and related_object.__class__.__name__ == "Feedback":
+        return f"/feedback/{related_object.id}/"
+    elif notification_type == "service_created" or notification_type == "service_updated":
+        return f"/service/{related_object.id}/"
+    elif notification_type == "service_updated":
+        return f"/service/{related_object.id}/"
+    elif notification_type == "service_deleted":
+        return "/services/"
+    elif notification_type == "working_hours":
+        return f"/{related_object.id}/working-hours/create/"
+    elif notification_type == "service_image":
+        return f"/{related_object.id}/images/upload/"
+    elif notification_type == "address_added" or notification_type == "address_updated" or notification_type == "service_image_added" or notification_type == "service_image_deleted":
+        return f"/service/{related_object.id}/"
+    elif notification_type == "social_link":
+        return f"/{related_object.id}/social-links/create/"
+    elif notification_type == "verification_pending" or notification_type == "verification_completed":
+        return "/verification-status/"
+    elif notification_type.startswith("booking_"):
+        return f"/booking/{related_object.id}/"
+    elif notification_type == "payment_success" or notification_type == "booking_payment_success":
+        return "/payment/success/"
+    elif notification_type == "payment_failed" or notification_type == "booking_payment_failed":
+        return "/payment/failed/"
+    return "/notifications/" 

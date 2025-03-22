@@ -31,4 +31,5 @@ urlpatterns = [
     path("booking/<uuid:pk>/cancel/", CancelBookingView.as_view(), name="cancel_booking"),
     path("my-bookings/", MyBookedServicesView.as_view(), name="my_booked_services"),
     path("dashboard/", DashboardView.as_view(), name="dashboard"),
+    path("feedback/<uuid:id>/", FeedbackDetailView.as_view(), name="feedback_detail"),
 ]

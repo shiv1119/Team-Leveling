@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.views.generic import View
 from .forms import *
 from .models import *
+from user.helpers import create_notification
 
 from django.urls import reverse
 
@@ -18,22 +19,18 @@ class ServiceCreateView(LoginRequiredMixin, CreateView):
     form_class = ServiceForm
     template_name = 'services/forms/service_form.html'
 
+
     def form_valid(self, form):
-        try:
-            form.instance.user = self.request.user
-            service = form.save()
-            address = ServiceLocation.objects.filter(service=service).first()
-            if address:
-                return redirect(reverse("address_details_update", kwargs={"service_id": service.id, "address_id": address.id}))
-            return redirect(reverse("address_details_create", kwargs={"service_id": service.id}))
-        except Exception:
-            messages.error(self.request, "An error occurred while creating the service.")
-            return self.render_to_response(self.get_context_data(form=form))
-
+        form.instance.user = self.request.user
+        service = form.save()  
+        address_details = ServiceLocation.objects.filter(service=service).exists()
+        if address_details:
+            return redirect(reverse("address_details_update", kwargs={"service_id": service.id, "address_id": address_details.id}))
+        return redirect(reverse("address_details_create", kwargs={"service_id": service.id}))
+    
     def form_invalid(self, form):
-        messages.error(self.request, "Error, Check input details and try again.")
-        return self.render_to_response(self.get_context_data(form=form))
-
+        messages.error(self.request, "Error, Check input details and try again")
+        return self.render_to_response(self.get_context_data(form=form)) 
 
 class WorkingHoursCreateView(LoginRequiredMixin, CreateView):
     model = WorkingHour
@@ -129,8 +126,14 @@ class SocialLinksCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         try:
             form.instance.service = self.service
-            form.save()
+            social_link=form.save()
             messages.success(self.request, "Social media link added successfully!")
+            create_notification(
+                user=self.service.user,
+                notification_type="social_link",
+                message=f"A new social media link ({social_link.platform}) has been added for {self.service.title}.",
+                related_object=self.service
+            )
             return self.render_to_response(self.get_context_data(form=self.form_class()))
         except Exception:
             messages.error(self.request, "An error occurred while saving the social media link.")
@@ -157,7 +160,6 @@ class ServiceImageUploadView(LoginRequiredMixin, View):
         })
 
     def post(self, request, service_id):
-        """Handle image upload."""
         service = get_object_or_404(Service, id=service_id)
         form = ServiceImageForm(request.POST, request.FILES)
 
@@ -253,10 +255,16 @@ class WorkingHoursDeleteView(View):
 class SocialLinkDeleteView(LoginRequiredMixin, View):
     def post(self, request, link_id, *args, **kwargs):
         social_link = get_object_or_404(SocialMediaLink, id=link_id)
-        service_id = social_link.service.id  # Get the associated service ID before deletion
+        service = social_link.service  
+        create_notification(
+            user=service.user,
+            notification_type="social_link",
+            message=f"A social media link ({social_link.platform}) has been removed from {service.title}.",
+            related_object=service
+        )
         social_link.delete()
         messages.success(request, "Social media link deleted successfully!")
-        return redirect("social_link_create", service_id=service_id)
+        return redirect("social_link_create", service_id=service.id)
 
 from django.views.generic import ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -271,10 +279,16 @@ class MyServicesView(LoginRequiredMixin, ListView):
         return Service.objects.filter(user=self.request.user)
 
 
-class ServiceDeleteView(LoginRequiredMixin, DeleteView):
-    model = Service
-    template_name = "services/service_confirm_delete.html"
-    success_url = reverse_lazy("my-services")
+class ServiceDeleteView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        service = Service.objects.get(pk=kwargs["pk"])
+        service_title = service.title
+        service.delete()
+        messages.success(request, f"Service '{service_title}' has been deleted successfully.")
+        return redirect(reverse_lazy("my-services"))
+
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse_lazy("my-services"))
 
 class ToggleAvailabilityView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
@@ -516,7 +530,6 @@ class BookingDetailView(LoginRequiredMixin, DetailView):
     template_name = "services/booking_detail.html"
     context_object_name = "booking"
 
-import razorpay
 from django.conf import settings
 from django.http import JsonResponse
 
@@ -670,3 +683,13 @@ class FeedbackCreateView(CreateView):
     def form_invalid(self, form):
         messages.error(self.request, "Error: Please check your input and try again.")
         return self.render_to_response(self.get_context_data(form=form))
+    
+
+class FeedbackDetailView(DetailView):
+    model = Feedback
+    template_name = "services/feedback.html"
+    context_object_name = "feedback"
+
+    def get_object(self):
+        feedback_id = self.kwargs.get("id") 
+        return get_object_or_404(Feedback, id=feedback_id)

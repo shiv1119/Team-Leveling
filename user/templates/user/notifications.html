@@ -166,7 +166,7 @@
 
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <h5 class="text-secondary">Read Notifications</h5>
-                {% if read_notifications %}
+                {% if read_notifications.exists %}
                     <form action="{% url 'notification' %}" method="post" class="d-inline">
                         {% csrf_token %}
                         <input type="hidden" value="clear_notification" name="edit_type">

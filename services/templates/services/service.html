@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+    .dark-mode .ul_dark{
+        background-color: #1e1e1e;
+        color: white;
+    }
+</style>
 <div class="container mt-5">
     {% if messages %}
     <div class="mb-3 fade-in">
@@ -18,7 +24,7 @@
 
 
     {% if service_images %}
-    <div id="serviceCarousel" class="carousel slide shadow-sm border-0 rounded mb-4" data-bs-ride="carousel">
+    <div id="serviceCarousel" class="carousel slide shadow-sm border-0 rounded mb-4 fade-in" data-bs-ride="carousel">
         <div class="carousel-inner">
             {% for image in service_images %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
@@ -37,9 +43,9 @@
     </div>
     {% endif %}
 
-    <h2 class="text-center mb-4"><i class="bi bi-gear-fill"></i> Service Details</h2>
+    <h2 class="text-center mb-4 fade-in"><i class="bi bi-gear-fill "></i> Service Details</h2>
 
-    <div class="card shadow-sm border-0 mb-4 dark-mode-card">
+    <div class="card shadow-sm border-0 mb-4 dark-mode-card fade-in">
         <div class="card-header bg-primary text-white">
             <i class="bi bi-info-circle-fill"></i> General Information
         </div>
@@ -55,7 +61,7 @@
     </div>
 
     <!-- Working Hours Section -->
-    <div class="card shadow-sm border-0 mb-4 dark-mode-card">
+    <div class="card shadow-sm border-0 mb-4 dark-mode-card fade-in">
         <div class="card-header bg-success text-white">
             <i class="bi bi-clock-fill"></i> Working Hours
         </div>
@@ -63,7 +69,7 @@
             {% if working_hours %}
                 <ul class="list-group">
                     {% for hour in working_hours %}
-                        <li class="list-group-item"><strong>{{ hour.day }}</strong>: {{ hour.open_time }} - {{ hour.close_time }}</li>
+                        <li class="list-group-item ul_dark"><strong>{{ hour.day }}</strong>: {{ hour.open_time }} - {{ hour.close_time }}</li>
                     {% endfor %}
                 </ul>
             {% else %}
@@ -72,8 +78,7 @@
         </div>
     </div>
 
-    <!-- Address Details Section -->
-    <div class="card shadow-sm border-0 mb-4 dark-mode-card">
+    <div class="card shadow-sm border-0 mb-4 dark-mode-card fade-in">
         <div class="card-header bg-dark text-white">
             <i class="bi bi-geo-alt-fill"></i> Address Details
         </div>
@@ -97,8 +102,7 @@
         </div>
     </div>
 
-    <!-- Social Media Links Section -->
-    <div class="card shadow-sm border-0 mb-4 dark-mode-card">
+    <div class="card shadow-sm border-0 mb-4 dark-mode-card fade-in">
         <div class="card-header bg-info text-white">
             <i class="bi bi-share-fill"></i> Social Media Links
         </div>
@@ -106,7 +110,7 @@
             {% if social_links %}
                 <ul class="list-group">
                     {% for link in social_links %}
-                        <li class="list-group-item">
+                        <li class="list-group-item ul_dark">
                             <i class="bi bi-globe2"></i> <strong>{{ link.platform }}:</strong> 
                             <a href="{{ link.url }}" target="_blank" class="text-primary">{{ link.url }}</a>
                         </li>
@@ -117,7 +121,7 @@
             {% endif %}
         </div>
     </div>
-    <div class="card border-0 shadow-sm rounded-3 dark-mode-card">
+    <div class="card border-0 shadow-sm rounded-3 dark-mode-card fade-in">
         <div class="card-header text-center bg-primary text-white rounded-top">
             <h5 class="mb-0">Share Your Feedback</h5>
         </div>
@@ -151,7 +155,7 @@
     </div>
     
     
-    <div class="card shadow-sm border-0 mb-4 dark-mode-card">
+    <div class="card shadow-sm border-0 mb-4 dark-mode-card fade-in">
         <div class="card-header bg-warning text-white">
             <i class="bi bi-chat-left-text-fill"></i> Customer Feedback
         </div>
@@ -159,7 +163,7 @@
             {% if feedbacks %}
                 <ul class="list-group">
                     {% for feedback in feedbacks %}
-                        <li class="list-group-item">
+                        <li class="list-group-item ul_dark">
                             <strong><i class="bi bi-person-fill"></i> {{ feedback.user.username }}</strong>
                             <br>
                             <span class="text-warning">
@@ -176,7 +180,7 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-between mt-4">
+    <div class="d-flex justify-content-between mt-4 fade-in">
         <a href="{% url 'home' %}" class="btn btn-primary btn shadow">
             <i class="bi bi-house-door-fill"></i> Home
         </a>

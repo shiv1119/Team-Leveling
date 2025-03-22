@@ -39,6 +39,7 @@ from django.utils.html import strip_tags
 from django.contrib import messages
 from django.contrib.auth.tokens import default_token_generator
 from django.db import IntegrityError
+from django.conf import settings
 
 
 class Home(TemplateView):
@@ -67,24 +68,18 @@ class SignupView(View):
                     email=form.cleaned_data["email"],
                     password=form.cleaned_data["password1"]
                 )
-                user.is_active = False  # User remains inactive until email verification
-                user.save()
-
-                # Generate activation link
+                user.is_active = False  
                 current_site = get_current_site(request)
                 uid = urlsafe_base64_encode(force_bytes(user.pk))
                 token = default_token_generator.make_token(user)
-                activation_link = f"http://{current_site.domain}/activate/{uid}/{token}/"
+                activation_link = f"{settings.SITE_URL}/activate/{uid}/{token}/"
 
-                # Prepare email
                 subject = "Activate Your Account"
                 html_message = render_to_string("user/activation_email.html", {
                     "user": user,
                     "activation_link": activation_link
                 })
-                plain_message = strip_tags(html_message)  # Fallback text version
-                
-                # Send email using EmailMultiAlternatives
+                plain_message = strip_tags(html_message)  
                 email = EmailMultiAlternatives(subject, plain_message, "your-email@gmail.com", [user.email])
                 email.attach_alternative(html_message, "text/html")
                 email.send()
@@ -218,7 +213,6 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
         try:
             form.instance.user = self.request.user
             messages.success(self.request, "Profile updated successfully")
-            create_notification(self.request.user, "user_update", "Your profile has been updated!", related_object=form.instance)
             return super().form_valid(form)
         except Exception:
             messages.error(self.request, "An error occurred while updating the profile.")

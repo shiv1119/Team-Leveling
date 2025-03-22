@@ -1,0 +1,36 @@
+{% autoescape off %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>New Login Alert</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
+        .container { max-width: 600px; background: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
+        .header { background: #007bff; color: white; text-align: center; padding: 10px; border-radius: 10px 10px 0 0; }
+        .content { padding: 20px; color: #333; line-height: 1.6; }
+        .footer { text-align: center; font-size: 12px; color: #666; margin-top: 20px; }
+        .button { display: inline-block; background: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; margin-top: 10px; }
+        .button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header"><h2>🔔 New Login Alert</h2></div>
+        <div class="content">
+            <p>Dear {{ user.username }},</p>
+            <p>We detected a new login on your account from:</p>
+            <strong>📍 Location:</strong> {{ city }}, {{ country }}<br>
+            <strong>💻 Device:</strong> {{ device }} ({{ os }})<br>
+            <strong>🕒 Time:</strong> {{ timestamp }}<br>
+            <p>If this was not you, please <strong>change your password immediately</strong> and review your account security.</p>
+            <a href="{{ reset_password_url }}" class="button">Change Password</a>
+        </div>
+        <div class="footer">
+            <p>If you recognize this login, you can ignore this message.</p>
+            <p>Need help? <a href="{{ support_url }}">Contact Support</a></p>
+        </div>
+    </div>
+</body>
+</html>
+{% endautoescape %}

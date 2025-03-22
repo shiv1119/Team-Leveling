@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Status Update</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header" style="background: #ffc107; color: white; padding: 15px; text-align: center;">
+            <h2>Payment Status Update 💰</h2>
+        </div>
+        <div class="content">
+            <p>Dear <b>{{ user.first_name }}</b>,</p>
+            <p>Your payment status for <b>{{ service.title }}</b> has been updated to <b>{{ booking.payment_status|title }}</b>.</p>
+            <p><b>Amount:</b> ₹{{ booking.total_amount }}</p>
+            <p><b>Payment Method:</b> {{ booking.payment_method }}</p>
+            <p>Click below to view details:</p>
+            <a href="{{ booking_url }}" class="button">View Payment</a>
+        </div>
+        <div class="footer">
+            <p>Thank you for choosing our service! 💙</p>
+        </div>
+    </div>
+</body>
+</html>

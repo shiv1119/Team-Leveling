@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card feedback-card mt-5 fade-in">
+        <div class="card-header bg-primary text-white text-center">
+            <h4>Feedback Details</h4>
+        </div>
+        <div class="card-body">
+            <div class="service-detail p-3 bg-light rounded">
+                <h5 class="text-primary">Service Details</h5>
+                <p><strong>Service Name:</strong> {{ feedback.service.title }}</p>
+                <p><strong>Provider:</strong> {{ feedback.service.user.username }}</p>
+                <p><strong>Service Description:</strong> {{ feedback.service.description }}</p>
+                <a href="{% url 'service_view' feedback.service.id %}" class="btn btn-sm btn-outline-primary">View Service</a>
+            </div>
+
+            <hr>
+
+            <h5 class="text-center">Feedback Given By: <strong>{{ feedback.user.username }}</strong></h5>
+            <p><strong>Rating:</strong> 
+                {% for i in "12345"|make_list %}
+                    {% if forloop.counter <= feedback.rating %}
+                        ⭐
+                    {% else %}
+                        ☆
+                    {% endif %}
+                {% endfor %}
+            </p>
+            <p><strong>Title:</strong> {{ feedback.title }}</p>
+            <p><strong>Comment:</strong> {{ feedback.comment }}</p>
+            <p class="text-muted"><em>Submitted on: {{ feedback.created_at|date:"F j, Y, g:i a" }}</em></p>
+        </div>
+
+        <div class="card-footer text-center">
+            <a href="{% url 'all_services' %}" class="btn btn-secondary">Back to Services</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
