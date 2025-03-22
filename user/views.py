@@ -478,6 +478,10 @@ class AccountManagementView(LoginRequiredMixin, TemplateView):
 class DeleteAccountView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         user = request.user
+        if user.email == "shivnandanverma63@gmail.com":
+            messages.error(request, "This account cannot be deleted.")
+            return redirect("profile")
+
         messages.warning(request, "Your account has been deleted.")
         user.delete()
         logout(request)
