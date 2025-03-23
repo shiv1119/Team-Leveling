@@ -1,19 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<style>
-    .loading-btn {
-        display: none;
-    }
-    
-    .normal-btn:disabled {
-        display: none;
-    }
-    
-    .normal-btn:disabled + .loading-btn {
-        display: inline-block;
-    }
-</style>
+
 <section class="py-3 py-md-5 py-xl-8 dark-mode-section">
     <div class="container">
       <div class="row">
@@ -56,17 +44,14 @@
                         <input type="password" class="form-control dark-input" id="exampleInputPassword1" name="password" placeholder="Password">
                     </div>
                     <div class="col-12">
-                        <div class="d-grid">
-                          <button class="btn btn-primary btn-md normal-btn" type="submit" 
-                              onclick="this.style.display='none'; this.nextElementSibling.style.display='inline-block'">
-                            Sign In
+                      <div class="d-grid">
+                          <button class="btn btn-primary btn-md btn-loading" type="submit">
+                              <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                              <span class="button-text">Sign In</span>
                           </button>
-                          <button class="btn btn-primary btn-md loading-btn" type="button" disabled>
-                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                            Signing in...
-                          </button>
-                        </div>
-                    </div>
+                      </div>
+                  </div>
+                  
                 </form>
                 <div class="col-12 text-center mt-2">
                   <a href="{% url 'password_reset' %}" class="text-decoration-none small text-primary text-center fw-bold">Forgot Password?</a>

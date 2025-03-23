@@ -154,11 +154,20 @@
 
         <br>
         {% if user.user_profile.role == "service_provider" %}
-        <a href="{% url 'service_create' %}" class="btn btn-custom-unique">Add New Services</a>
+            <a href="{% url 'service_create' %}" class="btn btn-custom-unique btn-loading">
+                <span class="spinner-border spinner-border-sm position-absolute d-none" role="status"></span>
+                <span class="button-text">Add New Services</span>
+            </a>
         {% else %}
-            <a href="{% url 'service_create' %}" class="btn btn-custom-unique">Become a Service Provider</a>
+            <a href="{% url 'service_create' %}" class="btn btn-custom-unique btn-loading">
+                <span class="spinner-border spinner-border-sm position-absolute d-none" role="status"></span>
+                <span class="button-text">Become a Service Provider</span>
+            </a>
         {% endif %}
-        <a href="{% url 'all_services' %}" class="btn btn-custom-unique">Browse Services</a>
+        <a href="{% url 'all_services' %}" class="btn btn-custom-unique btn-loading">
+            <span class="spinner-border spinner-border-sm position-absolute d-none" role="status"></span>
+            <span class="button-text">Browse Services</span>
+        </a>
     </div>
 </div>
 
@@ -349,7 +358,10 @@
                 <div class="card-body text-center">
                     <h5 class="card-title text-uppercase">Health & Wellness</h5>
                     <p class="card-text">Explore services for your health and well-being.</p>
-                    <a href="{% url 'all_services' %}" class="btn btn-primary">Browse Services</a>
+                    <a href="{% url 'all_services' %}" class="btn btn-primary btn-loading">
+                        <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                        <span class="button-text">Browse Services</span>
+                    </a>                    
                 </div>
             </div>
         </div>
@@ -360,7 +372,11 @@
                 <div class="card-body text-center">
                     <h5 class="card-title text-uppercase">Home Improvement</h5>
                     <p class="card-text">Find experts to enhance your living space.</p>
-                    <a href="{% url 'all_services' %}" class="btn btn-primary">Browse Services</a>
+                    <a href="{% url 'all_services' %}" class="btn btn-primary btn-loading">
+                        <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                        <span class="button-text">Browse Services</span>
+                    </a>
+                    
                 </div>
             </div>
         </div>
@@ -371,7 +387,10 @@
                 <div class="card-body text-center">
                     <h5 class="card-title text-uppercase">Beauty</h5>
                     <p class="card-text">Book beauty services with professional providers.</p>
-                    <a href="{% url 'all_services' %}" class="btn btn-primary">Browse Services</a>
+                    <a href="{% url 'all_services' %}" class="btn btn-primary btn-loading">
+                        <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                        <span class="button-text">Browse Services</span>
+                    </a>                    
                 </div>
             </div>
         </div>

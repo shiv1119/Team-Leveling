@@ -26,7 +26,11 @@
             {% endfor %}
         </div>
     {% endif %}
-    <a href="{% url 'service_create' %}" class="btn btn-primary col-6 col-md-3 my-3 fade-in">Add New Service <i class="bi bi-plus"></i></a>
+    <a href="{% url 'service_create' %}" class="btn btn-primary col-6 col-md-3 my-3 fade-in btn-loading">
+        <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+        <span class="button-text">Add New Service <i class="bi bi-plus"></i></span>
+    </a>
+    
     <div class="table-responsive fade-in">
         <table class="table table-striped" style="min-width: 100%;">
             <thead>

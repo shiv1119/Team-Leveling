@@ -34,7 +34,11 @@
         </div>
 
         <div class="card-footer text-center">
-            <a href="{% url 'all_services' %}" class="btn btn-secondary">Back to Services</a>
+            <a href="{% url 'all_services' %}" class="btn btn-secondary btn-loading">
+                <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                <span class="button-text">Back to Services</span>
+            </a>
+            
         </div>
     </div>
 </div>

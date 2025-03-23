@@ -57,7 +57,11 @@
             {{ form.notes }}
         </div>
 
-        <button type="submit" class="btn btn-primary">Book Now</button>
+        <button type="submit" class="btn btn-primary btn-loading">
+            <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+            <span class="button-text">Book Now</span>
+        </button>
+        
     </form>
 </div>
 

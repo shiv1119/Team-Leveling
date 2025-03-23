@@ -23,7 +23,11 @@
                 </div>
             {% endfor %}
         </div>
-        <button type="submit" class="btn btn-primary w-100">Submit</button>
+        <button type="submit" class="btn btn-primary w-100 btn-loading">
+            <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+            <span class="button-text">Submit</span>
+        </button>
+        
     </form>
 </div>
 {% endblock %}

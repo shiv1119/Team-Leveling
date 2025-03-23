@@ -36,7 +36,11 @@
             <input type="file" id="fileInput" name="image" class="form-control dark-input" multiple accept="image/*">  
         </div>
 
-        <button type="submit" class="btn btn-primary">Upload</button>
+        <button type="submit" class="btn btn-primary btn-loading">
+            <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+            <span class="button-text">Upload</span>
+        </button>
+        
         <p class="text-muted">Upload service-related images. Allowed formats: JPG, PNG, GIF.</p>
     </form>
 

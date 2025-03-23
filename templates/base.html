@@ -264,7 +264,74 @@
     
 
     {% include 'footer.html' %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".btn-loading").forEach(button => {
+                button.addEventListener("click", function (event) {
+                    let form = button.closest("form"); // Find the nearest form
+                    
+                    if (!button.classList.contains("disabled")) {  
+                        let spinner = button.querySelector(".spinner-border");
+                        let text = button.querySelector(".button-text");
+        
+                        if (spinner && text) {
+                            spinner.classList.remove("d-none");
+                            text.style.visibility = "hidden"; 
+                            button.classList.add("disabled"); // Prevent multiple clicks
+        
+                            // Re-enable button if the form submission doesn't reload the page
+                            setTimeout(() => {
+                                button.classList.remove("disabled");
+                                spinner.classList.add("d-none");
+                                text.style.visibility = "visible";
+                            }, 5000); // Adjust time as needed
+                        }
+                    }
+                });
+            });
+        });
+        
+        window.addEventListener("pageshow", function () {
+            document.querySelectorAll(".btn-loading").forEach(button => {
+                let spinner = button.querySelector(".spinner-border");
+                let text = button.querySelector(".button-text");
+        
+                if (spinner && text) {
+                    spinner.classList.add("d-none"); 
+                    text.style.visibility = "visible"; 
+                    button.classList.remove("disabled");
+                }
+            });
+        });
+        
+    </script>
+<style>
+    .btn-loading {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    
+    .btn-loading .spinner-border {
+        position: absolute;
+    }
+</style>    
+    
 
+    <style>
+        .loading-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+    
+        .loading-btn .spinner-border {
+            position: absolute;
+        }
+    </style>
+    
     <script>
         const toggleDarkMode = (enabled) => {
             document.body.classList.toggle('dark-mode', enabled);
