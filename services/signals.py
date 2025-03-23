@@ -62,7 +62,7 @@ def service_deleted(sender, instance, **kwargs):
     except NotificationPreferences.DoesNotExist:
         return
     message = f"Your service '{instance.title}' has been deleted."
-    create_notification(instance.user, "service_deleted", message, instance)
+    create_notification(instance.user, "service_deleted", message)
     if preferences.email_notifications:
         send_email_notification(instance.user, "Service Deleted", "services/emails/service_deleted.html", {"service": instance})
 
@@ -130,8 +130,7 @@ def service_image_deleted_notification(sender, instance, **kwargs):
     create_notification(
         user=service_owner,
         notification_type=notification_type,
-        message=message,
-        related_object=instance.service 
+        message=message
     )
 
 @receiver(post_save, sender=WorkingHour)
@@ -156,7 +155,6 @@ def working_hour_deleted_notification(sender, instance, **kwargs):
         user=service_owner,
         notification_type="working_hours",
         message=message,
-        related_object=instance.service
     )
 
 def send_booking_email(user, subject, template_name, context):
