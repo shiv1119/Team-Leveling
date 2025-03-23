@@ -10,22 +10,21 @@
         color: #ffffff;
     }
 </style>
+
 <div class="row">
     <h3 class="mb-4 fade-in">Offered Services</h3>
+
     {% if messages %}
         <div class="mb-3 fade-in">
             {% for message in messages %}
-                {% if message.tags == "error" %}
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {% else %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {% endif %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                     {{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endfor %}
         </div>
     {% endif %}
+
     <a href="{% url 'service_create' %}" class="btn btn-primary col-6 col-md-3 my-3 fade-in btn-loading">
         <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
         <span class="button-text">Add New Service <i class="bi bi-plus"></i></span>
@@ -81,28 +80,6 @@
                         <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ service.id }}">
                             <i class="bi bi-trash"></i>
                         </a>
-
-                        <div class="modal fade" id="deleteModal{{ service.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header bg-danger text-white">
-                                        <h5 class="modal-title">Confirm Deletion</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Are you sure you want to delete <b>"{{ service.title }}"</b>?</p>
-                                        <p class="text-muted">This action cannot be undone.</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <form action="{% url 'service-delete' service.id %}" method="post">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                        
                     </td>
                 </tr>
                 {% empty %}
@@ -116,4 +93,33 @@
 
     <p class="text-muted fade-in">"You can mark any service Unavailable or Available by clicking on checkbox"</p>
 </div>
+
+<!-- Move all modals outside the table -->
+{% for service in services %}
+<div class="modal fade" id="deleteModal{{ service.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ service.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel{{ service.id }}">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <b>"{{ service.title }}"</b>?</p>
+                <p class="text-muted">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{% url 'service-delete' service.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-loading">
+                        <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                        <span class="button-text">Delete</span>
+                    </button>                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 {% endblock %}
