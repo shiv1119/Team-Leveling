@@ -51,7 +51,11 @@
                         {{ form.message }}
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                    <button type="submit" class="btn btn-primary w-100 btn-loading">
+                        <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                        <span class="button-text">Send Message</span>
+                    </button>
+                    
                 </form>
             </div>
         </div>

@@ -89,8 +89,11 @@
             <div class="text-end">
                 <a href="{% url 'booking_list' %}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Back</a>
                 {% if booking.status == 'pending' %}
-                    <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-danger">
-                        <i class="bi bi-x-circle-fill"></i> Cancel Booking
+                    <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-danger btn-loading">
+                        <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                        <span class="button-text">
+                            <i class="bi bi-x-circle-fill"></i> Cancel Booking
+                        </span>
                     </a>
                 {% endif %}
             </div>

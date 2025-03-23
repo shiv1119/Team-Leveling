@@ -31,8 +31,12 @@
                 {{ working_hour_form.close_time }}
             </div>
             <div class="col-md-2 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary w-100">Add</button>
+                <button type="submit" class="btn btn-primary w-100 btn-loading">
+                    <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                    <span class="button-text">Add</span>
+                </button>
             </div>
+            
         </div>
     </form>
 

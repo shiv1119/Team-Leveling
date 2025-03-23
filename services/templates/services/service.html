@@ -149,7 +149,11 @@
                     <textarea name="comment" class="form-control border rounded-3 dark-input" rows="4" placeholder="Write your feedback..."></textarea>
                 </div>
     
-                <button type="submit" class="btn btn-primary w-100 fw-bold">Submit Feedback</button>
+                <button type="submit" class="btn btn-primary w-100 fw-bold btn-loading">
+                    <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                    <span class="button-text">Submit Feedback</span>
+                </button>
+                
             </form>
         </div>
     </div>

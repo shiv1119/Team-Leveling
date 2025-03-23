@@ -1,19 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<style>
-    .loading-btn {
-        display: none;
-    }
-    
-    .normal-btn:disabled {
-        display: none;
-    }
-    
-    .normal-btn:disabled + .loading-btn {
-        display: inline-block;
-    }
-</style>
 <section class="py-3 py-md-5 py-xl-8 dark-mode-section">
     <div class="container">
       <div class="row">
@@ -65,17 +52,14 @@
                     {% endfor %}
                     
                     <div class="col-12">
-                        <div class="d-grid">
-                          <button class="btn btn-primary btn-md normal-btn" type="submit" 
-                              onclick="this.style.display='none'; this.nextElementSibling.style.display='inline-block'">
-                            Create Profile
+                      <div class="d-grid">
+                          <button class="btn btn-primary btn-md btn-loading" type="submit">
+                              <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                              <span class="button-text">Create Profile</span>
                           </button>
-                          <button class="btn btn-primary btn-md loading-btn" type="button" disabled>
-                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                            Creating Profile...
-                          </button>
-                        </div>
-                    </div>
+                      </div>
+                  </div>
+                  
                 </form>
             </div>
           </div>
