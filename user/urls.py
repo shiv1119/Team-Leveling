@@ -12,6 +12,7 @@ urlpatterns = [
     path('profile/<int:pk>/', UserProfileDetailView.as_view(), name='user-profile-detail'),
     path("user/profile/update/", ProfileUpdateView.as_view(), name="update_profile"),
     path('contact-us/', ContactUsView.as_view(), name='contact-us'),
+    path('redirect/', CustomRedirectView.as_view(), name='custom_redirect'),
     path('privacy-policy/', PrivacyPolicy.as_view(), name='privacy-policy'),
     path('user/notifications/',NotificationView.as_view(), name="notification"),
     path('terms-and-conditions/', TermsAndConditionView.as_view(), name='terms-and-conditions'),

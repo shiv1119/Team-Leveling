@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.views import LoginView
 from .forms import *
 from .models import *
+from django.views.generic.base import RedirectView
 from django.urls import reverse_lazy
 from .helpers import create_notification
 from django.views.generic import ListView, View
@@ -568,3 +569,12 @@ class UnsubscribeView(View):
             messages.info(request, "You are already unsubscribed.")
 
         return render(request, "unsubscribe_confirmation.html")
+    
+class CustomRedirectView(LoginRequiredMixin, RedirectView):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("home")
+        next_url = request.GET.get('next')
+        if next_url:
+            return redirect(next_url)
+        return redirect('home')
