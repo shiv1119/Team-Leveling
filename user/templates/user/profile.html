@@ -18,6 +18,12 @@
         color: #ffffff !important;                 
         border: 1px solid rgba(255, 255, 255, 0.1) !important;   
     }
+    .user-img {
+        height: 180px;
+        width: 180px;
+        object-fit: cover !important;
+        border-radius: 50%;
+    }
 </style>
 
 <div>
@@ -42,8 +48,8 @@
                     <div class="position-relative mx-auto">
                         {% if profile.profile_photo %}
                             <img src="{{ profile.profile_photo.url }}" 
-                                alt="Profile Photo" class="rounded-circle mx-auto mb-3 d-block" 
-                                width="180" height="180" style="object-fit: contain;">
+                                alt="Profile Photo" class="mx-auto mb-3 d-block user-img" 
+                                >
                         {% else %}
                             <img src="{% static 'img/profile.png' %}" 
                                 alt="Profile Photo" class="rounded-circle mx-auto mb-3 d-block" 
