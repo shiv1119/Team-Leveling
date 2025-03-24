@@ -5,6 +5,8 @@ Project Video Link - https://drive.google.com/file/d/1BcdqpYm3tIkvyUZ4fCE418QETP
 
 <h4>Live Project Link - https://team-leveling.onrender.com/</h4>
 
+## To run this project you will require security key that is not included in the repositiory. If you wish to try then dm me I will send you.
+
 <div align="center" id="top"> 
   <img src="./.github/app.gif" alt="Team-Leveling" />
 
