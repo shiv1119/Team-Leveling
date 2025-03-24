@@ -486,7 +486,7 @@ from django.conf import settings
 
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
-class BookingCreateView(View):
+class BookingCreateView(LoginRequiredMixin, View):
     def get(self, request, service_id):
         service = get_object_or_404(Service, id=service_id)
         form = BookingForm(service=service)
