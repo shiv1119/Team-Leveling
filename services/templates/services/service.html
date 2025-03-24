@@ -175,7 +175,13 @@
                             <strong><i class="bi bi-person-fill"></i> {{ feedback.user.username }}</strong>
                             <br>
                             <span class="text-warning">
-                                {% for _ in ""|rjust:feedback.rating %}★{% endfor %}
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= feedback.rating %}
+                                        ★
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %}
                             </span>
                             <p>{{ feedback.comment }}</p>
                             <small class="text-muted"><i class="bi bi-clock"></i> {{ feedback.created_at }}</small>
