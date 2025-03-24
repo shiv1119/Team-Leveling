@@ -157,7 +157,7 @@
                             {% else %}
                                 <p><strong>₹{{ service.price }}</strong></p>
                             {% endif %}
-                            <p>⭐ {{ service.avg_rating|floatformat:1 }} ({{ service.total_ratings }} reviews)</p>
+                            <p>⭐ {{ service.avg_rating|default:"N/A"|floatformat:1 }} ({{ service.total_ratings }} reviews)</p>
                         </div>
 
                         <div class="d-flex justify-content-between">

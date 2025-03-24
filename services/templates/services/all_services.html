@@ -184,7 +184,7 @@
                             {% else %}
                                 <p class="card-price"><strong>₹{{ service.price }}</strong></p>
                             {% endif %}
-                            <p>⭐ {{ service.avg_rating|floatformat:1 }} ({{ service.feedback_count }} reviews)</p>
+                            <p>⭐ {{ service.avg_rating|default:"N/A"|floatformat:1 }} ({{ service.total_ratings }} reviews)</p>
                             <div class="d-flex justify-content-between">
                                 <a href="{% url 'service_view' service.id %}" class="btn btn-primary btn-loading">
                                     <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>

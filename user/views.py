@@ -508,14 +508,17 @@ class GlobalSearchView(TemplateView):
         if query:
             services = Service.objects.filter(
                 Q(title__icontains=query) | Q(description__icontains=query) | Q(user__username__icontains=query)
+            ).annotate(
+                avg_rating=Avg("feedbacks__rating"),
+                total_ratings=Count("feedbacks")
             )
             
             users = User.objects.filter(
                 Q(username__icontains=query) | Q(first_name__icontains=query) | Q(last_name__icontains=query)
             )
         else:
-            services = []
-            users = []
+            services = Service.objects.none()
+            users = User.objects.none()
 
         context["services"] = services
         context["users"] = users
