@@ -121,40 +121,44 @@
             {% endif %}
         </div>
     </div>
-    <div class="card border-0 shadow-sm rounded-3 dark-mode-card fade-in">
+    <div class="card border-0 shadow-sm rounded-3 dark-mode-card fade-in mb-4">
         <div class="card-header text-center bg-primary text-white rounded-top">
             <h5 class="mb-0">Share Your Feedback</h5>
         </div>
         <div class="card-body">
-            <form method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Rating</label>
-                    <select name="rating" class="form-select border rounded-3 dark-input">
-                        <option value="1">⭐ 1 - Poor</option>
-                        <option value="2">⭐⭐ 2 - Fair</option>
-                        <option value="3">⭐⭐⭐ 3 - Good</option>
-                        <option value="4">⭐⭐⭐⭐ 4 - Very Good</option>
-                        <option value="5">⭐⭐⭐⭐⭐ 5 - Excellent</option>
-                    </select>
-                </div>
-    
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Title</label>
-                    <input type="text" name="title" class="form-control border rounded-3 dark-input" placeholder="Enter a title">
-                </div>
-    
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Comment</label>
-                    <textarea name="comment" class="form-control border rounded-3 dark-input" rows="4" placeholder="Write your feedback..."></textarea>
-                </div>
-    
-                <button type="submit" class="btn btn-primary w-100 fw-bold btn-loading">
-                    <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
-                    <span class="button-text">Submit Feedback</span>
-                </button>
-                
-            </form>
+            {% if request.user.is_authenticated %}
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Rating</label>
+                        <select name="rating" class="form-select border rounded-3 dark-input">
+                            <option value="1">⭐ 1 - Poor</option>
+                            <option value="2">⭐⭐ 2 - Fair</option>
+                            <option value="3">⭐⭐⭐ 3 - Good</option>
+                            <option value="4">⭐⭐⭐⭐ 4 - Very Good</option>
+                            <option value="5">⭐⭐⭐⭐⭐ 5 - Excellent</option>
+                        </select>
+                    </div>
+        
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Title</label>
+                        <input type="text" name="title" class="form-control border rounded-3 dark-input" placeholder="Enter a title">
+                    </div>
+        
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Comment</label>
+                        <textarea name="comment" class="form-control border rounded-3 dark-input" rows="4" placeholder="Write your feedback..."></textarea>
+                    </div>
+        
+                    <button type="submit" class="btn btn-primary w-100 fw-bold btn-loading">
+                        <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                        <span class="button-text">Submit Feedback</span>
+                    </button>
+                    
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}?next={{ request.path }}" class="mb-3">Login to share feedbacks</a>
+            {% endif %}
         </div>
     </div>
     
