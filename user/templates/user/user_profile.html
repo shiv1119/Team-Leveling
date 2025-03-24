@@ -18,12 +18,17 @@
     .profile-image:hover {
         transform: scale(1.05);
     }
-    <style>
-        .custom-checkbox {
-            accent-color:rgb(5, 9, 212);
-            cursor: not-allowed;
-        }
-    </style>
+    .custom-checkbox {
+        accent-color:rgb(5, 9, 212);
+        cursor: not-allowed;
+    }
+    .user-img {
+        height: 180px;
+        width: 180px;
+        object-fit: cover !important;
+        border-radius: 50%;
+        cursor: pointer;
+    }
 </style>
 
 <div>
@@ -49,8 +54,7 @@
                     <div class="position-relative mx-auto">
                         {% if profile.profile_photo %}
                             <img src="{{ profile.profile_photo.url }}" 
-                                alt="Profile Photo" class="profile-image rounded-circle mx-auto mb-3 d-block" 
-                                width="180" height="180" style="object-fit: contain; cursor: pointer;"
+                                alt="Profile Photo" class="profile-image mx-auto mb-3 d-block user-img" 
                                 data-bs-toggle="modal" data-bs-target="#photoModal">
                         {% else %}
                             <img src="{% static 'img/profile.png' %}" 

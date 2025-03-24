@@ -506,6 +506,12 @@
         height: 700px;
         object-fit: cover;
     }
+    .testimonial-img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
 </style>
 
 <div>
@@ -516,7 +522,7 @@
             <div class="d-flex align-items-center mb-2">
                 <a href="{% url 'user-profile-detail' pk=testimonial.user.user_profile.id %}">
                     {% if testimonial.user.user_profile.profile_photo %}
-                        <img src="{{ testimonial.user.user_profile.profile_photo.url }}" class="rounded-circle me-2" width="40">
+                        <img src="{{ testimonial.user.user_profile.profile_photo.url }}" class="me-2 testimonial-img" >
                     {% else %}
                         <img src="{% static 'img/profile.png' %}" class="rounded-circle me-2" width="40">
                     {% endif %}
