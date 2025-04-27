@@ -130,7 +130,4 @@ Made with :heart: by <a href="https://github.com/shiv1119" target="_blank">Team 
 &#xa0;
 
 <a href="#top">Back to top</a>
-this is read me file for service Sphere 
-make it stunning and creative add features of service sphere
-give in file so that i can copy and paste it
-can play video isde read me if yes then play video in link
+
